@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { services, projects, type Service } from '../../data/site';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+const { service: s } = Astro.props as { service: Service };
+const related = projects.filter((p) => p.category === s.slug).slice(0, 3);
+const others = services.filter((x) => x.slug !== s.slug);
+---
+<BaseLayout title={s.title} description={s.short}>
+  <PageHero title={s.title} lead={s.intro} crumbs={[{ label: 'Dịch vụ', href: '/dich-vu' }, { label: s.name }]} seed={s.slug.length * 7}>
+    <div class="hero-cta">
+      <a class="btn btn--primary" href="/lien-he">Nhận báo giá {s.name.toLowerCase()}</a>
+    </div>
+  </PageHero>
+
+  <section class:list={['section', `tone-${s.tone}`]}>
+    <div class="container">
+      <div class="section-head" data-reveal><h2>Chúng tôi làm gì</h2></div>
+      <div class="features">
+        {s.features.map((f, i) => (
+          <article data-reveal style={`--d:${i * 90}ms`}>
+            <span class="f-icon"><Icon name={s.icon} size={24} /></span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container two" >
+      <div data-reveal>
+        <h2>Bạn nhận được gì</h2>
+        <ul class="ticks">{s.outcomes.map((o) => <li><Icon name="check" size={20} /> {o}</li>)}</ul>
+      </div>
+      <div data-reveal style="--d:120ms">
+        <h2>Phù hợp với</h2>
+        <ul class="ticks">{s.forWho.map((o) => <li><Icon name="users" size={20} /> {o}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal><h2>Dự án {s.name.toLowerCase()} đã thực hiện</h2></div>
+        <div class="grid">
+          {related.map((p, i) => <div data-reveal style={`--d:${i * 90}ms`}><ProjectCard project={p} index={i} /></div>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head" data-reveal><h2>Dịch vụ khác</h2></div>
+      <div class="others">
+        {others.map((o) => (
+          <a href={`/dich-vu/${o.slug}`} class:list={['other', `tone-${o.tone}`]} data-reveal>
+            <span class="f-icon"><Icon name={o.icon} size={24} /></span>
+            <span><strong>{o.title}</strong><small>{o.short}</small></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero-cta { margin-top: 2rem; }
+  .features { display: grid; gap: 2rem; }
+  @media (min-width: 760px) { .features { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; } }
+  .features article { padding: 2rem; border-radius: var(--radius-m); background: var(--white); box-shadow: inset 0 0 0 1px var(--mist); }
+  .f-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 15px; background: var(--tone-soft); color: var(--tone); margin-bottom: 1.2rem; flex: none; }
+  .features p { margin-top: .6rem; color: var(--ink-soft); }
+  .two { display: grid; gap: 3rem; }
+  @media (min-width: 820px) { .two { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .two h2 { font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem); }
+  .ticks { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 1rem; }
+  .ticks li { display: flex; gap: .7rem; align-items: flex-start; font-size: 1.08rem; }
+  .ticks :global(svg) { flex: none; margin-top: .2rem; color: var(--jade); }
+  .grid { display: grid; gap: 3rem 2rem; }
+  @media (min-width: 760px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .others { display: grid; gap: 1.2rem; }
+  @media (min-width: 760px) { .others { grid-template-columns: 1fr 1fr; } }
+  .other { display: flex; gap: 1.2rem; padding: 1.6rem; border-radius: var(--radius-m); background: var(--white); text-decoration: none; transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out); }
+  .other:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -28px rgba(19, 35, 63, .5); }
+  .other .f-icon { margin: 0; }
+  .other strong { display: block; font-size: 1.15rem; }
+  .other small { display: block; margin-top: .3rem; color: var(--ink-soft); font-size: .95rem; }
+</style>

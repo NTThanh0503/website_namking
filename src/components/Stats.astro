@@ -1,0 +1,18 @@
+---
+import { stats } from '../data/site';
+---
+<dl class="stats">
+  {stats.map((s, i) => (
+    <div class="stat" data-reveal style={`--d:${i * 90}ms`}>
+      <dt>{s.label}</dt>
+      <dd><span data-count={s.value}>{s.value}</span>{s.suffix}</dd>
+    </div>
+  ))}
+</dl>
+<style>
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 0; }
+  @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { display: flex; flex-direction: column-reverse; gap: .4rem; padding: 1.6rem 1.4rem; border-left: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  dd { margin: 0; font-size: clamp(2.6rem, 2rem + 2.5vw, 4rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  dt { font-size: .95rem; opacity: .8; max-width: 14rem; }
+</style>

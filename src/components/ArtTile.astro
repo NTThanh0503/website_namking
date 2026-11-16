@@ -1,0 +1,30 @@
+---
+// Ô hình ảnh: nếu có ảnh thật (image) thì hiển thị ảnh,
+// nếu chưa có thì vẽ hình minh họa đồng mức theo tông màu dịch vụ.
+import Icon from './Icon.astro';
+import { contourPaths } from '../lib/contours';
+interface Props { image?: string; alt?: string; seed?: number; tone?: 'lagoon' | 'jade' | 'lantern'; icon?: string; ratio?: string; }
+const { image, alt = '', seed = 3, tone = 'lagoon', icon, ratio = '4 / 3' } = Astro.props;
+const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, seed, amplitude: 20 });
+---
+<div class:list={['art', `art--${tone}`]} style={`aspect-ratio:${ratio}`}>
+  {image ? (
+    <img src={image} alt={alt} loading="lazy" decoding="async" />
+  ) : (
+    <>
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {lines.map((d, i) => <path d={d} style={`opacity:${0.18 + i * 0.05}`} />)}
+      </svg>
+      {icon && <span class="art-icon"><Icon name={icon} size={30} /></span>}
+    </>
+  )}
+</div>
+<style>
+  .art { position: relative; overflow: hidden; border-radius: var(--radius-m); }
+  .art img, .art svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+  .art svg path { fill: none; stroke-width: 1.2; }
+  .art--lagoon { background: var(--lagoon); } .art--lagoon path { stroke: #9cc7cf; }
+  .art--jade { background: var(--jade); } .art--jade path { stroke: #bfe3d3; }
+  .art--lantern { background: #e9a72a; } .art--lantern path { stroke: #fff2d1; }
+  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--paper); color: var(--ink); }
+</style>

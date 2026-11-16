@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Partners from '../components/Partners.astro';
+import ServiceTabs from '../components/ServiceTabs.astro';
+import Stats from '../components/Stats.astro';
+import Process from '../components/Process.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import Testimonials from '../components/Testimonials.astro';
+import NewsCard from '../components/NewsCard.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+
+const posts = (await getCollection('tin-tuc')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+---
+
+<BaseLayout>
+  <Hero />
+
+  <section class="partners">
+    <div class="container">
+      <p class="partners-label">Kết nối sẵn với các kênh bán phòng, thanh toán và bản đồ phổ biến</p>
+    </div>
+    <Partners />
+  </section>
+
+  <section class="section section--tint" id="dich-vu">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>Ba mảng dịch vụ, một hành trình liền mạch</h2>
+        <p class="lead">Khách tìm thấy bạn nhờ số hóa, ở lại nhờ dịch vụ lưu trú chu đáo, và quay lại nhờ những hành trình đáng nhớ. Chúng tôi làm được cả ba, hoặc từng phần bạn cần.</p>
+      </div>
+      <div data-reveal><ServiceTabs /></div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>Tám năm đồng hành cùng ngành du lịch Việt</h2>
+        <p class="lead">Từ một nhóm nhỏ chụp ảnh 360° cho khách sạn, chúng tôi đã cùng hàng trăm đối tác đưa điểm đến của họ đến gần hơn với du khách.</p>
+      </div>
+      <Stats />
+      <div class="process-wrap">
+        <h3 class="process-title" data-reveal>Cách chúng tôi làm việc</h3>
+        <Process />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>Dự án tiêu biểu</h2>
+        <div class="head-side">
+          <p class="lead">Một vài dự án gần đây trong cả ba lĩnh vực. Mỗi dự án đều bắt đầu từ một mục tiêu cụ thể của khách hàng.</p>
+          <a class="link" href="/du-an">Xem tất cả dự án <Icon name="arrow" size={18} /></a>
+        </div>
+      </div>
+      <ProjectGrid limit={3} filter={false} />
+    </div>
+  </section>
+
+  <section class="section testimonials">
+    <div class="container" data-reveal>
+      <h2 class="sr-only">Khách hàng nói về chúng tôi</h2>
+      <Testimonials />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>Tin tức và kinh nghiệm</h2>
+        <div class="head-side">
+          <p class="lead">Chia sẻ thực tế về số hóa, vận hành lưu trú và những hành trình đáng đi.</p>
+          <a class="link" href="/tin-tuc">Đọc tất cả bài viết <Icon name="arrow" size={18} /></a>
+        </div>
+      </div>
+      <div class="news-grid">
+        {posts.map((p, i) => <div data-reveal style={`--d:${i * 90}ms`}><NewsCard post={p} index={i} /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container faq-grid">
+      <div data-reveal>
+        <h2>Câu hỏi thường gặp</h2>
+        <p class="lead faq-lead">Chưa thấy câu trả lời bạn cần? Gọi hotline hoặc để lại lời nhắn, chúng tôi phản hồi trong ngày.</p>
+        <a class="btn" href="/lien-he">Đặt câu hỏi khác</a>
+      </div>
+      <div data-reveal style="--d:120ms"><Faq /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .partners { padding-block: 0 clamp(3rem, 6vw, 5rem); }
+  .partners-label { font-size: var(--fs-sm); color: var(--ink-soft); margin-bottom: 1.4rem; }
+  .process-wrap { margin-top: clamp(4rem, 8vw, 6rem); padding-top: clamp(3rem, 6vw, 4rem); border-top: 1px solid color-mix(in srgb, var(--paper) 16%, transparent); }
+  .process-title { margin-bottom: 2.5rem; font-size: var(--fs-xl); }
+  .head-side { display: grid; gap: 1rem; justify-items: start; }
+  .testimonials { background: var(--ink); color: var(--paper); }
+  .news-grid { display: grid; gap: 2.5rem 2rem; }
+  @media (min-width: 760px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
+  .faq-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: .8fr 1.2fr; gap: 5rem; } }
+  .faq-lead { margin: 1.2rem 0 2rem; }
+</style>

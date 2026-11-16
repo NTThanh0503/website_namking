@@ -1,0 +1,23 @@
+---
+import { process } from '../data/site';
+---
+<ol class="process">
+  {process.map((p, i) => (
+    <li data-reveal style={`--d:${i * 120}ms`}>
+      <span class="num">{i + 1}</span>
+      <h3>{p.title}</h3>
+      <p>{p.text}</p>
+    </li>
+  ))}
+</ol>
+<style>
+  .process { list-style: none; padding: 0; margin: 0; display: grid; gap: 2rem; counter-reset: s; }
+  @media (min-width: 820px) { .process { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } }
+  li { position: relative; padding-top: 4.2rem; }
+  li::before { content: ''; position: absolute; top: 22px; left: 52px; right: -1.5rem; height: 2px; background: repeating-linear-gradient(90deg, var(--lantern) 0 8px, transparent 8px 16px); opacity: .7; }
+  li:last-child::before { display: none; }
+  @media (max-width: 819px) { li::before { display: none; } }
+  .num { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--lantern); color: var(--ink); font-weight: 700; font-size: 1.1rem; }
+  h3 { font-size: 1.3rem; }
+  p { margin-top: .5rem; opacity: .85; }
+</style>

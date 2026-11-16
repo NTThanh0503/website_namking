@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<BaseLayout title="Không tìm thấy trang">
+  <PageHero title="Trang này đã đi lạc khỏi bản đồ" lead="Đường dẫn có thể đã thay đổi hoặc không còn tồn tại. Quay về trang chủ hoặc xem các dịch vụ của chúng tôi." seed={404}>
+    <div class="row">
+      <a class="btn btn--primary" href="/">Về trang chủ</a>
+      <a class="btn btn--ghost" href="/dich-vu">Xem dịch vụ</a>
+    </div>
+  </PageHero>
+</BaseLayout>
+<style>
+  .row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+</style>

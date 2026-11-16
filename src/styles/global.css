@@ -1,0 +1,132 @@
+/* =============================================================
+   HỆ THỐNG THIẾT KẾ – đổi màu thương hiệu tại phần :root
+   ============================================================= */
+:root {
+  /* Bảng màu: xanh đầm phá + ngọc bích ruộng lúa + vàng đèn lồng */
+  --ink: #13233f;        /* chữ chính, nền tối */
+  --ink-soft: #46546b;   /* chữ phụ */
+  --paper: #f4f7f6;      /* nền trang */
+  --mist: #dde9e5;       /* nền khối phụ, đường kẻ */
+  --lagoon: #0c4a57;     /* màu thương hiệu chính */
+  --jade: #1f7a63;       /* màu nhấn phụ */
+  --lantern: #f2b33d;    /* điểm nhấn ấm, nút chính */
+  --white: #ffffff;
+
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+
+  /* Thang chữ (tỉ lệ ~1.25) */
+  --fs-sm: 0.875rem;
+  --fs-base: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
+  --fs-2xl: clamp(2rem, 1.4rem + 2.4vw, 3.1rem);
+  --fs-3xl: clamp(2.6rem, 1.6rem + 4.4vw, 5.2rem);
+
+  --radius-s: 10px;
+  --radius-m: 18px;
+  --radius-l: 32px;
+
+  --container: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --section: clamp(4.5rem, 9vw, 8rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --header-h: 76px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { interpolate-size: allow-keywords; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video, iframe { display: block; max-width: 100%; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.12; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+h1 { font-size: var(--fs-3xl); letter-spacing: -0.035em; line-height: 1.02; }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl); letter-spacing: -0.015em; line-height: 1.25; }
+p { margin: 0; text-wrap: pretty; }
+
+:focus-visible { outline: 3px solid var(--lantern); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--lantern); color: var(--ink); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: 1rem; top: -100px; z-index: 100; background: var(--ink); color: var(--white); padding: .6rem 1rem; border-radius: var(--radius-s); }
+.skip-link:focus { top: 1rem; }
+
+/* ---------- Bố cục ---------- */
+.container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.section { padding-block: var(--section); }
+.section--tint { background: var(--mist); }
+.section--dark { background: var(--lagoon); color: var(--paper); }
+.section--dark .lead { color: color-mix(in srgb, var(--paper) 78%, transparent); }
+
+.section-head { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.section-head--split { max-width: none; grid-template-columns: 1fr; align-items: end; }
+@media (min-width: 900px) { .section-head--split { grid-template-columns: 1.1fr 1fr; gap: 3rem; } }
+.lead { font-size: var(--fs-lg); color: var(--ink-soft); line-height: 1.6; max-width: 38rem; }
+
+/* ---------- Nút ---------- */
+.btn {
+  --btn-bg: var(--ink); --btn-fg: var(--white);
+  display: inline-flex; align-items: center; gap: .6rem;
+  padding: .9rem 1.5rem; border-radius: 999px; border: 0;
+  background: var(--btn-bg); color: var(--btn-fg);
+  font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer;
+  transition: transform .35s var(--ease-out), background-color .25s, box-shadow .35s var(--ease-out);
+  position: relative; isolation: isolate;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--btn-bg) 80%, black); }
+.btn:active { transform: translateY(0); }
+.btn--primary { --btn-bg: var(--lantern); --btn-fg: var(--ink); }
+.btn--light { --btn-bg: var(--paper); --btn-fg: var(--ink); }
+.btn--ghost { background: transparent; color: currentColor; box-shadow: inset 0 0 0 1.5px currentColor; }
+.btn--ghost:hover { box-shadow: inset 0 0 0 1.5px currentColor; background: color-mix(in srgb, currentColor 8%, transparent); }
+.btn svg { transition: transform .35s var(--ease-out); }
+.btn:hover svg { transform: translateX(3px); }
+
+.link {
+  display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size .4s var(--ease-out);
+}
+.link:hover { background-size: 100% 1.5px; }
+
+/* ---------- Thẻ dịch vụ theo tông màu ---------- */
+.tone-lagoon { --tone: var(--lagoon); --tone-soft: #d3e5e8; }
+.tone-jade { --tone: var(--jade); --tone-soft: #d6ebe2; }
+.tone-lantern { --tone: #b97a0c; --tone-soft: #fbecc9; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .3rem .8rem; border-radius: 999px; font-size: var(--fs-sm); font-weight: 600;
+  background: var(--tone-soft, var(--mist)); color: var(--tone, var(--ink));
+}
+
+/* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); transition-delay: var(--d, 0ms); }
+[data-reveal].is-in { opacity: 1; transform: none; }
+
+/* Thanh tiến độ cuộn trang */
+.scroll-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: var(--lantern); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+
+/* Chuyển trang (View Transitions) */
+::view-transition-old(main) { animation: vt-out .28s ease both; }
+::view-transition-new(main) { animation: vt-in .5s var(--ease-out) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(16px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  [data-reveal] { opacity: 1; transform: none; }
+}

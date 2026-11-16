@@ -1,0 +1,39 @@
+---
+// Phần đầu cho các trang con
+import { contourPaths } from '../lib/contours';
+interface Props { title: string; lead?: string; crumbs?: { label: string; href?: string }[]; seed?: number }
+const { title, lead, crumbs = [], seed = 11 } = Astro.props;
+const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude: 26 });
+---
+<section class="page-hero" data-hero>
+  <svg class="art" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    {lines.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
+  </svg>
+  <div class="container inner">
+    {crumbs.length > 0 && (
+      <nav aria-label="Đường dẫn" class="crumbs">
+        <ol>
+          <li><a href="/">Trang chủ</a></li>
+          {crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
+        </ol>
+      </nav>
+    )}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+<style>
+  .page-hero { position: relative; overflow: hidden; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--mist); }
+  .art { position: absolute; right: -5%; top: 0; width: min(70%, 900px); height: 100%; fill: none; stroke: var(--jade); stroke-width: 1.1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
+  .art path { opacity: calc(.08 + var(--i) * .02); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2s var(--ease-out); transition-delay: calc(var(--i) * 50ms); }
+  :global(.is-ready) .art path { stroke-dashoffset: 0; }
+  .inner { position: relative; }
+  h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.2rem); max-width: 18ch; }
+  .lead { margin-top: 1.4rem; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 1.8rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+  .crumbs li + li::before { content: '/'; margin-right: .5rem; opacity: .5; }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+  @media (prefers-reduced-motion: reduce) { .art path { stroke-dashoffset: 0; } }
+</style>

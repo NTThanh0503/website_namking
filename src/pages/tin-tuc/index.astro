@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import NewsCard from '../../components/NewsCard.astro';
+const posts = (await getCollection('tin-tuc')).sort((a, b) => +b.data.date - +a.data.date);
+---
+<BaseLayout title="Tin tức" description="Kinh nghiệm số hóa, vận hành lưu trú và gợi ý hành trình du lịch.">
+  <PageHero
+    title="Tin tức và kinh nghiệm"
+    lead="Những chia sẻ thực tế từ đội ngũ về số hóa, vận hành cơ sở lưu trú và các hành trình đáng đi."
+    crumbs={[{ label: 'Tin tức' }]}
+    seed={53}
+  />
+  <section class="section">
+    <div class="container grid">
+      {posts.map((p, i) => <div data-reveal style={`--d:${(i % 3) * 90}ms`}><NewsCard post={p} index={i} /></div>)}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .grid { display: grid; gap: 3rem 2rem; }
+  @media (min-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

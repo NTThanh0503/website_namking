@@ -1,0 +1,77 @@
+---
+// Form liên hệ gửi qua Web3Forms: tin nhắn được chuyển thẳng về email công ty.
+// Cách bật: lấy access key tại https://web3forms.com rồi dán vào company.web3formsKey (src/data/site.ts)
+import { company, services } from '../data/site';
+import Icon from './Icon.astro';
+---
+<form class="form" data-contact novalidate>
+  <input type="hidden" name="access_key" value={company.web3formsKey} />
+  <input type="hidden" name="subject" value={`Yêu cầu tư vấn mới từ website ${company.name}`} />
+  <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" />
+
+  <div class="row2">
+    <label class="field">
+      <span>Họ và tên</span>
+      <input name="name" type="text" required autocomplete="name" placeholder="Nguyễn Văn An" />
+    </label>
+    <label class="field">
+      <span>Số điện thoại</span>
+      <input name="phone" type="tel" required autocomplete="tel" pattern="[0-9 +().-]{9,}" placeholder="0901 234 567" />
+    </label>
+  </div>
+  <label class="field">
+    <span>Email <em>(không bắt buộc)</em></span>
+    <input name="email" type="email" autocomplete="email" placeholder="ban@congty.vn" />
+  </label>
+
+  <fieldset class="field">
+    <legend>Bạn quan tâm đến</legend>
+    <div class="choices">
+      {services.map((s, i) => (
+        <label class={`choice tone-${s.tone}`}>
+          <input type="checkbox" name="dich_vu" value={s.name} checked={i === 0} />
+          <span><Icon name={s.icon} size={18} /> {s.name}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <label class="field">
+    <span>Nội dung cần tư vấn</span>
+    <textarea name="message" rows="5" required placeholder="Ví dụ: Homestay 12 phòng tại Đà Lạt, muốn làm tour 360° và website đặt phòng."></textarea>
+  </label>
+
+  <div class="submit-row">
+    <button class="btn btn--primary" type="submit"><Icon name="send" size={18} /> Gửi yêu cầu tư vấn</button>
+    <p class="status" data-status role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<style>
+  .form { display: grid; gap: 1.2rem; }
+  .row2 { display: grid; gap: 1.2rem; }
+  @media (min-width: 640px) { .row2 { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: .45rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+  .field > span, legend { font-weight: 600; font-size: .95rem; padding: 0; margin-bottom: .45rem; }
+  .field em { font-weight: 400; color: var(--ink-soft); }
+  input:not([type='checkbox']), textarea {
+    width: 100%; padding: .9rem 1rem; border-radius: 14px; border: 0; background: var(--white);
+    box-shadow: inset 0 0 0 1.5px var(--mist); transition: box-shadow .25s; resize: vertical;
+  }
+  input:hover, textarea:hover { box-shadow: inset 0 0 0 1.5px #b9cfc9; }
+  input:focus, textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--jade); }
+  .was-validated :invalid { box-shadow: inset 0 0 0 2px #c2410c; }
+  ::placeholder { color: #8a97a8; }
+
+  .choices { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice span { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1rem; border-radius: 999px; background: var(--white); box-shadow: inset 0 0 0 1.5px var(--mist); cursor: pointer; font-weight: 600; font-size: .95rem; transition: background-color .25s, color .25s, box-shadow .25s; }
+  .choice input:checked + span { background: var(--tone-soft); color: var(--tone); box-shadow: inset 0 0 0 1.5px var(--tone); }
+  .choice input:focus-visible + span { outline: 3px solid var(--lantern); outline-offset: 2px; }
+
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: .4rem; }
+  button[data-loading] { opacity: .7; cursor: progress; }
+  .status { font-size: .95rem; }
+  .status[data-state='success'] { color: var(--jade); font-weight: 600; }
+  .status[data-state='error'] { color: #c2410c; font-weight: 600; }
+</style>

@@ -1,0 +1,24 @@
+---
+import { faqs } from '../data/site';
+import Icon from './Icon.astro';
+---
+<div class="faq">
+  {faqs.map((f, i) => (
+    <details name="faq" open={i === 0}>
+      <summary><span>{f.q}</span><span class="plus"><Icon name="plus" size={20} /></span></summary>
+      <div class="answer"><p>{f.a}</p></div>
+    </details>
+  ))}
+</div>
+<style>
+  .faq { border-top: 1px solid var(--mist); }
+  details { border-bottom: 1px solid var(--mist); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.4rem 0; cursor: pointer; list-style: none; font-weight: 600; font-size: 1.12rem; }
+  summary::-webkit-details-marker { display: none; }
+  .plus { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--mist); transition: transform .45s var(--ease-out), background-color .3s; }
+  details[open] .plus { transform: rotate(45deg); background: var(--lantern); }
+  summary:hover .plus { background: var(--lantern); }
+  .answer { padding: 0 3.5rem 1.5rem 0; color: var(--ink-soft); }
+  details::details-content { block-size: 0; overflow: hidden; transition: block-size .45s var(--ease-out), content-visibility .45s allow-discrete; }
+  details[open]::details-content { block-size: auto; }
+</style>

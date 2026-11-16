@@ -1,0 +1,27 @@
+---
+import type { Project } from '../data/site';
+import { services } from '../data/site';
+import ArtTile from './ArtTile.astro';
+import Icon from './Icon.astro';
+interface Props { project: Project; index?: number }
+const { project: p, index = 0 } = Astro.props;
+const svc = services.find((s) => s.slug === p.category)!;
+---
+<article class:list={['card', `tone-${svc.tone}`]}>
+  <ArtTile image={p.image} alt={p.title} tone={svc.tone} seed={index * 17 + 3} />
+  <div class="body">
+    <div class="meta"><span class="chip">{svc.name}</span><span class="loc"><Icon name="pin" size={15} /> {p.location}, {p.year}</span></div>
+    <h3>{p.title}</h3>
+    <p>{p.summary}</p>
+    <p class="result"><Icon name="check" size={16} /> {p.result}</p>
+  </div>
+</article>
+<style>
+  .card { display: flex; flex-direction: column; gap: 1.2rem; }
+  .card:hover :global(.art svg), .card:hover :global(.art img) { transform: scale(1.06); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+  .loc { display: inline-flex; align-items: center; gap: .3rem; }
+  h3 { margin-top: .9rem; font-size: 1.3rem; }
+  .body > p { margin-top: .5rem; color: var(--ink-soft); font-size: .98rem; }
+  .result { display: flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--tone) !important; }
+</style>

@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { services } from '../data/site';
+import ArtTile from './ArtTile.astro';
+interface Props { post: CollectionEntry<'tin-tuc'>; index?: number }
+const { post, index = 0 } = Astro.props;
+const svc = services.find((s) => s.slug === post.data.category)!;
+const date = post.data.date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+---
+<article class:list={['news', `tone-${svc.tone}`]}>
+  <a href={`/tin-tuc/${post.id}`} class="cover" tabindex="-1" aria-hidden="true">
+    <ArtTile image={post.data.image} tone={svc.tone} seed={index * 23 + 9} ratio="16 / 10" />
+  </a>
+  <div class="meta"><span class="chip">{svc.name}</span><time datetime={post.data.date.toISOString()}>{date}</time></div>
+  <h3><a href={`/tin-tuc/${post.id}`}>{post.data.title}</a></h3>
+  <p>{post.data.description}</p>
+</article>
+<style>
+  .news { display: flex; flex-direction: column; gap: 1rem; }
+  .news:hover :global(.art svg), .news:hover :global(.art img) { transform: scale(1.06); }
+  .meta { display: flex; gap: .8rem; align-items: center; font-size: var(--fs-sm); color: var(--ink-soft); }
+  h3 { font-size: 1.25rem; }
+  h3 a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; transition: background-size .45s var(--ease-out); }
+  h3 a:hover { background-size: 100% 1.5px; }
+  p { color: var(--ink-soft); font-size: .97rem; }
+</style>
