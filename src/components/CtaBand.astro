@@ -12,6 +12,8 @@ const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, ampl
 <section class="section">
   <div class="container">
     <div class="band" data-reveal>
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="scan-line" style="animation-duration:5s" aria-hidden="true"></div>
       <svg viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         {lines.map((d, i) => <path d={d} style={`opacity:${0.08 + i * 0.025}`} />)}
       </svg>
@@ -27,9 +29,9 @@ const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, ampl
   </div>
 </section>
 <style>
-  .band { position: relative; overflow: hidden; border-radius: var(--radius-l); background: var(--ink); color: var(--paper); padding: clamp(2.5rem, 6vw, 5rem); }
-  svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--lantern); stroke-width: 1.2; }
+  .band { position: relative; overflow: hidden; border-radius: var(--radius-l); color: var(--ink); padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 6vw, 5rem); background: radial-gradient(120% 140% at 80% 0%, #0f2a7a 0%, #081236 45%, #060a18 100%); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .35), 0 40px 120px -40px var(--electric); }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--cyan); stroke-width: 1; }
   .inner { position: relative; max-width: 40rem; }
-  p { margin-top: 1.2rem; opacity: .82; font-size: var(--fs-lg); }
+  p { margin-top: 1.2rem; color: #b4c3e6; font-size: var(--fs-lg); }
   .row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 </style>

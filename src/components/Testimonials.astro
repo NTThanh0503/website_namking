@@ -27,14 +27,14 @@ import Icon from './Icon.astro';
   .viewport { overflow: hidden; }
   .track { display: flex; transition: transform .8s var(--ease-out); touch-action: pan-y; cursor: grab; }
   .slide { flex: 0 0 100%; margin: 0; padding-right: 2rem; }
-  blockquote { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem); line-height: 1.35; letter-spacing: -0.01em; max-width: 52rem; }
+  blockquote { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem); line-height: 1.35; letter-spacing: -0.01em; max-width: 52rem; }
   figcaption { margin-top: 2rem; display: grid; gap: .1rem; }
-  figcaption span { opacity: .75; font-size: .95rem; }
+  figcaption span { color: var(--ink-soft); font-size: .95rem; }
   .controls { display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; }
   .dots { display: flex; gap: .5rem; }
   .dots button { width: 28px; height: 6px; border-radius: 6px; border: 0; padding: 0; cursor: pointer; background: color-mix(in srgb, currentColor 25%, transparent); transition: width .5s var(--ease-out), background-color .3s; }
-  .dots button[aria-current='true'] { width: 56px; background: var(--lantern); }
+  .dots button[aria-current='true'] { width: 56px; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
   .arrows { display: flex; gap: .6rem; }
   .arrows button { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; border: 0; cursor: pointer; background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, currentColor 40%, transparent); transition: background-color .25s, color .25s; }
-  .arrows button:hover { background: var(--lantern); color: var(--ink); box-shadow: none; }
+  .arrows button:hover { color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .6), 0 0 24px -6px var(--cyan); }
 </style>

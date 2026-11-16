@@ -20,11 +20,11 @@ const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, se
   )}
 </div>
 <style>
-  .art { position: relative; overflow: hidden; border-radius: var(--radius-m); }
+  .art { position: relative; overflow: hidden; border-radius: var(--radius-m); background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--a) 38%, transparent), transparent 60%), #070b17; box-shadow: inset 0 0 0 1px var(--line); }
+  .art::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; opacity: .5; -webkit-mask-image: radial-gradient(circle at 70% 30%, #000, transparent 75%); mask-image: radial-gradient(circle at 70% 30%, #000, transparent 75%); }
   .art img, .art svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
   .art svg path { fill: none; stroke-width: 1.2; }
-  .art--lagoon { background: var(--lagoon); } .art--lagoon path { stroke: #9cc7cf; }
-  .art--jade { background: var(--jade); } .art--jade path { stroke: #bfe3d3; }
-  .art--lantern { background: #e9a72a; } .art--lantern path { stroke: #fff2d1; }
-  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--paper); color: var(--ink); }
+  .art--lagoon { --a: #2f7cff; } .art--jade { --a: #19b8e6; } .art--lantern { --a: #7a63ff; }
+  .art path { stroke: color-mix(in srgb, var(--a) 70%, white); }
+  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 1; width: 56px; height: 56px; border-radius: 16px; background: rgba(5, 7, 13, .7); backdrop-filter: blur(8px); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .35), 0 0 30px -8px var(--cyan); }
 </style>

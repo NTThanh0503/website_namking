@@ -1,54 +1,77 @@
 ---
 import Icon from './Icon.astro';
-import { contourPaths } from '../lib/contours';
 import { company } from '../data/site';
 
-const contours = contourPaths({ width: 600, height: 640, lines: 17, seed: 19, amplitude: 34 });
-// Toạ độ 3 điểm trên bản đồ (theo viewBox 600 x 640)
-const pins = [
-  { x: 140, y: 500, icon: 'scan', title: 'Tham quan ảo 360°', place: 'Phố cổ Hội An', tone: 'lagoon' },
-  { x: 330, y: 318, icon: 'bed', title: 'Đặt phòng trực tiếp', place: 'Homestay Đà Lạt', tone: 'jade' },
-  { x: 470, y: 138, icon: 'compass', title: 'Tour bản làng', place: 'Hà Giang', tone: 'lantern' },
+// Ba điểm dịch vụ trên sơ đồ quỹ đạo (theo viewBox 520 x 520)
+const nodes = [
+  { x: 118, y: 132, icon: 'scan', title: 'Tham quan ảo 360°', place: 'Phố cổ Hội An', pos: 'left:0%; top:9%' },
+  { x: 418, y: 196, icon: 'bed', title: 'Vận hành lưu trú', place: 'Resort Phú Quốc', pos: 'right:-2%; top:30%' },
+  { x: 196, y: 424, icon: 'compass', title: 'Tour trải nghiệm', place: 'Bản làng Hà Giang', pos: 'left:14%; bottom:3%' },
 ];
-const route = `M ${pins[0].x} ${pins[0].y} C 210 420, 250 360, ${pins[1].x} ${pins[1].y} S 420 230, ${pins[2].x} ${pins[2].y}`;
 const headline = ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'Dẫn lối hành trình.'];
 ---
 
 <section class="hero" data-hero>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="orb" style="width:620px;height:620px;top:-280px;left:50%;margin-left:-60px" aria-hidden="true"></div>
+  <div class="orb" style="width:380px;height:380px;bottom:-160px;left:-160px;opacity:.16;animation-delay:-4s" aria-hidden="true"></div>
+  <div class="scan-line" aria-hidden="true"></div>
+
   <div class="container hero-grid">
     <div class="copy">
+      <p class="pill reveal-up" style="--i:0"><span class="pulse-dot"></span>Chuyển đổi số cho ngành du lịch Việt · từ {company.founded}</p>
       <h1>
         {headline.map((line, i) => (
           <span class="line" style={`--i:${i}`}><span>{line}</span></span>
         ))}
       </h1>
-      <p class="lead">{company.description}</p>
-      <div class="cta-row">
-        <a class="btn btn--primary" href="/lien-he">Nhận tư vấn miễn phí</a>
+      <p class="lead reveal-up" style="--i:3">{company.description}</p>
+      <div class="cta-row reveal-up" style="--i:4">
+        <a class="btn btn--primary" href="/lien-he">Nhận tư vấn miễn phí <Icon name="arrow" size={18} /></a>
         <a class="btn btn--ghost" href="/du-an">Xem dự án đã làm</a>
       </div>
-      <p class="trust"><Icon name="check" size={18} /> Hơn 120 khách sạn, homestay và điểm đến đã đồng hành</p>
+      <p class="trust reveal-up" style="--i:5"><Icon name="check" size={18} /> Hơn 120 khách sạn, homestay và điểm đến đã đồng hành</p>
     </div>
 
-    <div class="map" aria-label="Minh họa: hành trình kết nối ba mảng dịch vụ số hóa, lưu trú và du lịch" role="img">
-      <svg class="layer contours" data-depth="8" viewBox="0 0 600 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        {contours.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
+    <div class="visual" role="img" aria-label="Minh họa: ba mảng dịch vụ số hóa, lưu trú và du lịch kết nối quanh một trung tâm">
+      <svg class="layer" data-depth="8" viewBox="0 0 520 520" fill="none" aria-hidden="true">
+        <defs>
+          <radialGradient id="hero-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#5ce1ff" stop-opacity=".9" />
+            <stop offset="40%" stop-color="#2f6bff" stop-opacity=".45" />
+            <stop offset="100%" stop-color="#2f6bff" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="hero-sweep" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#5ce1ff" stop-opacity="0" />
+            <stop offset="100%" stop-color="#5ce1ff" stop-opacity=".35" />
+          </linearGradient>
+        </defs>
+        <circle class="ring" style="--i:0" cx="260" cy="260" r="240" stroke="#2f6bff" stroke-opacity=".2" />
+        <circle class="ring spin" style="--i:1" cx="260" cy="260" r="180" stroke="#2f6bff" stroke-opacity=".3" stroke-dasharray="2 6" />
+        <circle class="ring spin-rev" style="--i:2" cx="260" cy="260" r="120" stroke="#5ce1ff" stroke-opacity=".32" stroke-dasharray="40 14" />
+        <circle class="ring" style="--i:3" cx="260" cy="260" r="60" stroke="#5ce1ff" stroke-opacity=".45" />
+        <g class="sweep"><path d="M260 260 L500 260 A240 240 0 0 0 467.8 140 Z" fill="url(#hero-sweep)" /></g>
+        <circle class="core" cx="260" cy="260" r="110" fill="url(#hero-core)" />
+        <circle cx="260" cy="260" r="9" fill="#e8f9ff" />
+        <g class="spin"><circle cx="260" cy="80" r="4" fill="#5ce1ff" /></g>
+        <g class="spin-rev"><circle cx="380" cy="260" r="3" fill="#8fb4ff" /></g>
       </svg>
-      <svg class="layer route" data-depth="16" viewBox="0 0 600 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <path class="route-base" d={route} pathLength="1" />
-        <path class="route-flow" d={route} />
-        {pins.map((p, i) => (
-          <g class="dot" style={`--i:${i}; transform-origin:${p.x}px ${p.y}px`}>
-            <circle class="pulse" cx={p.x} cy={p.y} r="16" />
-            <circle cx={p.x} cy={p.y} r="7" />
+      <svg class="layer" data-depth="16" viewBox="0 0 520 520" fill="none" aria-hidden="true">
+        <path class="route" d="M118 132 Q 300 60 418 196 T 196 424" stroke="#2f6bff" stroke-opacity=".55" stroke-dasharray="3 7" />
+        {nodes.map((n, i) => (
+          <g style={`--i:${i}`}>
+            <path class="link-line" d={`M260 260 L${n.x} ${n.y}`} stroke="#5ce1ff" stroke-width="1.5" />
+            <circle class="node-ring" cx={n.x} cy={n.y} r="22" fill="#0a1230" stroke="#5ce1ff" stroke-opacity=".7" />
+            <circle class="node-ping" cx={n.x} cy={n.y} r="22" stroke="#5ce1ff" />
+            <circle cx={n.x} cy={n.y} r="6" fill="#5ce1ff" />
           </g>
         ))}
       </svg>
-      <div class="layer cards" data-depth="26">
-        {pins.map((p, i) => (
-          <div class:list={['pin-card', `tone-${p.tone}`]} style={`--i:${i}; left:${(p.x / 600) * 100}%; top:${(p.y / 640) * 100}%`}>
-            <span class="pin-icon"><Icon name={p.icon} size={20} /></span>
-            <span><strong>{p.title}</strong><small>{p.place}</small></span>
+      <div class="layer tags" data-depth="26">
+        {nodes.map((n, i) => (
+          <div class="tag" style={`--i:${i}; ${n.pos}`}>
+            <span class="tag-icon"><Icon name={n.icon} size={18} /></span>
+            <span><strong>{n.title}</strong><small>{n.place}</small></span>
           </div>
         ))}
       </div>
@@ -57,68 +80,67 @@ const headline = ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'D
 </section>
 
 <style>
-  .hero { position: relative; padding-block: clamp(2rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem); overflow: hidden; }
-  .hero-grid { display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: center; }
-  @media (min-width: 980px) { .hero-grid { grid-template-columns: 1.25fr .9fr; } }
+  .hero { position: relative; padding-block: clamp(3rem, 8vw, 6.5rem) clamp(4rem, 8vw, 7rem); overflow: hidden; }
+  .hero-grid { position: relative; display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; }
+  @media (min-width: 980px) { .hero-grid { grid-template-columns: 1.1fr .9fr; } }
 
-  h1 { color: var(--ink); font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.15rem); letter-spacing: -0.04em; }
-  .line { display: block; overflow: hidden; padding-bottom: .06em; }
-  .line > span { display: block; transform: translateY(105%); transition: transform 1s var(--ease-out); transition-delay: calc(var(--i) * 110ms + 100ms); }
-  .line:nth-child(2) > span { color: var(--jade); }
-  .line:nth-child(3) > span { color: var(--lagoon); }
+  .copy { display: flex; flex-direction: column; align-items: flex-start; }
+  h1 { margin-top: 1.6rem; font-size: clamp(2.5rem, 1.1rem + 4.4vw, 4.9rem); letter-spacing: -0.04em; line-height: 1.02; }
+  .line { display: block; overflow: hidden; padding-bottom: .08em; }
+  .line > span { display: block; transform: translateY(105%); transition: transform 1.1s var(--ease-out); transition-delay: calc(var(--i) * 110ms + 150ms); }
+  .line:nth-child(2) > span { color: var(--cyan); text-shadow: 0 0 32px rgba(92, 225, 255, .45); }
+  .line:nth-child(3) > span { color: #b9c8ee; }
   .is-ready .line > span { transform: none; }
 
-  .copy .lead { margin-top: 1.6rem; }
-  .copy .lead, .cta-row, .trust { opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); transition-delay: .55s; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; transition-delay: .65s; }
-  .trust { display: flex; align-items: center; gap: .5rem; margin-top: 2rem; font-size: var(--fs-sm); color: var(--ink-soft); transition-delay: .75s; }
-  .trust :global(svg) { color: var(--jade); }
-  .is-ready .copy .lead, .is-ready .cta-row, .is-ready .trust { opacity: 1; transform: none; }
+  .reveal-up { opacity: 0; transform: translateY(16px); filter: blur(4px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out), filter .9s var(--ease-out); transition-delay: calc(var(--i) * 90ms + 250ms); }
+  .is-ready .reveal-up { opacity: 1; transform: none; filter: none; }
+  .copy .lead { margin-top: 1.6rem; max-width: 34rem; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
+  .trust { display: flex; align-items: center; gap: .5rem; margin-top: 2rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+  .trust :global(svg) { color: var(--cyan); }
 
-  /* ---------- Bản đồ ---------- */
-  .map { position: relative; aspect-ratio: 600 / 640; border-radius: var(--radius-l); background: radial-gradient(120% 90% at 80% 10%, #13606f 0%, var(--lagoon) 55%, #093a45 100%); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(12, 74, 87, .55); }
-  .layer { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); transition: transform .9s var(--ease-out); }
+  /* ---------- Sơ đồ quỹ đạo ---------- */
+  .visual { position: relative; width: 100%; max-width: 560px; margin-inline: auto; aspect-ratio: 1; opacity: 0; transform: scale(.94); transition: opacity 1.2s var(--ease-out) .3s, transform 1.4s var(--ease-out) .3s; }
+  .is-ready .visual { opacity: 1; transform: none; }
+  .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transition: transform .9s var(--ease-out); }
 
-  .contours path { fill: none; stroke: var(--mist); stroke-width: 1.1; opacity: calc(.12 + var(--i) * .018); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.4s var(--ease-out); transition-delay: calc(var(--i) * 60ms); }
-  .is-ready .contours path { stroke-dashoffset: 0; }
+  .spin, .spin-rev { transform-box: view-box; transform-origin: 260px 260px; animation: spin 28s linear infinite; }
+  .spin-rev { animation-duration: 40s; animation-direction: reverse; }
+  .sweep { transform-box: view-box; transform-origin: 260px 260px; animation: spin 6s linear infinite; }
+  .core { transform-box: fill-box; transform-origin: center; animation: core 4s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes core { 50% { transform: scale(1.08); opacity: .75; } }
 
-  .route-base { fill: none; stroke: var(--lantern); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .35; transition: stroke-dashoffset 1.8s var(--ease-out) 1.1s; }
-  .is-ready .route-base { stroke-dashoffset: 0; }
-  .route-flow { fill: none; stroke: var(--lantern); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 2 12; opacity: 0; transition: opacity .6s 2.6s; }
-  .is-ready .route-flow { opacity: 1; animation: flow 1.6s linear infinite; }
-  @keyframes flow { to { stroke-dashoffset: -28; } }
+  .link-line { stroke-dasharray: 6 10; opacity: 0; transition: opacity .8s calc(.9s + var(--i) * .2s); animation: dash 1.6s linear infinite; }
+  .is-ready .link-line { opacity: 1; }
+  @keyframes dash { to { stroke-dashoffset: -32; } }
+  .node-ping { transform-box: fill-box; transform-origin: center; animation: ping 2.6s cubic-bezier(0, 0, .2, 1) infinite; animation-delay: calc(var(--i) * .7s); }
+  @keyframes ping { from { transform: scale(1); opacity: .7; } to { transform: scale(2.2); opacity: 0; } }
 
-  .dot { fill: var(--lantern); transform: scale(0); transition: transform .7s cubic-bezier(.34, 1.56, .64, 1); transition-delay: calc(1.2s + var(--i) * .45s); }
-  .is-ready .dot { transform: scale(1); }
-  .pulse { fill: var(--lantern); opacity: .35; transform-box: fill-box; transform-origin: center; animation: pulse 2.6s ease-out infinite; animation-delay: calc(var(--i) * .5s); }
-  @keyframes pulse { 0% { transform: scale(.4); opacity: .5; } 100% { transform: scale(2.2); opacity: 0; } }
-
-  .pin-card {
-    position: absolute; display: flex; align-items: center; gap: .7rem;
-    padding: .6rem 1rem .6rem .6rem; border-radius: 16px; background: var(--paper);
-    box-shadow: 0 18px 40px -18px rgba(5, 30, 36, .6);
-    transform: translate(-12%, calc(-100% - 22px)) scale(.9); opacity: 0;
-    transition: opacity .6s var(--ease-out), transform .8s var(--ease-out);
-    transition-delay: calc(1.35s + var(--i) * .45s);
-    white-space: nowrap;
+  .tag {
+    position: absolute; display: flex; align-items: center; gap: .65rem;
+    padding: .5rem .9rem .5rem .5rem; border-radius: 14px; white-space: nowrap;
+    background: rgba(10, 15, 30, .82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 0 1px var(--line), 0 16px 40px -16px #000;
+    opacity: 0; translate: 0 10px;
+    transition: opacity .8s var(--ease-out), translate .8s var(--ease-out);
+    transition-delay: calc(1.1s + var(--i) * .25s);
+    animation: float 6s ease-in-out infinite; animation-delay: calc(var(--i) * -2s);
   }
-  .is-ready .pin-card { opacity: 1; transform: translate(-12%, calc(-100% - 22px)); }
-  .pin-card:nth-child(1) { transform-origin: left bottom; }
-  .pin-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--tone-soft); color: var(--tone); }
-  .pin-card strong { display: block; font-size: .93rem; line-height: 1.2; }
-  .pin-card small { display: block; font-size: .8rem; color: var(--ink-soft); }
-  .pin-card:last-child { transform: translate(-70%, calc(-100% - 22px)) scale(.9); }
-  .is-ready .pin-card:last-child { transform: translate(-70%, calc(-100% - 22px)); }
+  .is-ready .tag { opacity: 1; translate: 0 0; }
+  @keyframes float { 50% { transform: translateY(-8px); } }
+  .tag-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; color: var(--cyan); background: rgba(92, 225, 255, .1); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .3); }
+  .tag strong { display: block; font-size: .88rem; line-height: 1.25; }
+  .tag small { display: block; font-size: .75rem; color: var(--ink-soft); }
 
   @media (max-width: 520px) {
-    .pin-card { padding: .45rem .7rem .45rem .45rem; gap: .5rem; }
-    .pin-icon { width: 30px; height: 30px; }
-    .pin-card strong { font-size: .8rem; }
-    .pin-card small { font-size: .7rem; }
+    .tag { padding: .35rem .6rem .35rem .35rem; gap: .45rem; }
+    .tag-icon { width: 28px; height: 28px; }
+    .tag strong { font-size: .76rem; }
+    .tag small { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .line > span, .copy .lead, .cta-row, .trust, .pin-card, .dot { transform: none !important; opacity: 1 !important; }
-    .contours path, .route-base { stroke-dashoffset: 0 !important; }
-    .route-flow { opacity: 1; }
+    .line > span, .reveal-up, .visual, .tag { transform: none !important; translate: none !important; opacity: 1 !important; filter: none !important; }
+    .link-line { opacity: 1; }
   }
 </style>

@@ -6,6 +6,8 @@ const { title, lead, crumbs = [], seed = 11 } = Astro.props;
 const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude: 26 });
 ---
 <section class="page-hero" data-hero>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="orb" style="width:520px;height:520px;top:-300px;right:-120px;opacity:.22" aria-hidden="true"></div>
   <svg class="art" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     {lines.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
   </svg>
@@ -24,9 +26,9 @@ const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude
   </div>
 </section>
 <style>
-  .page-hero { position: relative; overflow: hidden; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--mist); }
-  .art { position: absolute; right: -5%; top: 0; width: min(70%, 900px); height: 100%; fill: none; stroke: var(--jade); stroke-width: 1.1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
-  .art path { opacity: calc(.08 + var(--i) * .02); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2s var(--ease-out); transition-delay: calc(var(--i) * 50ms); }
+  .page-hero { position: relative; overflow: hidden; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line); }
+  .art { position: absolute; right: -5%; top: 0; width: min(70%, 900px); height: 100%; fill: none; stroke: var(--electric); stroke-width: 1.1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
+  .art path { opacity: calc(.1 + var(--i) * .03); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2s var(--ease-out); transition-delay: calc(var(--i) * 50ms); }
   :global(.is-ready) .art path { stroke-dashoffset: 0; }
   .inner { position: relative; }
   h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.2rem); max-width: 18ch; }
