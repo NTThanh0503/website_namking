@@ -4,9 +4,8 @@
 //  tự cập nhật. Các con số và tên dự án hiện là NỘI DUNG MẪU.
 // =============================================================
 
-// Địa điểm văn phòng để Google Maps tìm (dùng cho bản đồ nhúng và nút "Chỉ đường").
-// Ghi ngắn gọn số nhà + đường + thành phố để Google ghim chính xác nhất.
-const mapQuery = '158 Chùa Láng, Hà Nội';
+// Địa điểm văn phòng cho nút "Chỉ đường" (ghi giống địa chỉ Google Maps hiển thị để ghim chính xác)
+const mapQuery = '158 P. Chùa Láng, Láng, Hà Nội';
 
 export const company = {
   name: 'NAM KING GROUP',
@@ -23,7 +22,10 @@ export const company = {
   address: '158 Chùa Láng, Quận Ba Đình, TP. Hà Nội',
   hours: 'Thứ 2 – Thứ 7, 8:30 – 17:30',
   taxCode: '0300000000',
-  mapEmbed: `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&hl=vi&z=17&output=embed`,
+  // Link nhúng CHÍNH THỨC: Google Maps → tìm địa chỉ → Chia sẻ → Nhúng bản đồ → copy phần src="..."
+  // (link dạng /maps?q=...&output=embed bị Google chặn trên một số điện thoại)
+  mapEmbed:
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.2466603034454!2d105.80055879999999!3d21.0228143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab5cbba0580d%3A0x97078b7d5e123009!2zMTU4IFAuIENow7lhIEzDoW5nLCBMw6FuZywgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1794887977863!5m2!1svi!2s',
   // Mở Google Maps (ứng dụng trên điện thoại) và chỉ đường từ vị trí hiện tại đến văn phòng
   mapDirections: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`,
   socials: [

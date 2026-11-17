@@ -35,7 +35,7 @@ const t = {
 const info = [
   { icon: 'phone', label: t.phone, value: company.phone, href: company.phoneHref },
   { icon: 'mail', label: 'Email', value: company.email, href: `mailto:${company.email}` },
-  { icon: 'pin', label: t.office, value: company.address, href: company.mapDirections, external: true, hint: t.directions },
+  { icon: 'pin', label: t.office, value: company.address, href: company.mapDirections, external: true, iconLabel: t.openMaps },
   { icon: 'clock', label: t.hours, value: company.hours },
 ];
 ---
@@ -57,8 +57,12 @@ const info = [
         <ul>
           {info.map((i) => (
             <li>
-              <span class="i-icon"><Icon name={i.icon} size={22} /></span>
-              <span><small>{i.label}</small>{i.href ? <a href={i.href} target={i.external ? '_blank' : undefined} rel={i.external ? 'noopener' : undefined}>{i.value}</a> : <strong>{i.value}</strong>}{i.hint && <a class="hint" href={i.href} target="_blank" rel="noopener"><Icon name="arrow" size={15} /> {i.hint}</a>}</span>
+              {i.href ? (
+                <a class="i-icon" href={i.href} target={i.external ? '_blank' : undefined} rel={i.external ? 'noopener' : undefined} aria-label={i.iconLabel ?? `${i.label}: ${i.value}`}><Icon name={i.icon} size={22} /></a>
+              ) : (
+                <span class="i-icon"><Icon name={i.icon} size={22} /></span>
+              )}
+              <span><small>{i.label}</small>{i.href ? <a href={i.href} target={i.external ? '_blank' : undefined} rel={i.external ? 'noopener' : undefined}>{i.value}</a> : <strong>{i.value}</strong>}</span>
             </li>
           ))}
         </ul>
@@ -72,7 +76,7 @@ const info = [
   <section class="map-section">
     <div class="container">
       <div class="map-frame">
-        <iframe src={company.mapEmbed} title={t.map} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <iframe src={company.mapEmbed} title={t.map} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <a class="btn btn--primary map-btn" href={company.mapDirections} target="_blank" rel="noopener" aria-label={t.openMaps}>
           <Icon name="pin" size={18} /> {t.directions}
         </a>
@@ -101,7 +105,8 @@ const info = [
   .socials { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2.2rem; }
   .socials a { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem .9rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .9rem; min-height: 44px; box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, box-shadow .25s; }
   .socials a:hover { background: rgba(47, 124, 255, .1); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .5); }
-  .info .hint { display: inline-flex; align-items: center; gap: .35rem; margin-top: .35rem; font-size: .9rem; color: var(--cyan); }
+  a.i-icon { transition: background-color .25s, box-shadow .25s, transform .25s; }
+  a.i-icon:hover, a.i-icon:active { background: rgba(47, 124, 255, .24); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .6), 0 0 22px -6px var(--cyan); transform: translateY(-1px); }
   .map-frame { position: relative; overflow: hidden; border-radius: var(--radius-l); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
   iframe { display: block; width: 100%; height: 420px; border: 0; }
   /* Bản đồ tông tối chỉ áp dụng trên máy tính: Safari/Chrome trên điện thoại hay vẽ lỗi khi lọc màu khung nhúng */
