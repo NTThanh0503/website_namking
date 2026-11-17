@@ -15,6 +15,7 @@ export const company: typeof vi.company = {
     'NAM KING GROUP helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
   address: '158 Chua Lang, Ba Dinh District, Hanoi, Vietnam',
   hours: 'Mon – Sat, 8:30 AM – 5:30 PM',
+  mapEmbed: vi.company.mapEmbed.replace('hl=vi', 'hl=en'),
 };
 
 export const nav: typeof vi.nav = [

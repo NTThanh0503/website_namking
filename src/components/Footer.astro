@@ -5,8 +5,8 @@ const lang = getLang(Astro.url);
 const L = (href: string) => localizePath(href, lang);
 const { company, nav, services } = getData(lang);
 const t = {
-  vi: { services: 'Dịch vụ', company: 'Công ty', contact: 'Liên hệ', tax: 'MST', top: 'Lên đầu trang' },
-  en: { services: 'Services', company: 'Company', contact: 'Contact', tax: 'Tax ID', top: 'Back to top' },
+  vi: { services: 'Dịch vụ', company: 'Công ty', contact: 'Liên hệ', tax: 'MST', top: 'Lên đầu trang', directions: 'Chỉ đường trên Google Maps' },
+  en: { services: 'Services', company: 'Company', contact: 'Contact', tax: 'Tax ID', top: 'Back to top', directions: 'Get directions on Google Maps' },
 }[lang];
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
@@ -43,7 +43,7 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="f-title">{t.contact}</h2>
       <ul class="f-list f-contact">
-        <li><Icon name="pin" size={18} /> <span>{company.address}</span></li>
+        <li><Icon name="pin" size={18} /> <a href={company.mapDirections} target="_blank" rel="noopener" title={t.directions}>{company.address}</a></li>
         <li><Icon name="phone" size={18} /> <a href={company.phoneHref}>{company.phone}</a></li>
         <li><Icon name="mail" size={18} /> <a href={`mailto:${company.email}`}>{company.email}</a></li>
         <li><Icon name="clock" size={18} /> <span>{company.hours}</span></li>

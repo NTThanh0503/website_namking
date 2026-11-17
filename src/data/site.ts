@@ -4,6 +4,10 @@
 //  tự cập nhật. Các con số và tên dự án hiện là NỘI DUNG MẪU.
 // =============================================================
 
+// Địa điểm văn phòng để Google Maps tìm (dùng cho bản đồ nhúng và nút "Chỉ đường").
+// Ghi ngắn gọn số nhà + đường + thành phố để Google ghim chính xác nhất.
+const mapQuery = '158 Chùa Láng, Hà Nội';
+
 export const company = {
   name: 'NAM KING GROUP',
   // Tên pháp lý đầy đủ (hiện ở chân trang): sửa đúng theo giấy phép kinh doanh, vd: 'Công ty TNHH ...'
@@ -19,9 +23,9 @@ export const company = {
   address: '158 Chùa Láng, Quận Ba Đình, TP. Hà Nội',
   hours: 'Thứ 2 – Thứ 7, 8:30 – 17:30',
   taxCode: '0300000000',
-  // Lấy link nhúng: Google Maps → Chia sẻ → Nhúng bản đồ → copy phần src="..."
-  mapEmbed:
-    'https://www.google.com/maps?q=158+Ch%C3%B9a+L%C3%A1ng,+H%C3%A0+N%E1%BB%99i&hl=vi&z=17&output=embed',
+  mapEmbed: `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&hl=vi&z=17&output=embed`,
+  // Mở Google Maps (ứng dụng trên điện thoại) và chỉ đường từ vị trí hiện tại đến văn phòng
+  mapDirections: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`,
   socials: [
     { name: 'Facebook', href: 'https://facebook.com/', icon: 'facebook' },
     { name: 'Zalo', href: 'https://zalo.me/', icon: 'zalo' },
