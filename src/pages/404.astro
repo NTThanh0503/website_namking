@@ -1,15 +1,19 @@
 ---
+// Trang 404 dùng chung cho cả hai ngôn ngữ (máy chủ chỉ phục vụ một file 404)
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 ---
-<BaseLayout title="Không tìm thấy trang">
+<BaseLayout title="Không tìm thấy trang · Page not found">
   <PageHero title="Trang này đã đi lạc khỏi bản đồ" lead="Đường dẫn có thể đã thay đổi hoặc không còn tồn tại. Quay về trang chủ hoặc xem các dịch vụ của chúng tôi." seed={404}>
+    <p class="en" lang="en">This page has wandered off the map. The link may have changed or no longer exists.</p>
     <div class="row">
       <a class="btn btn--primary" href="/">Về trang chủ</a>
       <a class="btn btn--ghost" href="/dich-vu">Xem dịch vụ</a>
+      <a class="btn btn--ghost" href="/en" hreflang="en" lang="en">Go to English homepage</a>
     </div>
   </PageHero>
 </BaseLayout>
 <style>
+  .en { margin-top: 1rem; color: var(--ink-soft); }
   .row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 </style>

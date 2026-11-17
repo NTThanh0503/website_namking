@@ -1,25 +1,35 @@
 ---
-import { nav, company } from '../data/site';
+import { getData } from '../data';
+import { getLang, localizePath } from '../i18n';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
+import LangSwitch from './LangSwitch.astro';
+const lang = getLang(Astro.url);
+const { nav, company } = getData(lang);
+const L = (href: string) => localizePath(href, lang);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const isActive = (href: string) => (href === '/' || href === '/en' ? path === href : path.startsWith(href));
+const t = {
+  vi: { main: 'Điều hướng chính', mobile: 'Điều hướng di động', cta: 'Nhận tư vấn', ctaMobile: 'Nhận tư vấn miễn phí', menu: 'Mở menu' },
+  en: { main: 'Main navigation', mobile: 'Mobile navigation', cta: 'Get advice', ctaMobile: 'Get free advice', menu: 'Open menu' },
+}[lang];
 ---
-<header class="site-header" data-header transition:persist>
+<header class="site-header" data-header transition:persist={`header-${lang}`}>
   <div class="container bar">
     <Logo />
-    <nav class="nav" aria-label="Điều hướng chính">
+    <nav class="nav" aria-label={t.main}>
       <ul>
         {nav.map((item) => (
-          <li><a href={item.href} data-nav aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+          <li><a href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>{item.label}</a></li>
         ))}
       </ul>
     </nav>
     <div class="actions">
       <a class="hotline" href={company.phoneHref}><Icon name="phone" size={18} /> {company.phone}</a>
-      <a class="btn btn--primary cta" href="/lien-he">Nhận tư vấn</a>
+      <LangSwitch />
+      <a class="btn btn--primary cta" href={L('/lien-he')}>{t.cta}</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-        <span class="sr-only">Mở menu</span>
+        <span class="sr-only">{t.menu}</span>
         <Icon name="menu" class="i-open" />
         <Icon name="close" class="i-close" />
       </button>
@@ -27,20 +37,19 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   </div>
 
   <div class="mobile" id="mobile-menu" data-mobile-menu hidden>
-    <nav class="container" aria-label="Điều hướng di động">
+    <nav class="container" aria-label={t.mobile}>
       <ul>
         {nav.map((item, i) => (
-          <li style={`--i:${i}`}><a href={item.href} data-nav aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+          <li style={`--i:${i}`}><a href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>{item.label}</a></li>
         ))}
       </ul>
       <div class="mobile-foot">
-        <a class="btn btn--primary" href="/lien-he">Nhận tư vấn miễn phí</a>
+        <a class="btn btn--primary" href={L('/lien-he')}>{t.ctaMobile}</a>
         <a class="btn btn--ghost" href={company.phoneHref}><Icon name="phone" size={18} /> {company.phone}</a>
       </div>
     </nav>
   </div>
 </header>
-
 <style>
   .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid transparent; transition: background-color .4s, border-color .4s, backdrop-filter .4s; }
   .site-header.is-scrolled { background: rgba(5, 7, 13, .72); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); border-bottom-color: var(--line); }
@@ -53,6 +62,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .nav a[aria-current='page'] { color: var(--ink); background: rgba(47, 124, 255, .12); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .3); }
 
   .actions { display: flex; align-items: center; gap: 1rem; }
+  @media (max-width: 900px) { .actions { gap: .6rem; } }
   .hotline { display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--cyan); white-space: nowrap; }
   .cta { min-height: 44px; padding: .6rem 1.15rem; font-size: .92rem; }
 
@@ -71,7 +81,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .mobile-foot .btn { justify-content: center; }
   @keyframes menu-in { to { opacity: 1; transform: none; } }
 
-  @media (max-width: 1080px) { .hotline { display: none; } }
+  @media (max-width: 1180px) { .hotline { display: none; } }
   @media (max-width: 900px) {
     .nav, .cta { display: none; }
     .burger { display: grid; }

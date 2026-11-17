@@ -1,8 +1,15 @@
 ---
-import { testimonials } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { testimonials } = getData(lang);
+const t = {
+  vi: { label: 'Cảm nhận của khách hàng', dot: (n: string) => `Xem cảm nhận của ${n}`, prev: 'Cảm nhận trước', next: 'Cảm nhận tiếp theo' },
+  en: { label: 'Client testimonials', dot: (n: string) => `Read ${n}’s testimonial`, prev: 'Previous testimonial', next: 'Next testimonial' },
+}[lang];
 import Icon from './Icon.astro';
 ---
-<div class="slider" data-slider aria-roledescription="carousel" aria-label="Cảm nhận của khách hàng">
+<div class="slider" data-slider aria-roledescription="carousel" aria-label={t.label}>
   <div class="viewport">
     <div class="track" data-track>
       {testimonials.map((t, i) => (
@@ -15,11 +22,11 @@ import Icon from './Icon.astro';
   </div>
   <div class="controls">
     <div class="dots">
-      {testimonials.map((t, i) => <button type="button" data-dot aria-label={`Xem cảm nhận của ${t.name}`} aria-current={i === 0 ? 'true' : 'false'}></button>)}
+      {testimonials.map((item, i) => <button type="button" data-dot aria-label={t.dot(item.name)} aria-current={i === 0 ? 'true' : 'false'}></button>)}
     </div>
     <div class="arrows">
-      <button type="button" data-prev aria-label="Cảm nhận trước"><Icon name="left" /></button>
-      <button type="button" data-next aria-label="Cảm nhận tiếp theo"><Icon name="right" /></button>
+      <button type="button" data-prev aria-label={t.prev}><Icon name="left" /></button>
+      <button type="button" data-next aria-label={t.next}><Icon name="right" /></button>
     </div>
   </div>
 </div>

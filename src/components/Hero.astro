@@ -1,14 +1,36 @@
 ---
 import Icon from './Icon.astro';
-import { company } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const L = (href: string) => localizePath(href, lang);
+const { company } = getData(lang);
 
 // Ba điểm dịch vụ trên sơ đồ quỹ đạo (theo viewBox 520 x 520)
+const t = {
+  vi: {
+    nodes: [['Tham quan ảo 360°', 'Phố cổ Hội An'], ['Vận hành lưu trú', 'Resort Phú Quốc'], ['Tour trải nghiệm', 'Bản làng Hà Giang']],
+    headline: ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'Dẫn lối hành trình.'],
+    pill: `Chuyển đổi số cho ngành du lịch Việt · từ ${company.founded}`,
+    cta: 'Nhận tư vấn miễn phí', projects: 'Xem dự án đã làm',
+    trust: 'Hơn 120 khách sạn, homestay và điểm đến đã đồng hành',
+    visual: 'Minh họa: ba mảng dịch vụ số hóa, lưu trú và du lịch kết nối quanh một trung tâm',
+  },
+  en: {
+    nodes: [['360° virtual tours', 'Hoi An Old Town'], ['Hospitality operations', 'Phu Quoc resort'], ['Experiential tours', 'Ha Giang villages']],
+    headline: ['Digitize destinations.', 'Fill every room.', 'Guide the journey.'],
+    pill: `Digital transformation for Vietnam’s travel industry · since ${company.founded}`,
+    cta: 'Get free advice', projects: 'See our projects',
+    trust: 'Trusted by 120+ hotels, homestays and destinations',
+    visual: 'Illustration: digital, hospitality and travel services connected around a central hub',
+  },
+}[lang];
 const nodes = [
-  { x: 118, y: 132, icon: 'scan', title: 'Tham quan ảo 360°', place: 'Phố cổ Hội An', pos: 'left:0%; top:9%' },
-  { x: 418, y: 196, icon: 'bed', title: 'Vận hành lưu trú', place: 'Resort Phú Quốc', pos: 'right:-2%; top:30%' },
-  { x: 196, y: 424, icon: 'compass', title: 'Tour trải nghiệm', place: 'Bản làng Hà Giang', pos: 'left:14%; bottom:3%' },
+  { x: 118, y: 132, icon: 'scan', title: t.nodes[0][0], place: t.nodes[0][1], pos: 'left:0%; top:9%' },
+  { x: 418, y: 196, icon: 'bed', title: t.nodes[1][0], place: t.nodes[1][1], pos: 'right:-2%; top:30%' },
+  { x: 196, y: 424, icon: 'compass', title: t.nodes[2][0], place: t.nodes[2][1], pos: 'left:14%; bottom:3%' },
 ];
-const headline = ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'Dẫn lối hành trình.'];
+const headline = t.headline;
 ---
 
 <section class="hero" data-hero>
@@ -19,7 +41,7 @@ const headline = ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'D
 
   <div class="container hero-grid">
     <div class="copy">
-      <p class="pill reveal-up" style="--i:0"><span class="pulse-dot"></span>Chuyển đổi số cho ngành du lịch Việt · từ {company.founded}</p>
+      <p class="pill reveal-up" style="--i:0"><span class="pulse-dot"></span>{t.pill}</p>
       <h1>
         {headline.map((line, i) => (
           <span class="line" style={`--i:${i}`}><span>{line}</span></span>
@@ -27,13 +49,13 @@ const headline = ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'D
       </h1>
       <p class="lead reveal-up" style="--i:3">{company.description}</p>
       <div class="cta-row reveal-up" style="--i:4">
-        <a class="btn btn--primary" href="/lien-he">Nhận tư vấn miễn phí <Icon name="arrow" size={18} /></a>
-        <a class="btn btn--ghost" href="/du-an">Xem dự án đã làm</a>
+        <a class="btn btn--primary" href={L('/lien-he')}>{t.cta} <Icon name="arrow" size={18} /></a>
+        <a class="btn btn--ghost" href={L('/du-an')}>{t.projects}</a>
       </div>
-      <p class="trust reveal-up" style="--i:5"><Icon name="check" size={18} /> Hơn 120 khách sạn, homestay và điểm đến đã đồng hành</p>
+      <p class="trust reveal-up" style="--i:5"><Icon name="check" size={18} /> {t.trust}</p>
     </div>
 
-    <div class="visual" role="img" aria-label="Minh họa: ba mảng dịch vụ số hóa, lưu trú và du lịch kết nối quanh một trung tâm">
+    <div class="visual" role="img" aria-label={t.visual}>
       <svg class="layer" data-depth="8" viewBox="0 0 520 520" fill="none" aria-hidden="true">
         <defs>
           <radialGradient id="hero-core" cx="50%" cy="50%" r="50%">

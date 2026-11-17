@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ArtTile from '../components/ArtTile.astro';
+import Process from '../components/Process.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { services } = getData(lang);
+const t = {
+  vi: {
+    title: 'Dịch vụ',
+    desc: 'Số hóa điểm đến, tư vấn vận hành lưu trú và thiết kế tour du lịch trọn gói.',
+    hero: 'Dịch vụ của chúng tôi',
+    lead: 'Ba lĩnh vực bổ trợ cho nhau. Bạn có thể chọn từng dịch vụ riêng lẻ hoặc kết hợp thành một giải pháp trọn gói.',
+    more: 'Xem chi tiết',
+    process: 'Quy trình làm việc',
+    processLead: 'Rõ ràng từ buổi gặp đầu tiên đến khi bàn giao, để bạn luôn biết dự án đang ở đâu.',
+  },
+  en: {
+    title: 'Services',
+    desc: 'Destination digitization, hospitality operations consulting and end-to-end tour design.',
+    hero: 'Our services',
+    lead: 'Three areas that complement each other. Choose a single service or combine them into an all-in-one solution.',
+    more: 'Learn more',
+    process: 'Our process',
+    processLead: 'Clear from the first meeting through to handover, so you always know where your project stands.',
+  },
+}[lang];
+---
+<BaseLayout title={t.title} description={t.desc}>
+  <PageHero
+    title={t.hero}
+    lead={t.lead}
+    crumbs={[{ label: t.title }]}
+    seed={31}
+  />
+
+  <section class="section">
+    <div class="container list">
+      {services.map((s, i) => (
+        <article class:list={['svc', `tone-${s.tone}`, { flip: i % 2 === 1 }]} id={s.slug}>
+          <div data-reveal><ArtTile tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="5 / 4" /></div>
+          <div class="svc-copy" data-reveal style="--d:120ms">
+            <span class="chip"><Icon name={s.icon} size={16} /> {s.name}</span>
+            <h2>{s.title}</h2>
+            <p>{s.short}</p>
+            <ul>
+              {s.features.map((f) => <li><Icon name="check" size={18} /> {f.title}</li>)}
+            </ul>
+            <a class="btn" href={localizePath(`/dich-vu/${s.slug}`, lang)}>{t.more} <Icon name="arrow" size={18} /></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{t.process}</h2>
+        <p class="lead">{t.processLead}</p>
+      </div>
+      <Process />
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .list { display: grid; gap: clamp(4rem, 9vw, 7rem); }
+  .svc { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 900px) {
+    .svc { grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .svc.flip > :first-child { order: 2; }
+  }
+  .svc-copy h2 { margin-top: 1.2rem; font-size: clamp(1.8rem, 1.3rem + 1.8vw, 2.6rem); }
+  .svc-copy > p { margin-top: 1rem; color: var(--ink-soft); font-size: 1.08rem; }
+  .svc-copy ul { list-style: none; padding: 0; margin: 1.6rem 0 2rem; display: grid; gap: .7rem; }
+  .svc-copy li { display: flex; gap: .6rem; align-items: center; font-weight: 500; }
+  .svc-copy li :global(svg) { color: var(--tone); flex: none; }
+</style>

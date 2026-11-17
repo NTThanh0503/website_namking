@@ -1,5 +1,13 @@
 ---
-import { company, nav, services } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const L = (href: string) => localizePath(href, lang);
+const { company, nav, services } = getData(lang);
+const t = {
+  vi: { services: 'Dịch vụ', company: 'Công ty', contact: 'Liên hệ', tax: 'MST', top: 'Lên đầu trang' },
+  en: { services: 'Services', company: 'Company', contact: 'Contact', tax: 'Tax ID', top: 'Back to top' },
+}[lang];
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { contourPaths } from '../lib/contours';
@@ -21,19 +29,19 @@ const year = new Date().getFullYear();
       </ul>
     </div>
     <div>
-      <h2 class="f-title">Dịch vụ</h2>
+      <h2 class="f-title">{t.services}</h2>
       <ul class="f-list">
-        {services.map((s) => <li><a href={`/dich-vu/${s.slug}`}>{s.title}</a></li>)}
+        {services.map((s) => <li><a href={L(`/dich-vu/${s.slug}`)}>{s.title}</a></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="f-title">Công ty</h2>
+      <h2 class="f-title">{t.company}</h2>
       <ul class="f-list">
-        {nav.slice(1).map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        {nav.slice(1).map((n) => <li><a href={L(n.href)}>{n.label}</a></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="f-title">Liên hệ</h2>
+      <h2 class="f-title">{t.contact}</h2>
       <ul class="f-list f-contact">
         <li><Icon name="pin" size={18} /> <span>{company.address}</span></li>
         <li><Icon name="phone" size={18} /> <a href={company.phoneHref}>{company.phone}</a></li>
@@ -43,8 +51,8 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="container bottom">
-    <p>© {year} {company.legalName}. MST: {company.taxCode}</p>
-    <button class="to-top" type="button" data-to-top><Icon name="up" size={18} /> Lên đầu trang</button>
+    <p>© {year} {company.legalName}. {t.tax}: {company.taxCode}</p>
+    <button class="to-top" type="button" data-to-top><Icon name="up" size={18} /> {t.top}</button>
   </div>
 </footer>
 

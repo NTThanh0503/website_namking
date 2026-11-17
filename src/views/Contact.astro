@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import { getLang } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { company } = getData(lang);
+const t = {
+  vi: {
+    title: 'Liên hệ',
+    desc: `Liên hệ ${company.name} để được tư vấn miễn phí về số hóa, lưu trú và du lịch.`,
+    hero: 'Kể cho chúng tôi về dự án của bạn',
+    lead: 'Điền form bên dưới hoặc gọi trực tiếp. Chuyên viên sẽ liên hệ lại trong 24 giờ làm việc.',
+    form: 'Gửi yêu cầu tư vấn',
+    phone: 'Điện thoại', office: 'Văn phòng', hours: 'Giờ làm việc',
+    map: `Bản đồ đường đến văn phòng ${company.name}`,
+    faq: 'Câu hỏi thường gặp',
+  },
+  en: {
+    title: 'Contact',
+    desc: `Contact ${company.name} for a free consultation on digital transformation, hospitality and travel.`,
+    hero: 'Tell us about your project',
+    lead: 'Fill in the form below or call us directly. A consultant will get back to you within 24 working hours.',
+    form: 'Request a consultation',
+    phone: 'Phone', office: 'Office', hours: 'Working hours',
+    map: `Map to the ${company.name} office`,
+    faq: 'Frequently asked questions',
+  },
+}[lang];
+const info = [
+  { icon: 'phone', label: t.phone, value: company.phone, href: company.phoneHref },
+  { icon: 'mail', label: 'Email', value: company.email, href: `mailto:${company.email}` },
+  { icon: 'pin', label: t.office, value: company.address },
+  { icon: 'clock', label: t.hours, value: company.hours },
+];
+---
+<BaseLayout title={t.title} description={t.desc}>
+  <PageHero
+    title={t.hero}
+    lead={t.lead}
+    crumbs={[{ label: t.title }]}
+    seed={59}
+  />
+
+  <section class="section">
+    <div class="container contact">
+      <div class="form-card" data-reveal>
+        <h2>{t.form}</h2>
+        <ContactForm />
+      </div>
+      <aside class="info" data-reveal style="--d:120ms">
+        <ul>
+          {info.map((i) => (
+            <li>
+              <span class="i-icon"><Icon name={i.icon} size={22} /></span>
+              <span><small>{i.label}</small>{i.href ? <a href={i.href}>{i.value}</a> : <strong>{i.value}</strong>}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="socials">
+          {company.socials.map((s) => <a href={s.href} target="_blank" rel="noopener"><Icon name={s.icon} size={18} /> {s.name}</a>)}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="map-section">
+    <div class="container">
+      <iframe src={company.mapEmbed} title={t.map} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <h2 data-reveal>{t.faq}</h2>
+      <div data-reveal><Faq /></div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .contact { display: grid; gap: 3rem; align-items: start; }
+  @media (min-width: 980px) { .contact { grid-template-columns: 1.35fr .65fr; gap: 4rem; } }
+  .form-card { padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--radius-l); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), 0 40px 100px -50px var(--electric); }
+  .form-card h2 { font-size: var(--fs-xl); margin-bottom: 1.8rem; }
+  .info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.8rem; }
+  .info li { display: flex; gap: 1rem; }
+  .i-icon { flex: none; display: grid; place-items: center; width: 50px; height: 50px; border-radius: 15px; background: rgba(47, 124, 255, .12); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .35); }
+  .info small { display: block; color: var(--ink-soft); font-size: .88rem; }
+  .info a, .info strong { font-weight: 600; text-decoration: none; font-size: 1.05rem; line-height: 1.45; }
+  .info a:hover { color: var(--jade); }
+  .socials { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2.2rem; }
+  .socials a { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem .9rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .9rem; min-height: 44px; box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, box-shadow .25s; }
+  .socials a:hover { background: rgba(47, 124, 255, .1); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .5); }
+  iframe { width: 100%; height: 420px; border: 0; border-radius: var(--radius-l); background: var(--surface); filter: invert(.9) hue-rotate(180deg) saturate(.8); }
+  .faq-wrap { max-width: 52rem; }
+  .faq-wrap h2 { margin-bottom: 2rem; }
+</style>

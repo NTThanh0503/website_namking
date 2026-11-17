@@ -1,5 +1,7 @@
 ---
-import { faqs } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
+const { faqs } = getData(getLang(Astro.url));
 import Icon from './Icon.astro';
 ---
 <div class="faq">

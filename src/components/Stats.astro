@@ -1,5 +1,7 @@
 ---
-import { stats } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
+const { stats } = getData(getLang(Astro.url));
 ---
 <dl class="stats">
   {stats.map((s, i) => (

@@ -2,7 +2,8 @@
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { company } from '../data/site';
+import { getData } from '../data';
+import { getLang, langs, locales, ogLocales, switchLangPath } from '../i18n';
 import '../styles/global.css';
 
 interface Props {
@@ -10,20 +11,26 @@ interface Props {
   description?: string;
   image?: string;
 }
+const lang = getLang(Astro.url);
+const { company } = getData(lang);
 const { title, description = company.description, image = '/og-image.png' } = Astro.props;
 const fullTitle = title ? `${title} | ${company.name}` : `${company.name} – ${company.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+const alternates = langs.map((l) => ({ hreflang: locales[l], href: new URL(switchLangPath(Astro.url.pathname, l), Astro.site) }));
+const skip = { vi: 'Bỏ qua, đến nội dung chính', en: 'Skip to main content' }[lang];
 ---
 
 <!doctype html>
-<html lang="vi">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#05070d" />
@@ -31,7 +38,8 @@ const ogImage = new URL(image, Astro.site);
 
     <!-- Open Graph: hiển thị đẹp khi chia sẻ link lên Facebook, Zalo -->
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    {langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocales[l]} />)}
     <meta property="og:site_name" content={company.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -60,7 +68,7 @@ const ogImage = new URL(image, Astro.site);
     <ClientRouter />
   </head>
   <body>
-    <a class="skip-link" href="#main">Bỏ qua, đến nội dung chính</a>
+    <a class="skip-link" href="#main">{skip}</a>
     <div class="scroll-progress" data-progress aria-hidden="true"></div>
     <Header />
     <main id="main" transition:name="main">

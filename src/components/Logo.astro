@@ -1,9 +1,13 @@
 ---
-import { company } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { company } = getData(lang);
+const home = { vi: 'Trang chủ', en: 'Home' }[lang];
 interface Props { light?: boolean }
 const { light = false } = Astro.props;
 ---
-<a href="/" class:list={['logo', { 'logo--light': light }]} aria-label={`${company.name} – Trang chủ`}>
+<a href={localizePath('/', lang)} class:list={['logo', { 'logo--light': light }]} aria-label={`${company.name} – ${home}`}>
   <svg viewBox="0 0 34 34" width="36" height="36" aria-hidden="true">
     <rect x=".5" y=".5" width="33" height="33" rx="10" fill="#0a1230" stroke="#2f6bff" stroke-opacity=".6" />
     <path class="logo-path" d="M9 23 L15 13 L19 19 L25 10" fill="none" stroke="#5ce1ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />

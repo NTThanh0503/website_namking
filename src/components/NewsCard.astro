@@ -1,18 +1,22 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { services } from '../data/site';
+import type { Post } from '../i18n/posts';
+import { getLang, localizePath, locales } from '../i18n';
+import { getData } from '../data';
 import ArtTile from './ArtTile.astro';
-interface Props { post: CollectionEntry<'tin-tuc'>; index?: number }
+interface Props { post: Post; index?: number }
 const { post, index = 0 } = Astro.props;
+const lang = getLang(Astro.url);
+const { services } = getData(lang);
+const href = localizePath(`/tin-tuc/${post.id}`, lang);
 const svc = services.find((s) => s.slug === post.data.category)!;
-const date = post.data.date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const date = post.data.date.toLocaleDateString(locales[lang], { day: '2-digit', month: '2-digit', year: 'numeric' });
 ---
 <article class:list={['news', `tone-${svc.tone}`]}>
-  <a href={`/tin-tuc/${post.id}`} class="cover" tabindex="-1" aria-hidden="true">
+  <a href={href} class="cover" tabindex="-1" aria-hidden="true">
     <ArtTile image={post.data.image} tone={svc.tone} seed={index * 23 + 9} ratio="16 / 10" />
   </a>
   <div class="meta"><span class="chip">{svc.name}</span><time datetime={post.data.date.toISOString()}>{date}</time></div>
-  <h3><a href={`/tin-tuc/${post.id}`}>{post.data.title}</a></h3>
+  <h3><a href={href}>{post.data.title}</a></h3>
   <p>{post.data.description}</p>
 </article>
 <style>

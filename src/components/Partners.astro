@@ -1,8 +1,10 @@
 ---
 import { partners } from '../data/site';
+import { getLang } from '../i18n';
+const label = { vi: 'Các kênh và nền tảng chúng tôi kết nối', en: 'Channels and platforms we connect with' }[getLang(Astro.url)];
 const list = [...partners, ...partners];
 ---
-<div class="marquee" aria-label="Các kênh và nền tảng chúng tôi kết nối">
+<div class="marquee" aria-label={label}>
   <ul class="track">
     {list.map((p, i) => <li aria-hidden={i >= partners.length ? 'true' : undefined}>{p}</li>)}
   </ul>

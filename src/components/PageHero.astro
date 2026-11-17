@@ -1,8 +1,11 @@
 ---
 // Phần đầu cho các trang con
 import { contourPaths } from '../lib/contours';
+import { getLang, localizePath } from '../i18n';
 interface Props { title: string; lead?: string; crumbs?: { label: string; href?: string }[]; seed?: number }
 const { title, lead, crumbs = [], seed = 11 } = Astro.props;
+const lang = getLang(Astro.url);
+const t = { vi: { crumbs: 'Đường dẫn', home: 'Trang chủ' }, en: { crumbs: 'Breadcrumb', home: 'Home' } }[lang];
 const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude: 26 });
 ---
 <section class="page-hero" data-hero>
@@ -13,9 +16,9 @@ const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude
   </svg>
   <div class="container inner">
     {crumbs.length > 0 && (
-      <nav aria-label="Đường dẫn" class="crumbs">
+      <nav aria-label={t.crumbs} class="crumbs">
         <ol>
-          <li><a href="/">Trang chủ</a></li>
+          <li><a href={localizePath('/', lang)}>{t.home}</a></li>
           {crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
         </ol>
       </nav>

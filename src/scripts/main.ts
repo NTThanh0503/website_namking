@@ -1,4 +1,7 @@
 // Toàn bộ tương tác chung của site. Chạy lại sau mỗi lần chuyển trang (View Transitions).
+import { langs, locales, switchLangPath, type Lang } from '../i18n';
+
+const currentLang = () => (document.documentElement.lang === 'en' ? 'en' : 'vi') as Lang;
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Header: đổi nền khi cuộn + thanh tiến độ ---------- */
@@ -23,30 +26,46 @@ function syncNav() {
   const path = location.pathname.replace(/\/$/, '') || '/';
   document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
     const href = a.getAttribute('href') || '/';
-    const active = href === '/' ? path === '/' : path.startsWith(href);
+    const active = href === '/' || href === '/en' ? path === href : path.startsWith(href);
     if (active) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
   });
 }
 
+/* ---------- Nút chọn ngôn ngữ: trỏ tới đúng trang hiện tại ở ngôn ngữ kia ---------- */
+function syncLangLinks() {
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) => {
+    const l = a.dataset.langLink as Lang;
+    if (langs.includes(l)) a.href = switchLangPath(location.pathname, l) + location.hash;
+  });
+}
+
 /* ---------- Menu di động ---------- */
-function initMenu() {
+// Header được giữ nguyên giữa các trang cùng ngôn ngữ, nhưng đổi ngôn ngữ sẽ tạo header mới
+function setMenu(open: boolean) {
   const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
   const header = document.querySelector<HTMLElement>('[data-header]');
+  if (!btn || !menu) return;
+  btn.setAttribute('aria-expanded', String(open));
+  header?.classList.toggle('menu-open', open);
+  document.documentElement.classList.toggle('menu-locked', open);
+  if (open) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add('is-open')); }
+  else { menu.classList.remove('is-open'); menu.hidden = true; }
+}
+let menuDocBound = false;
+function initMenu() {
+  if (!menuDocBound) {
+    menuDocBound = true;
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+    document.addEventListener('astro:after-swap', () => setMenu(false));
+  }
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
   if (!btn || !menu || btn.dataset.bound) return;
   btn.dataset.bound = '1';
-  const set = (open: boolean) => {
-    btn.setAttribute('aria-expanded', String(open));
-    header?.classList.toggle('menu-open', open);
-    document.documentElement.classList.toggle('menu-locked', open);
-    if (open) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add('is-open')); }
-    else { menu.classList.remove('is-open'); menu.hidden = true; }
-  };
-  btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
-  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
-  document.addEventListener('astro:after-swap', () => set(false));
+  btn.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) setMenu(false); });
 }
 
 /* ---------- Xuất hiện khi cuộn tới ---------- */
@@ -64,12 +83,12 @@ function initCounters() {
   const els = document.querySelectorAll<HTMLElement>('[data-count]');
   const run = (el: HTMLElement) => {
     const target = Number(el.dataset.count);
-    if (reduceMotion()) { el.textContent = target.toLocaleString('vi-VN'); return; }
+    if (reduceMotion()) { el.textContent = target.toLocaleString(locales[currentLang()]); return; }
     const dur = 1600; const t0 = performance.now();
     const tick = (t: number) => {
       const k = Math.min(1, (t - t0) / dur);
       const eased = 1 - Math.pow(1 - k, 4);
-      el.textContent = Math.round(target * eased).toLocaleString('vi-VN');
+      el.textContent = Math.round(target * eased).toLocaleString(locales[currentLang()]);
       if (k < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -125,7 +144,7 @@ function initFilter() {
         it.classList.toggle('is-hidden', !show);
         if (show) { it.classList.remove('pop'); void it.offsetWidth; it.classList.add('pop'); }
       });
-      if (count) count.textContent = `${n} dự án`;
+      if (count) count.textContent = `${n} ${count.dataset.unit || ''}`.trim();
     }));
   });
 }
@@ -188,36 +207,38 @@ function initForms() {
   document.querySelectorAll<HTMLFormElement>('form[data-contact]').forEach((form) => {
     if (form.dataset.bound) return; form.dataset.bound = '1';
     const status = form.querySelector<HTMLElement>('[data-status]');
+    const msg = form.dataset;
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       form.classList.add('was-validated');
       if (!form.checkValidity()) {
         status!.dataset.state = 'error';
-        status!.textContent = 'Vui lòng điền đủ họ tên, số điện thoại và nội dung cần tư vấn.';
+        status!.textContent = msg.msgInvalid || '';
         form.querySelector<HTMLElement>(':invalid')?.focus();
         return;
       }
       btn!.disabled = true; btn!.dataset.loading = '1';
-      status!.dataset.state = ''; status!.textContent = 'Đang gửi…';
+      status!.dataset.state = ''; status!.textContent = msg.msgSending || '';
       try {
         const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
         const json = await res.json();
         if (!json.success) throw new Error(json.message);
         form.reset(); form.classList.remove('was-validated');
         status!.dataset.state = 'success';
-        status!.textContent = 'Đã gửi yêu cầu. Chúng tôi sẽ gọi lại cho bạn trong giờ làm việc.';
+        status!.textContent = msg.msgSuccess || '';
       } catch {
         status!.dataset.state = 'error';
-        status!.textContent = 'Chưa gửi được yêu cầu. Bạn kiểm tra kết nối mạng hoặc gọi hotline để được hỗ trợ ngay.';
+        status!.textContent = msg.msgError || '';
       } finally { btn!.disabled = false; delete btn!.dataset.loading; }
     });
   });
 }
 
-initMenu();
 document.addEventListener('astro:page-load', () => {
+  initMenu();
   syncNav();
+  syncLangLinks();
   initScroll();
   initReveal();
   initCounters();

@@ -1,12 +1,16 @@
 ---
-import { company } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { company } = getData(lang);
+const t = {
+  vi: { title: 'Bắt đầu hành trình số cho cơ sở của bạn', text: 'Gửi vài thông tin cơ bản, chuyên viên sẽ gọi lại trong 24 giờ để khảo sát và đề xuất phương án phù hợp. Tư vấn không mất phí.', send: 'Gửi yêu cầu tư vấn', call: 'Gọi' },
+  en: { title: 'Start the digital journey for your property', text: 'Share a few basic details and a consultant will call you back within 24 hours to assess your needs and propose the right plan. Consultation is free.', send: 'Request a consultation', call: 'Call' },
+}[lang];
 import Icon from './Icon.astro';
 import { contourPaths } from '../lib/contours';
 interface Props { title?: string; text?: string }
-const {
-  title = 'Bắt đầu hành trình số cho cơ sở của bạn',
-  text = 'Gửi vài thông tin cơ bản, chuyên viên sẽ gọi lại trong 24 giờ để khảo sát và đề xuất phương án phù hợp. Tư vấn không mất phí.',
-} = Astro.props;
+const { title = t.title, text = t.text } = Astro.props;
 const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, amplitude: 30 });
 ---
 <section class="section">
@@ -21,8 +25,8 @@ const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, ampl
         <h2>{title}</h2>
         <p>{text}</p>
         <div class="row">
-          <a class="btn btn--primary" href="/lien-he">Gửi yêu cầu tư vấn</a>
-          <a class="btn btn--ghost" href={company.phoneHref}><Icon name="phone" size={18} /> Gọi {company.phone}</a>
+          <a class="btn btn--primary" href={localizePath('/lien-he', lang)}>{t.send}</a>
+          <a class="btn btn--ghost" href={company.phoneHref}><Icon name="phone" size={18} /> {t.call} {company.phone}</a>
         </div>
       </div>
     </div>

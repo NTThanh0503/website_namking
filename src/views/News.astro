@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getLang } from '../i18n';
+import { getPosts } from '../i18n/posts';
+const lang = getLang(Astro.url);
+const posts = await getPosts(lang);
+const t = {
+  vi: {
+    title: 'Tin tức',
+    desc: 'Kinh nghiệm số hóa, vận hành lưu trú và gợi ý hành trình du lịch.',
+    hero: 'Tin tức và kinh nghiệm',
+    lead: 'Những chia sẻ thực tế từ đội ngũ về số hóa, vận hành cơ sở lưu trú và các hành trình đáng đi.',
+  },
+  en: {
+    title: 'News',
+    desc: 'Insights on digital transformation, hospitality operations and travel ideas.',
+    hero: 'News and insights',
+    lead: 'Practical insights from our team on digital transformation, running hospitality properties and journeys worth taking.',
+  },
+}[lang];
+---
+<BaseLayout title={t.title} description={t.desc}>
+  <PageHero
+    title={t.hero}
+    lead={t.lead}
+    crumbs={[{ label: t.title }]}
+    seed={53}
+  />
+  <section class="section">
+    <div class="container grid">
+      {posts.map((p, i) => <div data-reveal style={`--d:${(i % 3) * 90}ms`}><NewsCard post={p} index={i} /></div>)}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .grid { display: grid; gap: 3rem 2rem; }
+  @media (min-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

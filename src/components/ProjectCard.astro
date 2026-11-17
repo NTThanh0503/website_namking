@@ -1,10 +1,12 @@
 ---
 import type { Project } from '../data/site';
-import { services } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
 import ArtTile from './ArtTile.astro';
 import Icon from './Icon.astro';
 interface Props { project: Project; index?: number }
 const { project: p, index = 0 } = Astro.props;
+const { services } = getData(getLang(Astro.url));
 const svc = services.find((s) => s.slug === p.category)!;
 ---
 <article class:list={['card', `tone-${svc.tone}`]}>

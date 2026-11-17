@@ -15,8 +15,8 @@ export const company = {
   phoneHref: 'tel:+84900000000',
   hotline: '1900 0000',
   email: 'lienhe@example.com',
-  address: 'Tầng 8, Tòa nhà ABC, 123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh',
-  hours: 'Thứ 2 – Thứ 7, 8:00 – 17:30',
+  address: '158 Chùa Láng, Quận Đống đa, TP. Hà Nội',
+  hours: 'Thứ 2 – Thứ 7, 8:30 – 17:30',
   taxCode: '0300000000',
   // Lấy link nhúng: Google Maps → Chia sẻ → Nhúng bản đồ → copy phần src="..."
   mapEmbed:

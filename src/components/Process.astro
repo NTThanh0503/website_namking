@@ -1,5 +1,7 @@
 ---
-import { process } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
+const { process } = getData(getLang(Astro.url));
 ---
 <ol class="process">
   {process.map((p, i) => (

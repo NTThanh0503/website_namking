@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getLang } from '../i18n';
+const lang = getLang(Astro.url);
+const t = {
+  vi: {
+    title: 'Dự án',
+    desc: 'Các dự án số hóa, vận hành lưu trú và tổ chức du lịch tiêu biểu.',
+    hero: 'Dự án đã thực hiện',
+    lead: 'Từ phố cổ Hội An đến bản làng Hà Giang, mỗi dự án là một câu chuyện riêng. Chọn lĩnh vực để xem dự án phù hợp với bạn.',
+    quotes: 'Khách hàng nói về chúng tôi',
+    cta: 'Dự án tiếp theo có thể là của bạn',
+  },
+  en: {
+    title: 'Projects',
+    desc: 'Featured digital transformation, hospitality operations and travel projects.',
+    hero: 'Our projects',
+    lead: 'From Hoi An’s old town to the villages of Ha Giang, every project has its own story. Pick an area to see the projects most relevant to you.',
+    quotes: 'What our clients say',
+    cta: 'Your project could be next',
+  },
+}[lang];
+---
+<BaseLayout title={t.title} description={t.desc}>
+  <PageHero
+    title={t.hero}
+    lead={t.lead}
+    crumbs={[{ label: t.title }]}
+    seed={47}
+  />
+  <section class="section">
+    <div class="container"><ProjectGrid /></div>
+  </section>
+  <section class="section quotes">
+    <div class="container" data-reveal>
+      <h2 class="sr-only">{t.quotes}</h2>
+      <Testimonials />
+    </div>
+  </section>
+  <CtaBand title={t.cta} />
+</BaseLayout>
+<style>
+  .quotes { border-block: 1px solid var(--line); background: radial-gradient(40rem 24rem at 50% 0%, rgba(47, 124, 255, .16), transparent 70%), var(--surface); }
+</style>

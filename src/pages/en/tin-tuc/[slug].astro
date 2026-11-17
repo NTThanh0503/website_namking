@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../../views/NewsPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('tin-tuc-en');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+---
+<Page post={Astro.props.post} />

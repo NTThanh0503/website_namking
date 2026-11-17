@@ -1,16 +1,20 @@
 ---
-import { projects, services } from '../data/site';
+import { getLang } from '../i18n';
+import { getData } from '../data';
 import ProjectCard from './ProjectCard.astro';
 interface Props { limit?: number; filter?: boolean }
 const { limit, filter = true } = Astro.props;
+const lang = getLang(Astro.url);
+const { projects, services } = getData(lang);
+const t = { vi: { filter: 'Lọc dự án theo lĩnh vực', all: 'Tất cả', unit: 'dự án' }, en: { filter: 'Filter projects by area', all: 'All', unit: 'projects' } }[lang];
 const list = limit ? projects.slice(0, limit) : projects;
 ---
 <div data-filter>
   {filter && (
-    <div class="filters" role="group" aria-label="Lọc dự án theo lĩnh vực">
-      <button type="button" data-filter-btn="all" aria-pressed="true">Tất cả</button>
+    <div class="filters" role="group" aria-label={t.filter}>
+      <button type="button" data-filter-btn="all" aria-pressed="true">{t.all}</button>
       {services.map((s) => <button type="button" data-filter-btn={s.slug} aria-pressed="false">{s.name}</button>)}
-      <span class="count" data-filter-count aria-live="polite">{list.length} dự án</span>
+      <span class="count" data-filter-count data-unit={t.unit} aria-live="polite">{list.length} {t.unit}</span>
     </div>
   )}
   <div class="grid">

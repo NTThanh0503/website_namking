@@ -1,10 +1,14 @@
 ---
-import { services } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { services } = getData(lang);
+const t = { vi: { list: 'Lĩnh vực dịch vụ', more: (n: string) => `Tìm hiểu dịch vụ ${n.toLowerCase()}` }, en: { list: 'Service areas', more: (n: string) => `Explore ${n.toLowerCase()} services` } }[lang];
 import Icon from './Icon.astro';
 import ArtTile from './ArtTile.astro';
 ---
 <div class="tabs" data-tabs style="--active:0">
-  <div class="tablist" role="tablist" aria-label="Lĩnh vực dịch vụ">
+  <div class="tablist" role="tablist" aria-label={t.list}>
     {services.map((s, i) => (
       <button role="tab" id={`tab-${s.slug}`} aria-controls={`panel-${s.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class={`tone-${s.tone}`}>
         <span class="t-icon"><Icon name={s.icon} size={22} /></span>
@@ -24,7 +28,7 @@ import ArtTile from './ArtTile.astro';
             <li><Icon name="check" size={18} /> <span><strong>{f.title}.</strong> {f.text}</span></li>
           ))}
         </ul>
-        <a class="btn btn--primary" href={`/dich-vu/${s.slug}`}>Tìm hiểu dịch vụ {s.name.toLowerCase()} <Icon name="arrow" size={18} /></a>
+        <a class="btn btn--primary" href={localizePath(`/dich-vu/${s.slug}`, lang)}>{t.more(s.name)} <Icon name="arrow" size={18} /></a>
       </div>
       <ArtTile tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="4 / 5" />
     </div>

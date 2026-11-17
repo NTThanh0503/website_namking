@@ -1,31 +1,56 @@
 ---
 // Form liên hệ gửi qua Web3Forms: tin nhắn được chuyển thẳng về email công ty.
 // Cách bật: lấy access key tại https://web3forms.com rồi dán vào company.web3formsKey (src/data/site.ts)
-import { company, services } from '../data/site';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { company, services } = getData(lang);
+const t = {
+  vi: {
+    subject: `Yêu cầu tư vấn mới từ website ${company.name}`,
+    name: 'Họ và tên', namePh: 'Nguyễn Văn An', phone: 'Số điện thoại', optional: '(không bắt buộc)', emailPh: 'ban@congty.vn',
+    interest: 'Bạn quan tâm đến', message: 'Nội dung cần tư vấn',
+    messagePh: 'Ví dụ: Homestay 12 phòng tại Đà Lạt, muốn làm tour 360° và website đặt phòng.',
+    submit: 'Gửi yêu cầu tư vấn',
+    invalid: 'Vui lòng điền đủ họ tên, số điện thoại và nội dung cần tư vấn.', sending: 'Đang gửi…',
+    success: 'Đã gửi yêu cầu. Chúng tôi sẽ gọi lại cho bạn trong giờ làm việc.',
+    error: 'Chưa gửi được yêu cầu. Bạn kiểm tra kết nối mạng hoặc gọi hotline để được hỗ trợ ngay.',
+  },
+  en: {
+    subject: `New consultation request from the ${company.name} website (English)`,
+    name: 'Full name', namePh: 'John Smith', phone: 'Phone number', optional: '(optional)', emailPh: 'you@company.com',
+    interest: 'You are interested in', message: 'How can we help?',
+    messagePh: 'E.g. a 12-room homestay in Da Lat looking for a 360° tour and a booking website.',
+    submit: 'Send request',
+    invalid: 'Please fill in your name, phone number and message.', sending: 'Sending…',
+    success: 'Request sent. We will call you back during working hours.',
+    error: 'Your request could not be sent. Please check your connection or call our hotline for immediate help.',
+  },
+}[lang];
 import Icon from './Icon.astro';
 ---
-<form class="form" data-contact novalidate>
+<form class="form" data-contact novalidate data-msg-invalid={t.invalid} data-msg-sending={t.sending} data-msg-success={t.success} data-msg-error={t.error}>
   <input type="hidden" name="access_key" value={company.web3formsKey} />
-  <input type="hidden" name="subject" value={`Yêu cầu tư vấn mới từ website ${company.name}`} />
+  <input type="hidden" name="subject" value={t.subject} />
   <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" />
 
   <div class="row2">
     <label class="field">
-      <span>Họ và tên</span>
-      <input name="name" type="text" required autocomplete="name" placeholder="Nguyễn Văn An" />
+      <span>{t.name}</span>
+      <input name="name" type="text" required autocomplete="name" placeholder={t.namePh} />
     </label>
     <label class="field">
-      <span>Số điện thoại</span>
+      <span>{t.phone}</span>
       <input name="phone" type="tel" required autocomplete="tel" pattern="[0-9 +().-]{9,}" placeholder="0901 234 567" />
     </label>
   </div>
   <label class="field">
-    <span>Email <em>(không bắt buộc)</em></span>
-    <input name="email" type="email" autocomplete="email" placeholder="ban@congty.vn" />
+    <span>Email <em>{t.optional}</em></span>
+    <input name="email" type="email" autocomplete="email" placeholder={t.emailPh} />
   </label>
 
   <fieldset class="field">
-    <legend>Bạn quan tâm đến</legend>
+    <legend>{t.interest}</legend>
     <div class="choices">
       {services.map((s, i) => (
         <label class={`choice tone-${s.tone}`}>
@@ -37,12 +62,12 @@ import Icon from './Icon.astro';
   </fieldset>
 
   <label class="field">
-    <span>Nội dung cần tư vấn</span>
-    <textarea name="message" rows="5" required placeholder="Ví dụ: Homestay 12 phòng tại Đà Lạt, muốn làm tour 360° và website đặt phòng."></textarea>
+    <span>{t.message}</span>
+    <textarea name="message" rows="5" required placeholder={t.messagePh}></textarea>
   </label>
 
   <div class="submit-row">
-    <button class="btn btn--primary" type="submit"><Icon name="send" size={18} /> Gửi yêu cầu tư vấn</button>
+    <button class="btn btn--primary" type="submit"><Icon name="send" size={18} /> {t.submit}</button>
     <p class="status" data-status role="status" aria-live="polite"></p>
   </div>
 </form>

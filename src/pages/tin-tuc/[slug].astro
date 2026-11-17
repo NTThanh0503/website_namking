@@ -1,49 +1,10 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
-import NewsCard from '../../components/NewsCard.astro';
-import CtaBand from '../../components/CtaBand.astro';
-import { services } from '../../data/site';
+import { getCollection } from 'astro:content';
+import Page from '../../views/NewsPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('tin-tuc');
   return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
-const { post } = Astro.props as { post: CollectionEntry<'tin-tuc'> };
-const { Content } = await render(post);
-const svc = services.find((s) => s.slug === post.data.category)!;
-const date = post.data.date.toLocaleDateString('vi-VN', { day: '2-digit', month: 'long', year: 'numeric' });
-const more = (await getCollection('tin-tuc')).filter((p) => p.id !== post.id).slice(0, 2);
 ---
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <PageHero title={post.data.title} crumbs={[{ label: 'Tin tức', href: '/tin-tuc' }, { label: svc.name }]} seed={29}>
-    <p class="byline">{post.data.author}, {date}</p>
-  </PageHero>
-  <section class="section">
-    <article class="container article">
-      <p class="intro">{post.data.description}</p>
-      <Content />
-    </article>
-  </section>
-  {more.length > 0 && (
-    <section class="section section--tint">
-      <div class="container">
-        <h2 class="more-title">Bài viết khác</h2>
-        <div class="grid">{more.map((p, i) => <NewsCard post={p} index={i + 1} />)}</div>
-      </div>
-    </section>
-  )}
-  <CtaBand />
-</BaseLayout>
-<style>
-  .byline { margin-top: 1.2rem; color: var(--ink-soft); }
-  .article { max-width: 46rem; font-size: 1.1rem; line-height: 1.75; }
-  .intro { font-size: 1.3rem; line-height: 1.6; color: var(--ink); margin-bottom: 2rem; }
-  .article :global(h2) { font-size: 1.6rem; margin: 2.6rem 0 .8rem; }
-  .article :global(p) { margin-bottom: 1.1rem; color: var(--ink-soft); }
-  .article :global(a) { color: var(--jade); font-weight: 600; }
-  .more-title { font-size: var(--fs-xl); margin-bottom: 2rem; }
-  .grid { display: grid; gap: 2.5rem 2rem; }
-  @media (min-width: 760px) { .grid { grid-template-columns: 1fr 1fr; } }
-</style>
+<Page post={Astro.props.post} />
