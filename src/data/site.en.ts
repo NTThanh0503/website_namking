@@ -13,7 +13,7 @@ export const company: typeof vi.company = {
   tagline: 'Digitizing destinations, elevating hospitality and travel experiences',
   description:
     'Hành Trình Số helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
-  address: '158 Chua Lang, Dong Da District, Hanoi, Vietnam',
+  address: '158 Chua Lang, Ba Dinh District, Hanoi, Vietnam',
   hours: 'Mon – Sat, 8:30 AM – 5:30 PM',
 };
 

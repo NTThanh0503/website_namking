@@ -1,34 +1,96 @@
 ---
 import { getData } from '../data';
-import { getLang, localizePath } from '../i18n';
+import { getLang, localizePath, locales } from '../i18n';
+import { getPosts } from '../i18n/posts';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import LangSwitch from './LangSwitch.astro';
+import SearchDialog from './SearchDialog.astro';
+
 const lang = getLang(Astro.url);
-const { nav, company } = getData(lang);
+const { nav, company, services } = getData(lang);
 const L = (href: string) => localizePath(href, lang);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' || href === '/en' ? path === href : path.startsWith(href));
 const t = {
-  vi: { main: 'Điều hướng chính', mobile: 'Điều hướng di động', cta: 'Nhận tư vấn', ctaMobile: 'Nhận tư vấn miễn phí', menu: 'Mở menu' },
-  en: { main: 'Main navigation', mobile: 'Mobile navigation', cta: 'Get advice', ctaMobile: 'Get free advice', menu: 'Open menu' },
+  vi: {
+    main: 'Điều hướng chính', mobile: 'Điều hướng di động', cta: 'Nhận tư vấn', ctaMobile: 'Nhận tư vấn miễn phí', menu: 'Mở menu',
+    search: 'Tìm kiếm', sub: (l: string) => `Mở mục ${l}`,
+    about: [
+      { label: 'Câu chuyện của chúng tôi', desc: 'Hành Trình Số bắt đầu từ đâu', hash: 'cau-chuyen' },
+      { label: 'Tầm nhìn và sứ mệnh', desc: 'Điều chúng tôi hướng tới', hash: 'tam-nhin' },
+      { label: 'Giá trị cốt lõi', desc: 'Chân thực, bền vững, tận tâm', hash: 'gia-tri' },
+      { label: 'Chặng đường phát triển', desc: 'Từ 2018 đến nay', hash: 'chang-duong' },
+      { label: 'Đội ngũ lãnh đạo', desc: 'Những người đồng hành cùng bạn', hash: 'doi-ngu' },
+    ],
+    allProjects: 'Tất cả dự án', allProjectsDesc: 'Xem toàn bộ dự án đã thực hiện',
+    allNews: 'Xem tất cả bài viết',
+  },
+  en: {
+    main: 'Main navigation', mobile: 'Mobile navigation', cta: 'Get advice', ctaMobile: 'Get free advice', menu: 'Open menu',
+    search: 'Search', sub: (l: string) => `Open ${l} submenu`,
+    about: [
+      { label: 'Our story', desc: 'Where Hành Trình Số began', hash: 'cau-chuyen' },
+      { label: 'Vision and mission', desc: 'What we are working towards', hash: 'tam-nhin' },
+      { label: 'Core values', desc: 'Authentic, sustainable, dedicated', hash: 'gia-tri' },
+      { label: 'Our journey', desc: 'From 2018 to today', hash: 'chang-duong' },
+      { label: 'Leadership team', desc: 'The people working with you', hash: 'doi-ngu' },
+    ],
+    allProjects: 'All projects', allProjectsDesc: 'Browse every project we have delivered',
+    allNews: 'Read all articles',
+  },
 }[lang];
+
+// Menu con (dropdown) cho Giới thiệu, Dự án, Tin tức
+type SubItem = { label: string; desc?: string; href: string; all?: boolean };
+const posts = (await getPosts(lang)).slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString(locales[lang], { day: '2-digit', month: '2-digit', year: 'numeric' });
+const subs: Record<string, SubItem[]> = {
+  '/gioi-thieu': t.about.map((a) => ({ label: a.label, desc: a.desc, href: L(`/gioi-thieu#${a.hash}`) })),
+  '/du-an': [
+    ...services.map((s) => ({ label: s.name, desc: s.title, href: L(`/du-an?linh-vuc=${s.slug}`) })),
+    { label: t.allProjects, href: L('/du-an'), all: true },
+  ],
+  '/tin-tuc': [
+    ...posts.map((p) => ({ label: p.data.title, desc: fmt(p.data.date), href: L(`/tin-tuc/${p.id}`) })),
+    { label: t.allNews, href: L('/tin-tuc'), all: true },
+  ],
+};
 ---
 <header class="site-header" data-header transition:persist={`header-${lang}`}>
   <div class="container bar">
     <Logo />
     <nav class="nav" aria-label={t.main}>
-      <ul>
-        {nav.map((item) => (
-          <li><a href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>{item.label}</a></li>
-        ))}
+      <ul class="nav-list">
+        {nav.map((item) => {
+          const sub = subs[item.href];
+          return (
+            <li class:list={[{ 'has-sub': sub }]}>
+              <a class="top" href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>
+                {item.label}{sub && <Icon name="down" size={15} class="chev" />}
+              </a>
+              {sub && (
+                <div class="sub">
+                  <ul class="sub-inner">
+                    {sub.map((s) => (
+                      <li><a href={s.href} class:list={[{ 'sub-all': s.all }]}><strong>{s.label}</strong>{s.desc && <small>{s.desc}</small>}{s.all && <Icon name="arrow" size={16} />}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
     <div class="actions">
-      <a class="hotline" href={company.phoneHref}><Icon name="phone" size={18} /> {company.phone}</a>
+      <button class="icon-btn" type="button" data-search-open title={`${t.search} (Ctrl + K)`}>
+        <Icon name="search" size={20} />
+        <span class="sr-only">{t.search}</span>
+      </button>
       <LangSwitch />
       <a class="btn btn--primary cta" href={L('/lien-he')}>{t.cta}</a>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <button class="icon-btn burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <span class="sr-only">{t.menu}</span>
         <Icon name="menu" class="i-open" />
         <Icon name="close" class="i-close" />
@@ -38,10 +100,30 @@ const t = {
 
   <div class="mobile" id="mobile-menu" data-mobile-menu hidden>
     <nav class="container" aria-label={t.mobile}>
-      <ul>
-        {nav.map((item, i) => (
-          <li style={`--i:${i}`}><a href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>{item.label}</a></li>
-        ))}
+      <div class="m-lang"><LangSwitch /></div>
+      <ul class="m-list">
+        {nav.map((item, i) => {
+          const sub = subs[item.href];
+          const id = `m-sub-${i}`;
+          return (
+            <li style={`--i:${i}`}>
+              <div class="m-row">
+                <a href={L(item.href)} data-nav aria-current={isActive(L(item.href)) ? 'page' : undefined}>{item.label}</a>
+                {sub && (
+                  <button type="button" class="m-toggle" aria-expanded="false" aria-controls={id} data-sub-toggle>
+                    <span class="sr-only">{t.sub(item.label)}</span>
+                    <Icon name="down" size={20} />
+                  </button>
+                )}
+              </div>
+              {sub && (
+                <ul class="m-sub" id={id} hidden>
+                  {sub.map((s) => <li><a href={s.href} class:list={[{ 'sub-all': s.all }]}>{s.label}</a></li>)}
+                </ul>
+              )}
+            </li>
+          );
+        })}
       </ul>
       <div class="mobile-foot">
         <a class="btn btn--primary" href={L('/lien-he')}>{t.ctaMobile}</a>
@@ -49,46 +131,92 @@ const t = {
       </div>
     </nav>
   </div>
+
+  <SearchDialog />
 </header>
+
 <style>
   .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid transparent; transition: background-color .4s, border-color .4s, backdrop-filter .4s; }
   .site-header.is-scrolled { background: rgba(5, 7, 13, .72); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); border-bottom-color: var(--line); }
-  .bar { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; transition: height .4s var(--ease-out); }
+  .bar { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; transition: height .4s var(--ease-out); }
   .is-scrolled .bar { height: 64px; }
 
-  .nav ul { display: flex; gap: .25rem; list-style: none; margin: 0; padding: 0; }
-  .nav a { display: block; padding: .5rem .85rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .97rem; color: var(--ink-soft); transition: color .2s, background-color .2s; }
-  .nav a:hover { color: var(--ink); background: rgba(47, 124, 255, .08); }
-  .nav a[aria-current='page'] { color: var(--ink); background: rgba(47, 124, 255, .12); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .3); }
+  /* ---------- Menu chính (máy tính) ---------- */
+  .nav-list { display: flex; gap: .15rem; list-style: none; margin: 0; padding: 0; }
+  .nav-list > li { position: relative; }
+  .top { display: flex; align-items: center; gap: .3rem; padding: .5rem .8rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .96rem; color: var(--ink-soft); white-space: nowrap; transition: color .2s, background-color .2s; }
+  .top:hover, .has-sub:hover > .top, .has-sub:focus-within > .top { color: var(--ink); background: rgba(47, 124, 255, .08); }
+  .top[aria-current='page'] { color: var(--ink); background: rgba(47, 124, 255, .12); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .3); }
+  .top :global(.chev) { opacity: .6; transition: transform .3s var(--ease-out), opacity .2s; }
+  .has-sub:hover .top :global(.chev), .has-sub:focus-within .top :global(.chev) { transform: rotate(180deg); opacity: 1; }
 
-  .actions { display: flex; align-items: center; gap: 1rem; }
-  @media (max-width: 900px) { .actions { gap: .6rem; } }
-  .hotline { display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--cyan); white-space: nowrap; }
-  .cta { min-height: 44px; padding: .6rem 1.15rem; font-size: .92rem; }
+  /* ---------- Dropdown ---------- */
+  .sub {
+    position: absolute; top: 100%; left: 50%; z-index: 5; padding-top: .7rem; /* khoảng đệm để rê chuột không bị mất menu */
+    opacity: 0; visibility: hidden; transform: translate(-50%, 8px);
+    transition: opacity .25s var(--ease-out), transform .3s var(--ease-out), visibility 0s linear .25s;
+  }
+  .has-sub:hover > .sub, .has-sub:focus-within > .sub { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+  .sub-inner {
+    list-style: none; margin: 0; padding: .45rem; width: max-content; min-width: 260px; max-width: 340px;
+    border-radius: 18px; background: rgba(10, 15, 30, .98);
+    box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .28), 0 30px 60px -20px #000, 0 0 50px -24px var(--electric);
+  }
+  .sub-inner a { display: block; padding: .6rem .8rem; border-radius: 12px; text-decoration: none; transition: background-color .2s; }
+  .sub-inner a:hover, .sub-inner a:focus-visible { background: rgba(47, 124, 255, .14); }
+  .sub-inner strong { display: block; font-size: .93rem; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .sub-inner small { display: block; margin-top: .1rem; font-size: .8rem; line-height: 1.4; color: var(--ink-soft); }
+  .sub-inner .sub-all { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .3rem; border-top: 1px solid var(--line); border-radius: 0 0 12px 12px; padding-top: .7rem; }
+  .sub-inner .sub-all strong { color: var(--cyan); }
+  .sub-inner .sub-all :global(svg) { color: var(--cyan); flex: none; }
 
-  .burger { display: none; width: 46px; height: 46px; border-radius: 50%; border: 0; background: rgba(255,255,255,.04); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); cursor: pointer; place-items: center; }
+  /* ---------- Nút bên phải ---------- */
+  .actions { display: flex; align-items: center; gap: .7rem; }
+  .icon-btn { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); cursor: pointer; transition: color .2s, background-color .2s, box-shadow .2s; }
+  .icon-btn:hover { color: var(--cyan); background: rgba(47, 124, 255, .12); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .45); }
+  .cta { min-height: 44px; padding: .6rem 1.15rem; font-size: .92rem; white-space: nowrap; }
+
+  .burger { display: none; }
   .burger :global(.i-close) { display: none; }
   .burger[aria-expanded='true'] :global(.i-close) { display: block; }
   .burger[aria-expanded='true'] :global(.i-open) { display: none; }
 
-  .mobile { position: fixed; inset: 0; top: 0; z-index: -1; background: var(--paper); padding-top: calc(var(--header-h) + 1.5rem); overflow-y: auto; }
-  .mobile ul { list-style: none; margin: 0; padding: 0; }
-  .mobile li { border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(14px); }
-  .mobile.is-open li { animation: menu-in .55s var(--ease-out) forwards; animation-delay: calc(var(--i) * 45ms); }
-  .mobile a[data-nav] { display: block; padding: 1rem 0; font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; }
-  .mobile a[aria-current='page'] { color: var(--cyan); text-shadow: 0 0 20px rgba(92,225,255,.5); }
-  .mobile-foot { display: grid; gap: .8rem; margin-top: 2rem; padding-bottom: 2rem; }
-  .mobile-foot .btn { justify-content: center; }
+  /* ---------- Menu di động (nút 3 gạch) ---------- */
+  .mobile { position: fixed; inset: 0; top: 0; z-index: -1; background: var(--paper); padding-top: calc(var(--header-h) + .75rem); overflow-y: auto; overscroll-behavior: contain; }
+  .m-lang { display: none; margin-bottom: 1rem; }
+  .m-list { list-style: none; margin: 0; padding: 0; }
+  .m-list > li { border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(14px); }
+  .mobile.is-open .m-list > li { animation: menu-in .55s var(--ease-out) forwards; animation-delay: calc(var(--i) * 40ms); }
+  .m-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .m-row a { flex: 1; display: block; padding: .95rem 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; text-decoration: none; }
+  .m-row a[aria-current='page'] { color: var(--cyan); text-shadow: 0 0 20px rgba(92, 225, 255, .45); }
+  .m-toggle { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 0; border-radius: 12px; background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-soft); cursor: pointer; }
+  .m-toggle :global(svg) { transition: transform .3s var(--ease-out); }
+  .m-toggle[aria-expanded='true'] { color: var(--cyan); }
+  .m-toggle[aria-expanded='true'] :global(svg) { transform: rotate(180deg); }
+  .m-sub { list-style: none; margin: -.2rem 0 .8rem; padding: 0 0 0 .9rem; border-left: 1px solid rgba(92, 160, 255, .3); }
+  .m-sub[hidden] { display: none; }
+  .m-sub a { display: block; padding: .6rem 0; font-size: 1rem; line-height: 1.45; color: var(--ink-soft); text-decoration: none; }
+  .m-sub a:hover, .m-sub a:active { color: var(--ink); }
+  .m-sub .sub-all { color: var(--cyan); font-weight: 600; }
+  .mobile-foot { display: grid; gap: .7rem; margin-top: 1.6rem; padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
+  .mobile-foot .btn { justify-content: center; font-size: 1rem; }
   @keyframes menu-in { to { opacity: 1; transform: none; } }
 
-  @media (max-width: 1180px) { .hotline { display: none; } }
-  @media (max-width: 900px) {
-    .nav, .cta { display: none; }
+  @media (max-width: 1180px) { .cta { display: none; } }
+  @media (max-width: 1080px) {
+    .nav { display: none; }
     .burger { display: grid; }
+  }
+  /* Điện thoại nhỏ: chuyển nút ngôn ngữ vào trong menu để thanh trên không bị chật */
+  @media (max-width: 480px) {
+    .actions { gap: .5rem; }
+    .actions > :global(.lang) { display: none; }
+    .m-lang { display: block; }
   }
 </style>
 
 <style is:global>
   .site-header.menu-open { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: var(--paper); box-shadow: none; }
-  html.menu-locked { overflow: hidden; }
+  html.menu-locked, html.search-open { overflow: hidden; }
 </style>

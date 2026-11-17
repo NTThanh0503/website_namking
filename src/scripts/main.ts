@@ -1,5 +1,6 @@
 // Toàn bộ tương tác chung của site. Chạy lại sau mỗi lần chuyển trang (View Transitions).
 import { langs, locales, switchLangPath, type Lang } from '../i18n';
+import { initSearch } from './search';
 
 const currentLang = () => (document.documentElement.lang === 'en' ? 'en' : 'vi') as Lang;
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,7 +37,7 @@ function syncNav() {
 function syncLangLinks() {
   document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) => {
     const l = a.dataset.langLink as Lang;
-    if (langs.includes(l)) a.href = switchLangPath(location.pathname, l) + location.hash;
+    if (langs.includes(l)) a.href = switchLangPath(location.pathname, l) + location.search + location.hash;
   });
 }
 
@@ -65,7 +66,19 @@ function initMenu() {
   if (!btn || !menu || btn.dataset.bound) return;
   btn.dataset.bound = '1';
   btn.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
-  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) setMenu(false); });
+  menu.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    // Nút mũi tên: mở/đóng menu con
+    const toggle = target.closest<HTMLButtonElement>('[data-sub-toggle]');
+    if (toggle) {
+      const sub = document.getElementById(toggle.getAttribute('aria-controls') || '');
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(open));
+      if (sub) sub.hidden = !open;
+      return;
+    }
+    if (target.closest('a')) setMenu(false);
+  });
 }
 
 /* ---------- Xuất hiện khi cuộn tới ---------- */
@@ -134,7 +147,7 @@ function initFilter() {
     const buttons = root.querySelectorAll<HTMLButtonElement>('[data-filter-btn]');
     const items = root.querySelectorAll<HTMLElement>('[data-cat]');
     const count = root.querySelector<HTMLElement>('[data-filter-count]');
-    buttons.forEach((b) => b.addEventListener('click', () => {
+    const apply = (b: HTMLButtonElement) => {
       const cat = b.dataset.filterBtn!;
       buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       let n = 0;
@@ -145,7 +158,19 @@ function initFilter() {
         if (show) { it.classList.remove('pop'); void it.offsetWidth; it.classList.add('pop'); }
       });
       if (count) count.textContent = `${n} ${count.dataset.unit || ''}`.trim();
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      apply(b);
+      // Ghi lĩnh vực đang lọc lên địa chỉ trang để có thể chia sẻ link
+      const url = new URL(location.href);
+      if (b.dataset.filterBtn === 'all') url.searchParams.delete('linh-vuc'); else url.searchParams.set('linh-vuc', b.dataset.filterBtn!);
+      history.replaceState(history.state, '', url);
+      syncLangLinks();
     }));
+    // Mở sẵn lĩnh vực từ link, vd: /du-an?linh-vuc=so-hoa (menu Dự án dẫn tới đây)
+    const preset = new URLSearchParams(location.search).get('linh-vuc');
+    const presetBtn = [...buttons].find((b) => b.dataset.filterBtn === preset);
+    if (presetBtn) apply(presetBtn);
   });
 }
 
@@ -237,6 +262,7 @@ function initForms() {
 
 document.addEventListener('astro:page-load', () => {
   initMenu();
+  initSearch();
   syncNav();
   syncLangLinks();
   initScroll();

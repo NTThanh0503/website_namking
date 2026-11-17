@@ -15,12 +15,12 @@ export const company = {
   phoneHref: 'tel:+84900000000',
   hotline: '1900 0000',
   email: 'lienhe@example.com',
-  address: '158 Chùa Láng, Quận Đống đa, TP. Hà Nội',
+  address: '158 Chùa Láng, Quận Ba Đình, TP. Hà Nội',
   hours: 'Thứ 2 – Thứ 7, 8:30 – 17:30',
   taxCode: '0300000000',
   // Lấy link nhúng: Google Maps → Chia sẻ → Nhúng bản đồ → copy phần src="..."
   mapEmbed:
-    'https://www.google.com/maps?q=Ben+Thanh+Market,+Ho+Chi+Minh+City&output=embed',
+    'https://www.google.com/maps?q=158+Ch%C3%B9a+L%C3%A1ng,+H%C3%A0+N%E1%BB%99i&hl=vi&z=17&output=embed',
   socials: [
     { name: 'Facebook', href: 'https://facebook.com/', icon: 'facebook' },
     { name: 'Zalo', href: 'https://zalo.me/', icon: 'zalo' },
