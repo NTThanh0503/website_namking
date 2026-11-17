@@ -5,11 +5,12 @@
 // =============================================================
 
 export const company = {
-  name: 'Hành Trình Số',
-  legalName: 'Công ty TNHH Công nghệ & Du lịch Hành Trình Số',
+  name: 'NAM KING GROUP',
+  // Tên pháp lý đầy đủ (hiện ở chân trang): sửa đúng theo giấy phép kinh doanh, vd: 'Công ty TNHH ...'
+  legalName: 'NAM KING GROUP',
   tagline: 'Số hóa điểm đến, nâng tầm trải nghiệm lưu trú và du lịch',
   description:
-    'Hành Trình Số giúp khách sạn, homestay, khu du lịch và điểm đến chuyển đổi số: từ tham quan ảo 360°, hệ thống đặt phòng, đến thiết kế và vận hành tour trọn gói.',
+    'NAM KING GROUP giúp khách sạn, homestay, khu du lịch và điểm đến chuyển đổi số: từ tham quan ảo 360°, hệ thống đặt phòng, đến thiết kế và vận hành tour trọn gói.',
   founded: 2018,
   phone: '0900 000 000',
   phoneHref: 'tel:+84900000000',

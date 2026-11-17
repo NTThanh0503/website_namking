@@ -9,10 +9,10 @@ import type { Service, Project } from './site';
 
 export const company: typeof vi.company = {
   ...vi.company,
-  legalName: 'Hanh Trinh So Technology & Travel Co., Ltd.',
+  legalName: 'NAM KING GROUP',
   tagline: 'Digitizing destinations, elevating hospitality and travel experiences',
   description:
-    'Hành Trình Số helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
+    'NAM KING GROUP helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
   address: '158 Chua Lang, Ba Dinh District, Hanoi, Vietnam',
   hours: 'Mon – Sat, 8:30 AM – 5:30 PM',
 };

@@ -1,4 +1,4 @@
-# Website giới thiệu công ty – Hành Trình Số
+# Website giới thiệu công ty – NAM KING GROUP
 
 Website tĩnh xây bằng **Astro 7**, không cần backend hay database.
 Lĩnh vực: số hóa, lưu trú, du lịch.
