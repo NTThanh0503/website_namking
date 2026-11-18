@@ -1,23 +1,22 @@
 ---
-// Ô hình ảnh: nếu có ảnh thật (image) thì hiển thị ảnh,
+// Ô hình ảnh: nếu có ảnh thật (image) thì hiển thị ảnh kèm lớp phủ xanh tối cho hợp tông web,
 // nếu chưa có thì vẽ hình minh họa đồng mức theo tông màu dịch vụ.
+// Thay ảnh: chép ảnh thật đè lên file cùng tên trong public/images/... (nên dùng .jpg ngang, rộng ~1200px)
 import Icon from './Icon.astro';
 import { contourPaths } from '../lib/contours';
 interface Props { image?: string; alt?: string; seed?: number; tone?: 'lagoon' | 'jade' | 'lantern'; icon?: string; ratio?: string; }
 const { image, alt = '', seed = 3, tone = 'lagoon', icon, ratio = '4 / 3' } = Astro.props;
 const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, seed, amplitude: 20 });
 ---
-<div class:list={['art', `art--${tone}`]} style={`aspect-ratio:${ratio}`}>
+<div class:list={['art', `art--${tone}`, { 'art--photo': image }]} style={`aspect-ratio:${ratio}`}>
   {image ? (
     <img src={image} alt={alt} loading="lazy" decoding="async" />
   ) : (
-    <>
-      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        {lines.map((d, i) => <path d={d} style={`opacity:${0.18 + i * 0.05}`} />)}
-      </svg>
-      {icon && <span class="art-icon"><Icon name={icon} size={30} /></span>}
-    </>
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      {lines.map((d, i) => <path d={d} style={`opacity:${0.18 + i * 0.05}`} />)}
+    </svg>
   )}
+  {icon && <span class="art-icon"><Icon name={icon} size={30} /></span>}
 </div>
 <style>
   .art { position: relative; overflow: hidden; border-radius: var(--radius-m); background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--a) 38%, transparent), transparent 60%), #070b17; box-shadow: inset 0 0 0 1px var(--line); }
@@ -26,5 +25,15 @@ const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, se
   .art svg path { fill: none; stroke-width: 1.2; }
   .art--lagoon { --a: #2f7cff; } .art--jade { --a: #19b8e6; } .art--lantern { --a: #7a63ff; }
   .art path { stroke: color-mix(in srgb, var(--a) 70%, white); }
-  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 1; width: 56px; height: 56px; border-radius: 16px; background: rgba(5, 7, 13, .7); backdrop-filter: blur(8px); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .35), 0 0 30px -8px var(--cyan); }
+  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 2; width: 56px; height: 56px; border-radius: 16px; background: rgba(5, 7, 13, .7); backdrop-filter: blur(8px); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .35), 0 0 30px -8px var(--cyan); }
+
+  /* Ảnh thật: phủ lớp xanh tối để ảnh hòa vào nền web, dưới đáy tối hơn cho chữ/biểu tượng nổi rõ */
+  .art--photo img { filter: saturate(.9) contrast(1.05); }
+  .art--photo::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(5, 7, 13, 0) 35%, rgba(5, 7, 13, .78) 100%),
+      linear-gradient(135deg, color-mix(in srgb, var(--a) 30%, transparent), rgba(8, 18, 54, .35));
+  }
+  .art--photo::after { z-index: 1; opacity: .18; }
 </style>

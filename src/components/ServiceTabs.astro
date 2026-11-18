@@ -30,7 +30,7 @@ import ArtTile from './ArtTile.astro';
         </ul>
         <a class="btn btn--primary" href={localizePath(`/dich-vu/${s.slug}`, lang)}>{t.more(s.name)} <Icon name="arrow" size={18} /></a>
       </div>
-      <ArtTile tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="4 / 5" />
+      <ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="4 / 5" />
     </div>
   ))}
 </div>

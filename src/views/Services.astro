@@ -42,7 +42,7 @@ const t = {
     <div class="container list">
       {services.map((s, i) => (
         <article class:list={['svc', `tone-${s.tone}`, { flip: i % 2 === 1 }]} id={s.slug}>
-          <div data-reveal><ArtTile tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="5 / 4" /></div>
+          <div data-reveal><ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="5 / 4" /></div>
           <div class="svc-copy" data-reveal style="--d:120ms">
             <span class="chip"><Icon name={s.icon} size={16} /> {s.name}</span>
             <h2>{s.title}</h2>

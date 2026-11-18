@@ -144,18 +144,18 @@ export type Project = {
   year: number;
   summary: string;
   result: string;
-  image?: string; // vd: '/images/du-an/khach-san-a.jpg' – để trống sẽ hiện hình minh họa
+  image?: string; // ảnh ở public/images/du-an/<slug>.jpg – chép ảnh thật đè lên cùng tên; xóa dòng image để quay về hình minh họa
 };
 
 export const projects: Project[] = [
-  { slug: 'tour-360-pho-co', title: 'Tham quan ảo phố cổ', client: 'Trung tâm Văn hóa (mẫu)', location: 'Hội An', category: 'so-hoa', year: 2025, summary: 'Dựng 48 điểm tham quan 360° kèm thuyết minh 4 ngôn ngữ qua mã QR.', result: '210.000 lượt xem trong năm đầu' },
-  { slug: 'resort-bien-phu-quoc', title: 'Vận hành resort ven biển', client: 'Resort 4 sao (mẫu)', location: 'Phú Quốc', category: 'luu-tru', year: 2024, summary: 'Nhận vận hành 86 phòng, tái cấu trúc kênh bán và giá phòng theo mùa.', result: 'Công suất từ 52% lên 81%' },
-  { slug: 'mice-ngan-hang', title: 'Hội nghị khách hàng 600 khách', client: 'Ngân hàng (mẫu)', location: 'Đà Nẵng', category: 'du-lich', year: 2025, summary: 'Tổ chức hội nghị, gala dinner và tour tham quan 3 ngày 2 đêm.', result: 'Điểm hài lòng 4,8/5' },
-  { slug: 'website-homestay-da-lat', title: 'Website đặt phòng chuỗi homestay', client: 'Chuỗi homestay (mẫu)', location: 'Đà Lạt', category: 'so-hoa', year: 2024, summary: 'Website song ngữ đồng bộ lịch phòng với 4 kênh OTA và thanh toán trực tuyến.', result: '38% lượt đặt đến từ kênh trực tiếp' },
-  { slug: 'can-ho-dich-vu-q1', title: 'Chuỗi căn hộ dịch vụ trung tâm', client: 'Chủ đầu tư tư nhân (mẫu)', location: 'TP. Hồ Chí Minh', category: 'luu-tru', year: 2023, summary: 'Thiết lập từ đầu 3 tòa căn hộ: quy trình, nhân sự, phần mềm và check-in tự động.', result: 'Hòa vốn vận hành sau 5 tháng' },
-  { slug: 'ha-giang-trai-nghiem', title: 'Hành trình bản làng Hà Giang', client: 'Sản phẩm của công ty', location: 'Hà Giang', category: 'du-lich', year: 2025, summary: 'Tour 4 ngày lưu trú homestay bản địa, kết hợp với hợp tác xã địa phương.', result: '1.200 khách trong mùa hoa tam giác mạch' },
-  { slug: 'bao-tang-so', title: 'Bảo tàng trực tuyến', client: 'Bảo tàng tỉnh (mẫu)', location: 'Huế', category: 'so-hoa', year: 2023, summary: 'Scan 3D 120 hiện vật, xây dựng không gian trưng bày ảo trên web.', result: 'Mở cửa 24/7 cho khách toàn cầu' },
-  { slug: 'team-building-cong-nghe', title: 'Team building công ty công nghệ', client: 'Doanh nghiệp (mẫu)', location: 'Hồ Tràm', category: 'du-lich', year: 2024, summary: 'Chương trình 2 ngày cho 250 nhân sự với kịch bản trò chơi riêng.', result: 'Được ký lại hợp đồng 3 năm liên tiếp' },
+  { slug: 'tour-360-pho-co', title: 'Tham quan ảo phố cổ', client: 'Trung tâm Văn hóa (mẫu)', location: 'Hội An', category: 'so-hoa', year: 2025, summary: 'Dựng 48 điểm tham quan 360° kèm thuyết minh 4 ngôn ngữ qua mã QR.', result: '210.000 lượt xem trong năm đầu', image: '/images/du-an/tour-360-pho-co.jpg' },
+  { slug: 'resort-bien-phu-quoc', title: 'Vận hành resort ven biển', client: 'Resort 4 sao (mẫu)', location: 'Phú Quốc', category: 'luu-tru', year: 2024, summary: 'Nhận vận hành 86 phòng, tái cấu trúc kênh bán và giá phòng theo mùa.', result: 'Công suất từ 52% lên 81%', image: '/images/du-an/resort-bien-phu-quoc.jpg' },
+  { slug: 'mice-ngan-hang', title: 'Hội nghị khách hàng 600 khách', client: 'Ngân hàng (mẫu)', location: 'Đà Nẵng', category: 'du-lich', year: 2025, summary: 'Tổ chức hội nghị, gala dinner và tour tham quan 3 ngày 2 đêm.', result: 'Điểm hài lòng 4,8/5', image: '/images/du-an/mice-ngan-hang.jpg' },
+  { slug: 'website-homestay-da-lat', title: 'Website đặt phòng chuỗi homestay', client: 'Chuỗi homestay (mẫu)', location: 'Đà Lạt', category: 'so-hoa', year: 2024, summary: 'Website song ngữ đồng bộ lịch phòng với 4 kênh OTA và thanh toán trực tuyến.', result: '38% lượt đặt đến từ kênh trực tiếp', image: '/images/du-an/website-homestay-da-lat.jpg' },
+  { slug: 'can-ho-dich-vu-q1', title: 'Chuỗi căn hộ dịch vụ trung tâm', client: 'Chủ đầu tư tư nhân (mẫu)', location: 'TP. Hồ Chí Minh', category: 'luu-tru', year: 2023, summary: 'Thiết lập từ đầu 3 tòa căn hộ: quy trình, nhân sự, phần mềm và check-in tự động.', result: 'Hòa vốn vận hành sau 5 tháng', image: '/images/du-an/can-ho-dich-vu-q1.jpg' },
+  { slug: 'ha-giang-trai-nghiem', title: 'Hành trình bản làng Hà Giang', client: 'Sản phẩm của công ty', location: 'Hà Giang', category: 'du-lich', year: 2025, summary: 'Tour 4 ngày lưu trú homestay bản địa, kết hợp với hợp tác xã địa phương.', result: '1.200 khách trong mùa hoa tam giác mạch', image: '/images/du-an/ha-giang-trai-nghiem.jpg' },
+  { slug: 'bao-tang-so', title: 'Bảo tàng trực tuyến', client: 'Bảo tàng tỉnh (mẫu)', location: 'Huế', category: 'so-hoa', year: 2023, summary: 'Scan 3D 120 hiện vật, xây dựng không gian trưng bày ảo trên web.', result: 'Mở cửa 24/7 cho khách toàn cầu', image: '/images/du-an/bao-tang-so.jpg' },
+  { slug: 'team-building-cong-nghe', title: 'Team building công ty công nghệ', client: 'Doanh nghiệp (mẫu)', location: 'Hồ Tràm', category: 'du-lich', year: 2024, summary: 'Chương trình 2 ngày cho 250 nhân sự với kịch bản trò chơi riêng.', result: 'Được ký lại hợp đồng 3 năm liên tiếp', image: '/images/du-an/team-building-cong-nghe.jpg' },
 ];
 
 export const testimonials = [
