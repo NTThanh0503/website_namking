@@ -55,6 +55,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { interpolate-size: allow-keywords; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); background: var(--paper); }
+/* Ẩn thanh cuộn bên phải (vẫn cuộn bình thường bằng chuột, bàn phím, cảm ứng; thanh tiến trình trên cùng thay thế) */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 body {
   margin: 0;
   font-family: var(--font-sans);
