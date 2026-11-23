@@ -216,15 +216,26 @@ function initHero() {
   let raf = 0;
   hero.addEventListener('pointermove', (e) => {
     const r = hero.getBoundingClientRect();
-    const mx = (e.clientX - r.left) / r.width - 0.5;
-    const my = (e.clientY - r.top) / r.height - 0.5;
+    const px = e.clientX - r.left;
+    const py = e.clientY - r.top;
+    const mx = px / r.width - 0.5;
+    const my = py / r.height - 0.5;
     cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => layers.forEach((l) => {
-      const d = Number(l.dataset.depth);
-      l.style.transform = `translate3d(${mx * d}px, ${my * d}px, 0)`;
-    }));
+    raf = requestAnimationFrame(() => {
+      // Vị trí chuột cho lưới chấm sáng vàng (.grid-hot)
+      hero.style.setProperty('--mx', `${px}px`);
+      hero.style.setProperty('--my', `${py}px`);
+      hero.classList.add('is-pointer');
+      layers.forEach((l) => {
+        const d = Number(l.dataset.depth);
+        l.style.transform = `translate3d(${mx * d}px, ${my * d}px, 0)`;
+      });
+    });
   });
-  hero.addEventListener('pointerleave', () => layers.forEach((l) => (l.style.transform = '')));
+  hero.addEventListener('pointerleave', () => {
+    hero.classList.remove('is-pointer');
+    layers.forEach((l) => (l.style.transform = ''));
+  });
 }
 
 /* ---------- Form liên hệ (Web3Forms – không cần backend) ---------- */

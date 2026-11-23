@@ -116,18 +116,45 @@ p { margin: 0; text-wrap: pretty; }
 /* Chữ phát sáng */
 .glow-text { color: var(--cyan); text-shadow: 0 0 28px rgba(92, 225, 255, 0.5); }
 
-/* Lưới nền mờ + quầng sáng (đặt trong khối có position: relative) */
+/* Chữ ánh sáng lấp lánh (vệt sáng cyan chạy ngang qua chữ) */
+.shine-text {
+  background: linear-gradient(100deg, var(--ink) 20%, var(--cyan) 45%, var(--electric) 55%, var(--ink) 80%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  animation: shine 6s ease-in-out infinite;
+}
+@keyframes shine { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+
+/* Lưới chấm mờ + quầng sáng (đặt trong khối có position: relative) */
 .grid-bg {
   position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 64px 64px;
+  background-image: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.5px);
+  background-size: 28px 28px;
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 80%);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 80%);
 }
+/* Chấm cyan sáng lên quanh con trỏ (vị trí --mx/--my do main.ts đặt) */
+.grid-hot {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s;
+  background-image: radial-gradient(var(--cyan) 1.4px, transparent 2px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #000 0%, transparent 70%);
+  mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #000 0%, transparent 70%);
+}
+.is-pointer > .grid-hot { opacity: 1; }
+/* Nhiễu hạt kiểu phim + viền tối bốn góc (chỉ dùng trong khối, không phủ toàn trang) */
+.grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .55) 100%); }
+
+/* Quầng màu loang: xanh Electric (mặc định), tím, cyan đậm */
 .orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; background: var(--electric); opacity: .3; animation: breathe 9s ease-in-out infinite; }
-.scan-line { position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: .45; animation: scan 7s linear infinite; }
+.orb--violet { background: #5b3fd6; }
+.orb--cyan { background: #0f8fb8; }
 @keyframes breathe { 0%, 100% { transform: scale(1); opacity: .26; } 50% { transform: scale(1.12); opacity: .4; } }
-@keyframes scan { to { top: 100%; } }
 
 /* Viên nhãn có chấm sáng */
 .pill { display: inline-flex; align-items: center; gap: .6rem; padding: .45rem .9rem .45rem .65rem; border-radius: 999px; font-size: .82rem; color: #bfd4ff; background: rgba(47, 124, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, 0.3); }

@@ -17,7 +17,7 @@ const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, ampl
   <div class="container">
     <div class="band" data-reveal>
       <div class="grid-bg" aria-hidden="true"></div>
-      <div class="scan-line" style="animation-duration:5s" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
       <svg viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         {lines.map((d, i) => <path d={d} style={`opacity:${0.08 + i * 0.025}`} />)}
       </svg>
