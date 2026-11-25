@@ -30,27 +30,29 @@ import ArtTile from './ArtTile.astro';
         </ul>
         <a class="btn btn--primary" href={localizePath(`/dich-vu/${s.slug}`, lang)}>{t.more(s.name)} <Icon name="arrow" size={18} /></a>
       </div>
-      <ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="4 / 5" />
+      <ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="4 / 3" />
     </div>
   ))}
 </div>
 
 <style>
-  .tablist { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; padding: .5rem; border-radius: 22px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-  .indicator { position: absolute; top: .5rem; bottom: .5rem; left: .5rem; width: calc((100% - 2rem) / 3); border-radius: 16px; background: var(--white); box-shadow: inset 0 0 0 1px var(--accent-line), 0 14px 30px -18px rgba(74, 7, 13, .55); transform: translateX(calc(var(--active) * (100% + .5rem))); transition: transform .6s var(--ease-out); }
-  [role='tab'] { position: relative; z-index: 1; display: flex; align-items: center; gap: .9rem; text-align: left; padding: .9rem 1rem; border: 0; background: none; border-radius: 16px; cursor: pointer; color: var(--ink-soft); transition: color .3s; }
+  .tablist { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; padding: .4rem; border-radius: 18px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+  .indicator { position: absolute; top: .4rem; bottom: .4rem; left: .4rem; width: calc((100% - 1.6rem) / 3); border-radius: 14px; background: var(--white); box-shadow: inset 0 0 0 1px var(--accent-line), 0 14px 30px -18px rgba(74, 7, 13, .55); transform: translateX(calc(var(--active) * (100% + .4rem))); transition: transform .6s var(--ease-out); }
+  [role='tab'] { position: relative; z-index: 1; display: flex; align-items: center; gap: .75rem; text-align: left; padding: .6rem .85rem; border: 0; background: none; border-radius: 14px; cursor: pointer; color: var(--ink-soft); transition: color .3s; }
   [role='tab'][aria-selected='true'] { color: var(--ink); }
-  .t-icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: var(--tone-soft); color: var(--tone); transition: transform .5s var(--ease-out); }
+  .t-icon { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--tone-soft); color: var(--tone); transition: transform .5s var(--ease-out); }
   [role='tab'][aria-selected='true'] .t-icon { transform: rotate(-6deg) scale(1.06); }
-  .t-text strong { display: block; font-size: 1.1rem; }
-  .t-text small { display: block; font-size: .82rem; line-height: 1.35; }
+  .t-text strong { display: block; font-size: 1rem; }
+  .t-text small { display: block; font-size: .78rem; line-height: 1.35; }
 
-  .panel { display: grid; gap: 2.5rem; align-items: center; margin-top: 2.5rem; animation: panel-in .7s var(--ease-out); }
-  @media (min-width: 900px) { .panel { grid-template-columns: 1.2fr .8fr; gap: 4rem; } }
+  .panel { display: grid; gap: 1.6rem; align-items: center; margin-top: 1.4rem; animation: panel-in .7s var(--ease-out); }
+  @media (min-width: 900px) { .panel { grid-template-columns: 1.35fr .65fr; gap: 3rem; } }
   .panel[hidden] { display: none; }
   @keyframes panel-in { from { opacity: 0; transform: translateY(12px); } }
-  .panel-copy > p { margin-top: 1rem; color: var(--ink-soft); max-width: 40rem; }
-  .features { list-style: none; padding: 0; margin: 1.8rem 0 2rem; display: grid; gap: 1rem; }
+  .panel-copy > p { margin-top: .6rem; color: var(--ink-soft); max-width: 40rem; }
+  .features { list-style: none; padding: 0; margin: 1.1rem 0 1.4rem; display: grid; gap: .65rem; }
+  @media (min-width: 640px) { .features { grid-template-columns: 1fr 1fr; gap: .8rem 1.4rem; } }
+  .features li { font-size: .94rem; }
   .features li { display: grid; grid-template-columns: 22px 1fr; gap: .6rem; }
   .features :global(svg) { margin-top: .25rem; color: var(--tone); }
   .features li { color: var(--ink-soft); }

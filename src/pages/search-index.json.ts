@@ -10,21 +10,21 @@ export type SearchEntry = { type: 'page' | 'service' | 'project' | 'news' | 'faq
 
 const pages: Record<Lang, { title: string; text: string; url: string }[]> = {
   vi: [
-    { title: 'Trang chủ', text: 'Số hóa điểm đến, lấp đầy phòng nghỉ, dẫn lối hành trình', url: '/' },
-    { title: 'Giới thiệu', text: 'Câu chuyện, tầm nhìn, sứ mệnh, giá trị cốt lõi và chặng đường phát triển', url: '/gioi-thieu' },
-    { title: 'Đội ngũ lãnh đạo', text: 'Những người chịu trách nhiệm trực tiếp với dự án của bạn', url: '/gioi-thieu#doi-ngu' },
-    { title: 'Dịch vụ', text: 'Số hóa, lưu trú, du lịch, quy trình làm việc', url: '/dich-vu' },
-    { title: 'Dự án', text: 'Các dự án số hóa, vận hành lưu trú và tổ chức du lịch tiêu biểu', url: '/du-an' },
-    { title: 'Tin tức', text: 'Kinh nghiệm số hóa, vận hành lưu trú và gợi ý hành trình', url: '/tin-tuc' },
+    { title: 'Trang chủ', text: 'Nam Kinh Digital – số hóa điểm đến, kết nối trải nghiệm, gia tăng giá trị; ba tầng giá trị, hệ sinh thái năm sản phẩm', url: '/' },
+    { title: 'Giới thiệu', text: 'Chúng tôi là ai, tầm nhìn, sứ mệnh, giá trị cốt lõi, lộ trình 2027–2029', url: '/gioi-thieu' },
+    { title: 'Kể Miền Di Sản', text: 'Thương hiệu cộng đồng: đánh thức di sản bằng công nghệ; di tích, làng nghề, câu chuyện địa phương', url: '/gioi-thieu#hai-thuong-hieu' },
+    { title: 'Giải pháp', text: 'Điểm Đến Số, Kết Nối Du Lịch, trải nghiệm thông minh, hệ sinh thái sản phẩm', url: '/dich-vu' },
+    { title: 'Dự án', text: 'Mô hình triển khai mẫu cho di tích, bảo tàng, làng nghề, khu du lịch, homestay', url: '/du-an' },
+    { title: 'Tin tức', text: 'Số hóa điểm đến, kinh doanh du lịch trực tuyến, cộng đồng Kể Miền Di Sản', url: '/tin-tuc' },
     { title: 'Liên hệ', text: 'Gửi yêu cầu tư vấn, số điện thoại, email, địa chỉ văn phòng, bản đồ', url: '/lien-he' },
   ],
   en: [
-    { title: 'Home', text: 'Digitize destinations, fill every room, guide the journey', url: '/' },
-    { title: 'About us', text: 'Our story, vision, mission, core values and journey', url: '/gioi-thieu' },
-    { title: 'Leadership team', text: 'The people directly responsible for your project', url: '/gioi-thieu#doi-ngu' },
-    { title: 'Services', text: 'Digital, hospitality, travel, our process', url: '/dich-vu' },
-    { title: 'Projects', text: 'Featured digital, hospitality operations and travel projects', url: '/du-an' },
-    { title: 'News', text: 'Insights on digital transformation, hospitality and travel ideas', url: '/tin-tuc' },
+    { title: 'Home', text: 'Nam Kinh Digital – digitize destinations, connect experiences, add value; three value tiers, five-product ecosystem', url: '/' },
+    { title: 'About us', text: 'Who we are, vision, mission, core values, 2027–2029 roadmap', url: '/gioi-thieu' },
+    { title: 'Ke Mien Di San', text: 'Community brand: awakening heritage with technology; heritage sites, craft villages, local stories', url: '/gioi-thieu#hai-thuong-hieu' },
+    { title: 'Solutions', text: 'Digital Destination, Travel Connect, smart experiences, product ecosystem', url: '/dich-vu' },
+    { title: 'Projects', text: 'Pilot deployment models for heritage sites, museums, craft villages, tourist areas, homestays', url: '/du-an' },
+    { title: 'News', text: 'Destination digitization, selling travel online, the Ke Mien Di San community', url: '/tin-tuc' },
     { title: 'Contact', text: 'Request a consultation, phone, email, office address, map', url: '/lien-he' },
   ],
 };

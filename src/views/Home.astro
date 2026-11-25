@@ -5,6 +5,7 @@ import Partners from '../components/Partners.astro';
 import ServiceTabs from '../components/ServiceTabs.astro';
 import Stats from '../components/Stats.astro';
 import Process from '../components/Process.astro';
+import Ecosystem from '../components/Ecosystem.astro';
 import ProjectGrid from '../components/ProjectGrid.astro';
 import Testimonials from '../components/Testimonials.astro';
 import NewsCard from '../components/NewsCard.astro';
@@ -13,42 +14,64 @@ import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { getLang, localizePath } from '../i18n';
 import { getPosts } from '../i18n/posts';
+import { getData } from '../data';
 
 const lang = getLang(Astro.url);
 const L = (href: string) => localizePath(href, lang);
+const { tiers, audiences, differences } = getData(lang);
 const posts = (await getPosts(lang)).slice(0, 3);
 const t = {
   vi: {
-    partners: 'Kết nối sẵn với các kênh bán phòng, thanh toán và bản đồ phổ biến',
-    svcTitle: 'Ba mảng dịch vụ, một hành trình liền mạch',
-    svcLead: 'Khách tìm thấy bạn nhờ số hóa, ở lại nhờ dịch vụ lưu trú chu đáo, và quay lại nhờ những hành trình đáng nhớ. Chúng tôi làm được cả ba, hoặc từng phần bạn cần.',
-    statsTitle: 'Tám năm đồng hành cùng ngành du lịch Việt',
-    statsLead: 'Từ một nhóm nhỏ chụp ảnh 360° cho khách sạn, chúng tôi đã cùng hàng trăm đối tác đưa điểm đến của họ đến gần hơn với du khách.',
-    process: 'Cách chúng tôi làm việc',
-    projTitle: 'Dự án tiêu biểu',
-    projLead: 'Một vài dự án gần đây trong cả ba lĩnh vực. Mỗi dự án đều bắt đầu từ một mục tiêu cụ thể của khách hàng.',
-    projAll: 'Xem tất cả dự án',
-    quotes: 'Khách hàng nói về chúng tôi',
-    newsTitle: 'Tin tức và kinh nghiệm',
-    newsLead: 'Chia sẻ thực tế về số hóa, vận hành lưu trú và những hành trình đáng đi.',
+    partners: 'Giải pháp dành cho',
+    svcTitle: 'Ba giải pháp đưa điểm đến lên môi trường số',
+    svcLead: 'Số hóa để du khách biết đến, kết nối để du khách đặt chỗ, trải nghiệm thông minh để du khách nhớ mãi. Chọn từng giải pháp hoặc kết hợp theo nhu cầu của điểm đến.',
+    tiersTitle: 'Một nền tảng, ba tầng giá trị',
+    tiersLead: 'Nam Kinh Digital không dừng ở việc làm đẹp hình ảnh trên mạng. Mỗi điểm đến đi từ số hóa, đến kinh doanh trực tuyến, rồi trở thành một phần của mạng lưới du lịch số.',
+    tier: 'Tầng',
+    process: 'Điểm đến vận hành trên nền tảng như thế nào',
+    ecoTitle: 'Hệ sinh thái năm nhóm sản phẩm',
+    ecoLead: 'Phát triển đủ năm nhóm giải pháp nhưng triển khai theo mức độ ưu tiên: bắt đầu từ số hóa và phần mềm kinh doanh điểm đến.',
+    audTitle: 'Chúng tôi phục vụ ai',
+    audLead: 'Bốn nhóm khách hàng doanh nghiệp trực tiếp sử dụng giải pháp, và hàng triệu du khách là người dùng cuối của các sản phẩm số đó.',
+    audFit: 'Phù hợp',
+    travellers: 'Du khách',
+    travellersText: 'Khách nội địa, khách quốc tế, khách tự túc, gia đình, học sinh sinh viên, người yêu văn hóa: tìm điểm đến, xem trước trải nghiệm, đọc thông tin bằng ngôn ngữ của mình, tìm đường, đặt và thanh toán thuận tiện.',
+    diffTitle: 'Nam Kinh Digital khác gì?',
+    diffLead: 'Một hệ thống tích hợp, liền mạch từ lúc du khách biết đến điểm đến cho tới khi chủ điểm đến đọc báo cáo kinh doanh.',
+    projTitle: 'Mô hình triển khai mẫu',
+    projLead: 'Các mô hình minh họa cách giải pháp được áp dụng cho từng loại điểm đến trong giai đoạn triển khai điểm mẫu 2027–2028.',
+    projAll: 'Xem tất cả mô hình',
+    quotes: 'Thông điệp của chúng tôi',
+    newsTitle: 'Tin tức và góc nhìn',
+    newsLead: 'Chia sẻ về số hóa điểm đến, kinh doanh du lịch trực tuyến và cộng đồng Kể Miền Di Sản.',
     newsAll: 'Đọc tất cả bài viết',
     faqTitle: 'Câu hỏi thường gặp',
     faqLead: 'Chưa thấy câu trả lời bạn cần? Gọi hotline hoặc để lại lời nhắn, chúng tôi phản hồi trong ngày.',
     faqAsk: 'Đặt câu hỏi khác',
   },
   en: {
-    partners: 'Ready-made connections to popular booking channels, payment gateways and maps',
-    svcTitle: 'Three services, one seamless journey',
-    svcLead: 'Guests find you thanks to digital, stay thanks to thoughtful hospitality, and come back thanks to memorable journeys. We can do all three, or just the part you need.',
-    statsTitle: 'Eight years alongside Vietnam’s travel industry',
-    statsLead: 'From a small team shooting 360° photos for hotels, we have helped hundreds of partners bring their destinations closer to travellers.',
-    process: 'How we work',
-    projTitle: 'Featured projects',
-    projLead: 'A few recent projects across all three areas. Every project starts from a specific client goal.',
-    projAll: 'See all projects',
-    quotes: 'What our clients say',
-    newsTitle: 'News and insights',
-    newsLead: 'Practical insights on digital transformation, hospitality operations and journeys worth taking.',
+    partners: 'Solutions for',
+    svcTitle: 'Three solutions that take destinations digital',
+    svcLead: 'Digitize so travellers find you, connect so they book, and create smart experiences they remember. Choose one solution or combine them to fit your destination.',
+    tiersTitle: 'One platform, three tiers of value',
+    tiersLead: 'Nam Kinh Digital goes beyond a nicer online image. Each destination moves from digitization, to selling online, to becoming part of a digital travel network.',
+    tier: 'Tier',
+    process: 'How a destination runs on the platform',
+    ecoTitle: 'An ecosystem of five product groups',
+    ecoLead: 'We are building all five groups but rolling them out by commercial priority, starting with digitization and destination business software.',
+    audTitle: 'Who we serve',
+    audLead: 'Four groups of business customers use our solutions directly, and travellers are the end users of the digital products they offer.',
+    audFit: 'Best fit',
+    travellers: 'Travellers',
+    travellersText: 'Domestic and international visitors, independent travellers, families, students and culture lovers: finding destinations, previewing experiences, reading in their own language, getting directions, booking and paying with ease.',
+    diffTitle: 'What makes Nam Kinh Digital different?',
+    diffLead: 'One integrated system, seamless from the moment a traveller discovers a destination to the moment its owner reads the business report.',
+    projTitle: 'Pilot deployment models',
+    projLead: 'Illustrative models of how our solutions apply to each kind of destination during the 2027–2028 pilot phase.',
+    projAll: 'See all models',
+    quotes: 'Our message',
+    newsTitle: 'News and perspectives',
+    newsLead: 'On digitizing destinations, selling travel online and the Ke Mien Di San community.',
     newsAll: 'Read all articles',
     faqTitle: 'Frequently asked questions',
     faqLead: 'Can’t find the answer you need? Call our hotline or leave a message and we will reply the same day.',
@@ -78,12 +101,23 @@ const t = {
   </section>
 
   <section class="section section--dark">
+    <div class="grid-bg" aria-hidden="true"></div>
     <div class="container">
       <div class="section-head" data-reveal>
-        <h2>{t.statsTitle}</h2>
-        <p class="lead">{t.statsLead}</p>
+        <h2>{t.tiersTitle}</h2>
+        <p class="lead">{t.tiersLead}</p>
       </div>
-      <Stats />
+      <ol class="tiers">
+        {tiers.map((tier, i) => (
+          <li data-reveal style={`--d:${i * 110}ms`}>
+            <span class="tier-no">{t.tier} {i + 1}</span>
+            <span class="tier-icon"><Icon name={tier.icon} size={26} /></span>
+            <h3>{tier.title}</h3>
+            <p>{tier.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="stats-wrap"><Stats /></div>
       <div class="process-wrap">
         <h3 class="process-title" data-reveal>{t.process}</h3>
         <Process />
@@ -91,7 +125,64 @@ const t = {
     </div>
   </section>
 
+  <section class="section" id="he-sinh-thai">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>{t.ecoTitle}</h2>
+        <p class="lead">{t.ecoLead}</p>
+      </div>
+      <Ecosystem />
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>{t.audTitle}</h2>
+        <p class="lead">{t.audLead}</p>
+      </div>
+      <div class="audiences">
+        {audiences.map((a, i) => (
+          <article data-reveal style={`--d:${i * 80}ms`}>
+            <span class="aud-letter">{String.fromCharCode(65 + i)}</span>
+            <span class="aud-icon"><Icon name={a.icon} size={24} /></span>
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+            <p class="aud-fit"><small>{t.audFit}</small> {a.product}</p>
+          </article>
+        ))}
+      </div>
+      <div class="travellers" data-reveal>
+        <span class="aud-icon"><Icon name="users" size={24} /></span>
+        <div>
+          <h3>{t.travellers}</h3>
+          <p>{t.travellersText}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{t.diffTitle}</h2>
+        <p class="lead">{t.diffLead}</p>
+      </div>
+      <ol class="chain" data-reveal>
+        {differences.chain.map((c, i) => <li style={`--i:${i}`}><span>{String(i + 1).padStart(2, '0')}</span>{c}</li>)}
+      </ol>
+      <div class="diffs">
+        {differences.items.map((d, i) => (
+          <article data-reveal style={`--d:${i * 90}ms`}>
+            <h3>{d.vs}</h3>
+            <p>{d.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
     <div class="container">
       <div class="section-head section-head--split" data-reveal>
         <h2>{t.projTitle}</h2>
@@ -141,15 +232,74 @@ const t = {
 </BaseLayout>
 
 <style>
-  .partners { padding-block: 0 clamp(3rem, 6vw, 5rem); }
-  .partners-label { font-size: var(--fs-sm); color: var(--ink-soft); margin-bottom: 1.4rem; }
-  .process-wrap { margin-top: clamp(4rem, 8vw, 6rem); padding-top: clamp(3rem, 6vw, 4rem); border-top: 1px solid var(--line); }
-  .process-title { margin-bottom: 2.5rem; font-size: var(--fs-xl); }
+  .partners { padding-block: .9rem 1.1rem; border-bottom: 1px solid var(--line); }
+  .partners-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: .35rem; }
+
+  /* Ba tầng giá trị */
+  .tiers { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 1.2rem; }
+  @media (min-width: 860px) { .tiers { grid-template-columns: repeat(3, 1fr); } }
+  .tiers li { position: relative; padding: 1.25rem 1.35rem; border-radius: var(--radius-m); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out); }
+  .tiers li:hover { transform: translateY(-4px); box-shadow: var(--glow); }
+  .tier-no { position: absolute; top: 1.6rem; right: 1.6rem; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .tier-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: .8rem; border-radius: 12px; color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .tiers p { margin-top: .35rem; font-size: .95rem; color: var(--ink-soft); }
+  .stats-wrap { position: relative; margin-top: clamp(1.6rem, 3vw, 2.4rem); }
+  .process-wrap { position: relative; margin-top: clamp(1.6rem, 3vw, 2.4rem); padding-top: clamp(1.6rem, 3vw, 2.4rem); border-top: 1px solid var(--line); }
+  .process-title { margin-bottom: 1.2rem; font-size: var(--fs-xl); }
+
+  /* Nhóm khách hàng */
+  .audiences { display: grid; gap: 1.2rem; }
+  @media (min-width: 760px) { .audiences { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .audiences { grid-template-columns: repeat(4, 1fr); } }
+  .audiences article { position: relative; display: flex; flex-direction: column; padding: 1.2rem 1.25rem; border-radius: var(--radius-m); background: var(--white); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+  .aud-letter { position: absolute; right: -.05em; top: -.2em; font-family: var(--font-brand); font-weight: 800; font-size: 4.5rem; line-height: 1; color: var(--maroon); opacity: .06; pointer-events: none; }
+  .aud-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin-bottom: .8rem; border-radius: 12px; color: var(--accent); background: var(--accent-soft); }
+  .audiences h3 { font-size: 1.05rem; }
+  .audiences p { margin-top: .35rem; color: var(--ink-soft); font-size: .92rem; }
+  .audiences .aud-fit { margin-top: auto; padding-top: .7rem; font-weight: 600; color: var(--accent); }
+  .aud-fit small { display: block; font-family: var(--font-mono); font-size: .68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .travellers { display: flex; gap: 1rem; align-items: flex-start; margin-top: 1rem; padding: 1.1rem 1.25rem; border-radius: var(--radius-m); box-shadow: inset 0 0 0 1px var(--accent-line); background: var(--accent-soft); }
+  .travellers .aud-icon { margin: 0; background: var(--white); }
+  .travellers h3 { font-size: 1.05rem; }
+  .travellers p { margin-top: .25rem; font-size: .94rem; color: var(--ink-soft); max-width: 60rem; }
+
+  /* Chuỗi giá trị và khác biệt */
+  .chain { list-style: none; margin: 0 0 1.6rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: 1fr; counter-reset: c; }
+  @media (min-width: 900px) { .chain { grid-template-columns: repeat(5, 1fr); gap: 0; } }
+  .chain li { position: relative; display: flex; align-items: center; gap: .6rem; padding: .7rem 1rem; font-weight: 600; font-size: .94rem; background: var(--white); box-shadow: inset 0 0 0 1px var(--line); }
+  .chain li span { font-family: var(--font-mono); font-size: .75rem; color: var(--accent); }
+  @media (min-width: 900px) {
+    .chain li { padding: .85rem 1.2rem .85rem 1.8rem; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%); margin-right: -10px; }
+    .chain li:first-child { padding-left: 1.2rem; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
+    .chain li:last-child { background: var(--maroon); color: var(--ivory); box-shadow: none; }
+    .chain li:last-child span { color: var(--blush); }
+  }
+  /* Dòng sáng chạy dọc chuỗi giá trị */
+  .chain.is-in li { animation: chain-pulse 5s ease-in-out infinite; animation-delay: calc(var(--i) * .6s); }
+  @keyframes chain-pulse { 0%, 30%, 100% { background-color: var(--white); } 12% { background-color: color-mix(in srgb, var(--maroon) 12%, var(--white)); } }
+  .chain.is-in li:last-child { animation: none; }
+  .diffs { display: grid; gap: 1.2rem; }
+  @media (min-width: 860px) { .diffs { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .diffs article { padding-top: 1rem; border-top: 2px solid var(--maroon); }
+  .diffs h3 { font-size: 1.05rem; }
+  .diffs p { margin-top: .4rem; color: var(--ink-soft); font-size: .95rem; }
+
   .head-side { display: grid; gap: 1rem; justify-items: start; }
   .testimonials { overflow: hidden; border-block: 1px solid var(--line); background: radial-gradient(40rem 24rem at 50% 0%, rgba(184, 67, 77, .1), transparent 70%), var(--surface); }
-  .news-grid { display: grid; gap: 2.5rem 2rem; }
+  .news-grid { display: grid; gap: 1.8rem 1.5rem; }
   @media (min-width: 760px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
-  .faq-grid { display: grid; gap: 2.5rem; }
-  @media (min-width: 960px) { .faq-grid { grid-template-columns: .8fr 1.2fr; gap: 5rem; } }
-  .faq-lead { margin: 1.2rem 0 2rem; }
+  .faq-grid { display: grid; gap: 1.6rem; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: .8fr 1.2fr; gap: 3.5rem; } }
+  .faq-lead { margin: .8rem 0 1.4rem; }
+  /* Điện thoại: thẻ dạng hàng ngang (biểu tượng bên trái) để trang ngắn gọn hơn */
+  @media (max-width: 859px) {
+    .tiers li, .audiences article { display: grid; grid-template-columns: 40px 1fr; column-gap: .9rem; align-items: start; padding: 1rem; }
+    .tier-icon, .aud-icon { grid-row: span 3; margin: 0; width: 40px; height: 40px; }
+    .tier-no { position: static; grid-column: 2; margin-bottom: .1rem; }
+    .tiers h3, .tiers p, .audiences h3, .audiences p { grid-column: 2; }
+    .aud-letter { display: none; }
+    .audiences .aud-fit { padding-top: .4rem; }
+    .travellers { padding: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .chain.is-in li { animation: none; } }
 </style>

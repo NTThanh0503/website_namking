@@ -4,8 +4,8 @@ import { getData } from '../data';
 const lang = getLang(Astro.url);
 const { company } = getData(lang);
 const t = {
-  vi: { title: 'Bắt đầu hành trình số cho cơ sở của bạn', text: 'Gửi vài thông tin cơ bản, chuyên viên sẽ gọi lại trong 24 giờ để khảo sát và đề xuất phương án phù hợp. Tư vấn không mất phí.', send: 'Gửi yêu cầu tư vấn', call: 'Gọi' },
-  en: { title: 'Start the digital journey for your property', text: 'Share a few basic details and a consultant will call you back within 24 hours to assess your needs and propose the right plan. Consultation is free.', send: 'Request a consultation', call: 'Call' },
+  vi: { title: 'Đưa điểm đến của bạn lên môi trường số', text: 'Gửi vài thông tin về điểm đến, chuyên viên Nam Kinh Digital sẽ gọi lại trong 24 giờ để khảo sát và đề xuất giải pháp phù hợp. Tư vấn không mất phí.', send: 'Gửi yêu cầu tư vấn', call: 'Gọi' },
+  en: { title: 'Take your destination digital', text: 'Share a few details about your destination and a Nam Kinh Digital consultant will call you back within 24 hours to assess it and propose the right solution. Consultation is free.', send: 'Request a consultation', call: 'Call' },
 }[lang];
 import Icon from './Icon.astro';
 import { contourPaths } from '../lib/contours';
@@ -33,9 +33,9 @@ const lines = contourPaths({ width: 1200, height: 420, lines: 12, seed: 77, ampl
   </div>
 </section>
 <style>
-  .band { position: relative; overflow: hidden; border-radius: var(--radius-l); color: var(--ink); padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 6vw, 5rem); background: radial-gradient(120% 140% at 80% 0%, #9a2330 0%, var(--maroon) 45%, var(--maroon-deep) 100%); box-shadow: 0 40px 100px -40px rgba(74, 7, 13, .75); }
+  .band { position: relative; overflow: hidden; border-radius: var(--radius-l); color: var(--ink); padding: clamp(1.6rem, 3.5vw, 2.75rem) clamp(1.4rem, 4vw, 3.25rem); background: radial-gradient(120% 140% at 80% 0%, #9a2330 0%, var(--maroon) 45%, var(--maroon-deep) 100%); box-shadow: 0 40px 100px -40px rgba(74, 7, 13, .75); }
   svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--blush); stroke-width: 1; }
   .inner { position: relative; max-width: 40rem; }
-  p { margin-top: 1.2rem; color: var(--ink-soft); font-size: var(--fs-lg); }
-  .row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  p { margin-top: .7rem; color: var(--ink-soft); font-size: var(--fs-lg); }
+  .row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.3rem; }
 </style>

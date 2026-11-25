@@ -107,7 +107,7 @@ const jobs = [
   ['du-an/tour-360-pho-co', 'town', 11], ['du-an/resort-bien-phu-quoc', 'sea', 21], ['du-an/mice-ngan-hang', 'sea', 37],
   ['du-an/website-homestay-da-lat', 'mountain', 43], ['du-an/can-ho-dich-vu-q1', 'town', 59], ['du-an/ha-giang-trai-nghiem', 'mountain', 67],
   ['du-an/bao-tang-so', 'town', 83], ['du-an/team-building-cong-nghe', 'sea', 97],
-  ['dich-vu/so-hoa', 'town', 101], ['dich-vu/luu-tru', 'sea', 113], ['dich-vu/du-lich', 'mountain', 127],
+  ['dich-vu/diem-den-so', 'town', 101], ['dich-vu/ket-noi-du-lich', 'sea', 113], ['dich-vu/trai-nghiem-so', 'mountain', 127],
   ['gioi-thieu/cau-chuyen', 'mountain', 139],
 ];
 

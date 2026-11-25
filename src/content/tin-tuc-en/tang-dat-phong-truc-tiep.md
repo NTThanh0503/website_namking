@@ -1,25 +1,27 @@
 ---
-title: How to increase direct bookings and rely less on OTAs
-description: 15–25% commission to OTAs is a heavy burden. Here are practical steps to bring guests back to booking direct.
+title: From views to bookings – why destinations need their own booking platform
+description: Travellers already like your destination online. The next step is letting them book an experience right away, and letting you manage orders with ease.
 date: 2026-09-15
-category: luu-tru
-author: Le Van C
+category: ket-noi-du-lich
+author: Tran Thi B
 ---
 
-OTAs like Booking or Agoda help guests find you, but every booking costs part of your revenue. The goal is not to drop OTAs, but to find balance.
+Many craft workshops, eco-sites and educational farms already have attractive fan pages, yet bookings still arrive through messages and phone calls. Visitors ask about prices and times, wait for a reply, and many give up halfway.
 
-## Have your own mobile-friendly booking website
+## Let travellers browse and book themselves
 
-Most guests book on their phones. Your website needs to load fast, make choosing dates easy and accept payment immediately.
+A booking page lets travellers view photos, video and 360°, browse experiences with prices and schedules, choose their party size and request a booking on the spot. No back-and-forth messaging.
 
-## Offer perks for direct bookings
+## Orders go straight to the owner
 
-A free breakfast, early check-in or a small discount is enough to make guests consider booking on your website instead of an OTA.
+Every booking request is routed automatically to the owner to confirm or decline. Schedules and capacity stay up to date, so you never accept more guests than you can serve.
 
-## Look after past guests
+## Run it all from one screen
 
-Guests who have stayed before are your best source of direct bookings. Keep their contact details and send offers at the right moments.
+Services, prices, payments, arrivals and revenue live in one admin account, with sales performance reports.
 
-## Track the numbers
+## Keep the systems you already use
 
-Measure bookings by channel every month to see which approach works.
+For hotels, homestays and restaurants, the platform integrates with the booking software, POS or management system already in place.
+
+*Learn more about [Nam Kinh Travel Connect](/en/dich-vu/ket-noi-du-lich).*

@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import ArtTile from '../components/ArtTile.astro';
 import Process from '../components/Process.astro';
+import Ecosystem from '../components/Ecosystem.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { getLang, localizePath } from '../i18n';
@@ -11,22 +12,26 @@ const lang = getLang(Astro.url);
 const { services } = getData(lang);
 const t = {
   vi: {
-    title: 'Dịch vụ',
-    desc: 'Số hóa điểm đến, tư vấn vận hành lưu trú và thiết kế tour du lịch trọn gói.',
-    hero: 'Dịch vụ của chúng tôi',
-    lead: 'Ba lĩnh vực bổ trợ cho nhau. Bạn có thể chọn từng dịch vụ riêng lẻ hoặc kết hợp thành một giải pháp trọn gói.',
+    title: 'Giải pháp',
+    desc: 'Số hóa điểm đến, nền tảng kinh doanh điểm đến và trải nghiệm du lịch thông minh của Nam Kinh Digital.',
+    hero: 'Giải pháp của Nam Kinh Digital',
+    lead: 'Ba giải pháp thương mại bổ trợ cho nhau, nằm trong một hệ sinh thái năm nhóm sản phẩm. Chọn từng giải pháp hoặc kết hợp theo giai đoạn phát triển của điểm đến.',
+    eco: 'Hệ sinh thái sản phẩm',
+    ecoLead: 'Năm nhóm giải pháp, triển khai theo mức độ ưu tiên thương mại.',
     more: 'Xem chi tiết',
-    process: 'Quy trình làm việc',
-    processLead: 'Rõ ràng từ buổi gặp đầu tiên đến khi bàn giao, để bạn luôn biết dự án đang ở đâu.',
+    process: 'Điểm đến vận hành trên nền tảng',
+    processLead: 'Từ lúc số hóa điểm đến cho tới khi du khách đặt chỗ và chủ điểm đến theo dõi doanh thu.',
   },
   en: {
-    title: 'Services',
-    desc: 'Destination digitization, hospitality operations consulting and end-to-end tour design.',
-    hero: 'Our services',
-    lead: 'Three areas that complement each other. Choose a single service or combine them into an all-in-one solution.',
+    title: 'Solutions',
+    desc: 'Destination digitization, a destination business platform and smart travel experiences from Nam Kinh Digital.',
+    hero: 'Nam Kinh Digital solutions',
+    lead: 'Three complementary commercial solutions within an ecosystem of five product groups. Pick one, or combine them as your destination grows.',
+    eco: 'Product ecosystem',
+    ecoLead: 'Five solution groups, rolled out by commercial priority.',
     more: 'Learn more',
-    process: 'Our process',
-    processLead: 'Clear from the first meeting through to handover, so you always know where your project stands.',
+    process: 'How it works',
+    processLead: 'From digitizing the destination to travellers booking and owners tracking revenue.',
   },
 }[lang];
 ---
@@ -42,7 +47,7 @@ const t = {
     <div class="container list">
       {services.map((s, i) => (
         <article class:list={['svc', `tone-${s.tone}`, { flip: i % 2 === 1 }]} id={s.slug}>
-          <div data-reveal><ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="5 / 4" /></div>
+          <div data-reveal><ArtTile image={`/images/dich-vu/${s.slug}.jpg`} alt={s.title} tone={s.tone} seed={i * 13 + 5} icon={s.icon} ratio="16 / 10" /></div>
           <div class="svc-copy" data-reveal style="--d:120ms">
             <span class="chip"><Icon name={s.icon} size={16} /> {s.name}</span>
             <h2>{s.title}</h2>
@@ -54,6 +59,16 @@ const t = {
           </div>
         </article>
       ))}
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <h2>{t.eco}</h2>
+        <p class="lead">{t.ecoLead}</p>
+      </div>
+      <Ecosystem />
     </div>
   </section>
 
@@ -71,15 +86,18 @@ const t = {
 </BaseLayout>
 
 <style>
-  .list { display: grid; gap: clamp(4rem, 9vw, 7rem); }
-  .svc { display: grid; gap: 2.5rem; align-items: center; }
+  .list { display: grid; gap: clamp(1.75rem, 3.5vw, 2.75rem); }
+  .svc { display: grid; gap: 1.2rem; align-items: center; }
   @media (min-width: 900px) {
-    .svc { grid-template-columns: 1fr 1fr; gap: 5rem; }
+    /* Ảnh luôn ở cột hẹp (kể cả khi đảo bên) để không chiếm quá nhiều chiều cao */
+    .svc { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2.5rem; }
+    .svc.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
     .svc.flip > :first-child { order: 2; }
   }
-  .svc-copy h2 { margin-top: 1.2rem; font-size: clamp(1.8rem, 1.3rem + 1.8vw, 2.6rem); }
-  .svc-copy > p { margin-top: 1rem; color: var(--ink-soft); font-size: 1.08rem; }
-  .svc-copy ul { list-style: none; padding: 0; margin: 1.6rem 0 2rem; display: grid; gap: .7rem; }
-  .svc-copy li { display: flex; gap: .6rem; align-items: center; font-weight: 500; }
+  .svc-copy h2 { margin-top: .6rem; font-size: clamp(1.25rem, 1.05rem + .7vw, 1.6rem); }
+  .svc-copy > p { margin-top: .45rem; color: var(--ink-soft); font-size: .95rem; }
+  .svc-copy ul { list-style: none; padding: 0; margin: .8rem 0 1.1rem; display: grid; gap: .35rem .9rem; }
+  @media (min-width: 640px) { .svc-copy ul { grid-template-columns: 1fr 1fr; } }
+  .svc-copy li { display: flex; gap: .5rem; align-items: center; font-weight: 500; font-size: .93rem; }
   .svc-copy li :global(svg) { color: var(--tone); flex: none; }
 </style>

@@ -1,6 +1,7 @@
 // Toàn bộ tương tác chung của site. Chạy lại sau mỗi lần chuyển trang (View Transitions).
 import { langs, locales, switchLangPath, type Lang } from '../i18n';
 import { initSearch } from './search';
+import { initPagoda, initNetwork } from './pagoda';
 
 const currentLang = () => (document.documentElement.lang === 'en' ? 'en' : 'vi') as Lang;
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -167,7 +168,7 @@ function initFilter() {
       history.replaceState(history.state, '', url);
       syncLangLinks();
     }));
-    // Mở sẵn lĩnh vực từ link, vd: /du-an?linh-vuc=so-hoa (menu Dự án dẫn tới đây)
+    // Mở sẵn lĩnh vực từ link, vd: /du-an?linh-vuc=diem-den-so (menu Dự án dẫn tới đây)
     const preset = new URLSearchParams(location.search).get('linh-vuc');
     const presetBtn = [...buttons].find((b) => b.dataset.filterBtn === preset);
     if (presetBtn) apply(presetBtn);
@@ -285,4 +286,7 @@ document.addEventListener('astro:page-load', () => {
   initSlider();
   initHero();
   initForms();
+  // Nền công nghệ số: Chùa Một Cột 3D (trang chủ) và mạng điểm dữ liệu (trang con)
+  const stops = [initPagoda(), initNetwork()].filter(Boolean) as (() => void)[];
+  if (stops.length) document.addEventListener('astro:before-swap', () => stops.forEach((f) => f()), { once: true });
 });

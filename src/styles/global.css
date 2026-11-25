@@ -44,22 +44,22 @@
 
   /* Thang chữ (tỉ lệ ~1.25) */
   --fs-sm: 0.875rem;
-  --fs-base: 1.0625rem;
-  --fs-lg: 1.2rem;
-  --fs-xl: clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
-  --fs-2xl: clamp(2rem, 1.3rem + 2.8vw, 3.4rem);
-  --fs-3xl: clamp(2.6rem, 1.6rem + 4.4vw, 5.2rem);
+  --fs-base: 1rem;
+  --fs-lg: 1.03rem;
+  --fs-xl: clamp(1.12rem, 1rem + .35vw, 1.32rem);
+  --fs-2xl: clamp(1.5rem, 1.1rem + 1.1vw, 2.05rem);
+  --fs-3xl: clamp(1.9rem, 1.2rem + 2.1vw, 2.9rem);
 
   --radius-s: 10px;
-  --radius-m: 20px;
-  --radius-l: 32px;
+  --radius-m: 16px;
+  --radius-l: 24px;
 
   --container: 1240px;
   --gutter: clamp(1rem, 4vw, 2.5rem);
-  --section: clamp(4.5rem, 9vw, 8rem);
+  --section: clamp(2.5rem, 4.2vw, 3.75rem);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --header-h: 76px;
+  --header-h: 72px;
 }
 
 /* Khối nền đỏ đô: đảo lại màu chữ, viền, điểm nhấn và nút */
@@ -135,10 +135,10 @@ p { margin: 0; text-wrap: pretty; }
 }
 .section--dark .lead { color: var(--ink-soft); }
 
-.section-head { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.section-head { display: grid; gap: .55rem; max-width: 44rem; margin-bottom: clamp(1.3rem, 2.4vw, 2rem); }
 .section-head--split { max-width: none; grid-template-columns: 1fr; align-items: end; }
 @media (min-width: 900px) { .section-head--split { grid-template-columns: 1.1fr 1fr; gap: 3rem; } }
-.lead { font-size: var(--fs-lg); color: var(--ink-soft); line-height: 1.65; max-width: 38rem; }
+.lead { font-size: var(--fs-lg); color: var(--ink-soft); line-height: 1.6; max-width: 40rem; }
 
 /* Nhãn nhỏ dạng mã (vd: "01 — Dịch vụ") */
 .eyebrow { font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
@@ -202,9 +202,9 @@ p { margin: 0; text-wrap: pretty; }
 .btn {
   --b-bg: var(--ink); --b-fg: var(--paper);
   display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
-  min-height: 48px; padding: .8rem 1.4rem; border-radius: 999px; border: 0;
+  min-height: 46px; padding: .72rem 1.3rem; border-radius: 999px; border: 0;
   background: var(--b-bg); color: var(--b-fg);
-  font-weight: 600; font-size: .98rem; text-decoration: none; cursor: pointer;
+  font-weight: 600; font-size: .94rem; text-decoration: none; cursor: pointer;
   transition: transform .35s var(--ease-out), background-color .25s, color .25s, box-shadow .35s var(--ease-out);
   position: relative; isolation: isolate; overflow: hidden;
 }

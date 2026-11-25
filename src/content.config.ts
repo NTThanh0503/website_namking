@@ -9,7 +9,7 @@ const schema = z.object({
   title: z.string(),
   description: z.string(),
   date: z.coerce.date(),
-  category: z.enum(['so-hoa', 'luu-tru', 'du-lich']),
+  category: z.enum(['diem-den-so', 'ket-noi-du-lich', 'trai-nghiem-so']),
   author: z.string().default('Ban biên tập'),
   image: z.string().optional(),
 });

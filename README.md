@@ -1,7 +1,7 @@
 # Website giới thiệu công ty – NAM KINH GROUP
 
 Website tĩnh xây bằng **Astro 7**, không cần backend hay database.
-Lĩnh vực: số hóa, lưu trú, du lịch.
+Thương hiệu công nghệ: Nam Kinh Digital – Nền tảng Số hóa & Kết nối Kinh doanh Du lịch (kèm thương hiệu cộng đồng Kể Miền Di Sản). Hướng nội dung: xem docs/huong-noi-dung.md.
 
 ## Chạy thử trên máy
 
@@ -48,7 +48,7 @@ src/
 ├── pages/              mỗi file là một trang
 │   ├── index.astro         /
 │   ├── gioi-thieu.astro    /gioi-thieu
-│   ├── dich-vu/            /dich-vu và /dich-vu/so-hoa, /luu-tru, /du-lich
+│   ├── dich-vu/            /dich-vu và /dich-vu/diem-den-so, /ket-noi-du-lich, /trai-nghiem-so
 │   ├── du-an.astro         /du-an
 │   ├── tin-tuc/            /tin-tuc và từng bài viết
 │   ├── lien-he.astro       /lien-he

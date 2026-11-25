@@ -56,8 +56,10 @@ const skip = { vi: 'Bỏ qua, đến nội dung chính', en: 'Skip to main conte
 
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'TravelAgency',
+      '@type': 'Organization',
       name: company.legalName,
+      brand: [company.brand, company.community],
+      slogan: company.tagline,
       telephone: company.phone,
       email: company.email,
       address: company.address,

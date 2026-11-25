@@ -1,38 +1,37 @@
 ---
 import Icon from './Icon.astro';
-import { NK_PATH, NK_VIEWBOX } from '../lib/brand';
 import { getLang, localizePath } from '../i18n';
 import { getData } from '../data';
 const lang = getLang(Astro.url);
 const L = (href: string) => localizePath(href, lang);
 const { company } = getData(lang);
 
-// Ba điểm dịch vụ trên sơ đồ quỹ đạo (theo viewBox 520 x 520)
+// Ba tầng giá trị hiển thị quanh mô hình Chùa Một Cột
 const t = {
   vi: {
-    nodes: [['Tham quan ảo 360°', 'Phố cổ Hội An'], ['Vận hành lưu trú', 'Resort Phú Quốc'], ['Tour trải nghiệm', 'Bản làng Hà Giang']],
-    headline: ['Số hóa điểm đến.', 'Lấp đầy phòng nghỉ.', 'Dẫn lối hành trình.'],
-    pill: `Chuyển đổi số cho ngành du lịch Việt · từ ${company.founded}`,
-    cta: 'Nhận tư vấn miễn phí', projects: 'Xem dự án đã làm',
-    trust: 'Hơn 120 khách sạn, homestay và điểm đến đã đồng hành',
-    visual: 'Minh họa: ba mảng dịch vụ số hóa, lưu trú và du lịch kết nối quanh một trung tâm',
+    nodes: [['Số hóa', 'Tham quan ảo 360°, bản đồ số'], ['Kết nối thương mại', 'Đặt dịch vụ trực tuyến'], ['Dữ liệu & hệ sinh thái', 'Mạng lưới điểm đến số']],
+    headline: ['Số hóa điểm đến.', 'Kết nối trải nghiệm.', 'Gia tăng giá trị.'],
+    pill: `${company.brand} · ${company.positioning}`,
+    lead: 'Đưa điểm đến, sản phẩm và dịch vụ du lịch lên môi trường số, để du khách khám phá, đặt trải nghiệm và chủ điểm đến quản lý kinh doanh trên một nền tảng.',
+    cta: 'Nhận tư vấn miễn phí', projects: 'Khám phá giải pháp',
+    trust: 'Dành cho di tích, bảo tàng, làng nghề, khu du lịch và cơ sở lưu trú',
+    visual: 'Mô hình 3D Chùa Một Cột dạng khung dây số đang được quét số hóa, quanh là ba tầng giá trị: số hóa, kết nối thương mại, dữ liệu',
   },
   en: {
-    nodes: [['360° virtual tours', 'Hoi An Old Town'], ['Hospitality operations', 'Phu Quoc resort'], ['Experiential tours', 'Ha Giang villages']],
-    headline: ['Digitize destinations.', 'Fill every room.', 'Guide the journey.'],
-    pill: `Digital transformation for Vietnam’s travel industry · since ${company.founded}`,
-    cta: 'Get free advice', projects: 'See our projects',
-    trust: 'Trusted by 120+ hotels, homestays and destinations',
-    visual: 'Illustration: digital, hospitality and travel services connected around a central hub',
+    nodes: [['Digitize', '360° tours, digital maps'], ['Commercial connection', 'Online booking'], ['Data & ecosystem', 'A network of digital destinations']],
+    headline: ['Digitize destinations.', 'Connect experiences.', 'Add value.'],
+    pill: `${company.brand} · ${company.positioning}`,
+    lead: 'We bring destinations, travel products and services online, so travellers can discover and book experiences and owners can run their business on one platform.',
+    cta: 'Get free advice', projects: 'Explore solutions',
+    trust: 'For heritage sites, museums, craft villages, tourist areas and accommodation',
+    visual: 'A 3D wireframe model of Hanoi’s One Pillar Pagoda being digitally scanned, surrounded by three value tiers: digitize, commercial connection, data',
   },
 }[lang];
 const nodes = [
-  { x: 118, y: 132, icon: 'scan', title: t.nodes[0][0], place: t.nodes[0][1], pos: 'left:0%; top:9%' },
-  { x: 418, y: 196, icon: 'bed', title: t.nodes[1][0], place: t.nodes[1][1], pos: 'right:-2%; top:30%' },
-  { x: 196, y: 424, icon: 'compass', title: t.nodes[2][0], place: t.nodes[2][1], pos: 'left:14%; bottom:3%' },
+  { icon: 'scan', title: t.nodes[0][0], place: t.nodes[0][1], pos: 'left:-10%; top:0%' },
+  { icon: 'ticket', title: t.nodes[1][0], place: t.nodes[1][1], pos: 'right:-12%; top:62%' },
+  { icon: 'chart', title: t.nodes[2][0], place: t.nodes[2][1], pos: 'left:-6%; bottom:-2%' },
 ];
-// Đường nối bắt đầu từ mép vòng trung tâm (r = 62) để không đè lên biểu tượng nk ở giữa
-const linkStart = (x: number, y: number) => { const a = Math.atan2(y - 260, x - 260); return `${(260 + 62 * Math.cos(a)).toFixed(1)} ${(260 + 62 * Math.sin(a)).toFixed(1)}`; };
 const headline = t.headline;
 ---
 
@@ -40,6 +39,8 @@ const headline = t.headline;
   <div class="orb" style="width:620px;height:620px;top:-280px;left:50%;margin-left:-60px" aria-hidden="true"></div>
   <div class="orb orb--violet" style="width:520px;height:520px;bottom:-220px;left:-180px;animation-delay:-4s" aria-hidden="true"></div>
   <div class="orb orb--cyan" style="width:420px;height:420px;top:-120px;left:-140px;animation-delay:-2s" aria-hidden="true"></div>
+  <!-- Nền 3D: Chùa Một Cột khung dây số (vẽ bởi src/scripts/pagoda.ts, căn theo khối .visual) -->
+  <canvas class="pagoda-bg" data-pagoda aria-hidden="true"></canvas>
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="grid-hot" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
@@ -53,48 +54,15 @@ const headline = t.headline;
           <span class="line" style={`--i:${i}`}><span class:list={[{ 'shine-text': i === 1 }]}>{line}</span></span>
         ))}
       </h1>
-      <p class="lead reveal-up" style="--i:3">{company.description}</p>
+      <p class="lead reveal-up" style="--i:3">{t.lead}</p>
       <div class="cta-row reveal-up" style="--i:4">
         <a class="btn btn--primary" href={L('/lien-he')}>{t.cta} <Icon name="arrow" size={18} /></a>
-        <a class="btn btn--ghost" href={L('/du-an')}>{t.projects}</a>
+        <a class="btn btn--ghost" href={L('/dich-vu')}>{t.projects}</a>
       </div>
       <p class="trust reveal-up" style="--i:5"><Icon name="check" size={18} /> {t.trust}</p>
     </div>
 
-    <div class="visual" role="img" aria-label={t.visual}>
-      <svg class="layer" data-depth="8" viewBox="0 0 520 520" fill="none" aria-hidden="true">
-        <defs>
-          <radialGradient id="hero-core" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#f4c2bc" stop-opacity=".75" />
-            <stop offset="40%" stop-color="#b8434d" stop-opacity=".45" />
-            <stop offset="100%" stop-color="#b8434d" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient id="hero-sweep" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#f4c2bc" stop-opacity="0" />
-            <stop offset="100%" stop-color="#f4c2bc" stop-opacity=".3" />
-          </linearGradient>
-        </defs>
-        <circle class="ring" style="--i:0" cx="260" cy="260" r="240" stroke="#f0ece9" stroke-opacity=".18" />
-        <circle class="ring spin" style="--i:1" cx="260" cy="260" r="180" stroke="#f0ece9" stroke-opacity=".26" stroke-dasharray="2 6" />
-        <circle class="ring spin-rev" style="--i:2" cx="260" cy="260" r="120" stroke="#f4c2bc" stroke-opacity=".4" stroke-dasharray="40 14" />
-        <circle class="ring" style="--i:3" cx="260" cy="260" r="60" fill="#4a070d" fill-opacity=".55" stroke="#f4c2bc" stroke-opacity=".55" />
-        <g class="sweep"><path d="M260 260 L500 260 A240 240 0 0 0 467.8 140 Z" fill="url(#hero-sweep)" /></g>
-        <circle class="core" cx="260" cy="260" r="110" fill="url(#hero-core)" />
-        <svg class="core-mark" x="226" y="233" width="68" height="54" viewBox={NK_VIEWBOX}><path d={NK_PATH} fill="#f6f1ee" fill-rule="evenodd" /></svg>
-        <g class="spin"><circle cx="260" cy="80" r="4" fill="#f4c2bc" /></g>
-        <g class="spin-rev"><circle cx="380" cy="260" r="3" fill="#f0ece9" /></g>
-      </svg>
-      <svg class="layer" data-depth="16" viewBox="0 0 520 520" fill="none" aria-hidden="true">
-        <path class="route" d="M118 132 Q 300 60 418 196 T 196 424" stroke="#f0ece9" stroke-opacity=".4" stroke-dasharray="3 7" />
-        {nodes.map((n, i) => (
-          <g style={`--i:${i}`}>
-            <path class="link-line" d={`M${linkStart(n.x, n.y)} L${n.x} ${n.y}`} stroke="#f4c2bc" stroke-width="1.5" />
-            <circle class="node-ring" cx={n.x} cy={n.y} r="22" fill="#4a070d" stroke="#f4c2bc" stroke-opacity=".75" />
-            <circle class="node-ping" cx={n.x} cy={n.y} r="22" stroke="#f4c2bc" />
-            <circle cx={n.x} cy={n.y} r="6" fill="#f6f1ee" />
-          </g>
-        ))}
-      </svg>
+    <div class="visual" role="img" aria-label={t.visual} data-pagoda-anchor>
       <div class="layer tags" data-depth="26">
         {nodes.map((n, i) => (
           <div class="tag" style={`--i:${i}; ${n.pos}`}>
@@ -108,12 +76,16 @@ const headline = t.headline;
 </section>
 
 <style>
-  .hero { position: relative; padding-block: clamp(3rem, 8vw, 6.5rem) clamp(4rem, 8vw, 7rem); overflow: hidden; }
-  .hero-grid { position: relative; display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; }
-  @media (min-width: 980px) { .hero-grid { grid-template-columns: 1.1fr .9fr; } }
+  .hero { position: relative; padding-block: clamp(2.5rem, 5vw, 3.5rem); overflow: hidden; }
+  .hero-grid { position: relative; display: grid; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+  /* Máy tính: phần đầu trang vừa đúng một màn hình, không phải cuộn mới thấy hết */
+  @media (min-width: 980px) {
+    .hero { display: flex; align-items: center; min-height: calc(100svh - var(--header-h)); max-height: 900px; }
+    .hero-grid { grid-template-columns: 1.05fr .95fr; }
+  }
 
   .copy { display: flex; flex-direction: column; align-items: flex-start; }
-  h1 { margin-top: 1.6rem; font-size: clamp(2.5rem, 1.1rem + 4.4vw, 4.9rem); letter-spacing: -0.04em; line-height: 1.02; }
+  h1 { margin-top: 1rem; font-size: clamp(1.9rem, .9rem + 2.4vw, 3.1rem); letter-spacing: -0.035em; line-height: 1.04; }
   .line { display: block; overflow: hidden; padding-bottom: .08em; }
   .line > span { display: block; transform: translateY(105%); transition: transform 1.1s var(--ease-out); transition-delay: calc(var(--i) * 110ms + 150ms); }
   /* Dòng 2 dùng .shine-text (global.css): chữ hồng phấn có vệt sáng trắng lướt qua */
@@ -122,30 +94,17 @@ const headline = t.headline;
 
   .reveal-up { opacity: 0; transform: translateY(16px); filter: blur(4px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out), filter .9s var(--ease-out); transition-delay: calc(var(--i) * 90ms + 250ms); }
   .is-ready .reveal-up { opacity: 1; transform: none; filter: none; }
-  .copy .lead { margin-top: 1.6rem; max-width: 34rem; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
-  .trust { display: flex; align-items: center; gap: .5rem; margin-top: 2rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+  .copy .lead { margin-top: 1rem; max-width: 31rem; font-size: 1rem; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; }
+  .trust { display: flex; align-items: center; gap: .5rem; margin-top: 1.4rem; font-size: var(--fs-sm); color: var(--ink-soft); }
   .trust :global(svg) { color: var(--accent); }
 
   /* ---------- Sơ đồ quỹ đạo ---------- */
-  .visual { position: relative; width: 100%; max-width: 560px; margin-inline: auto; aspect-ratio: 1; opacity: 0; transform: scale(.94); transition: opacity 1.2s var(--ease-out) .3s, transform 1.4s var(--ease-out) .3s; }
-  .is-ready .visual { opacity: 1; transform: none; }
+  /* Khối .visual chỉ giữ chỗ và đặt nhãn; mô hình 3D vẽ trên canvas phủ toàn phần đầu trang */
+  .visual { position: relative; width: 100%; max-width: min(500px, calc(100svh - var(--header-h) - 7rem)); min-width: 280px; margin-inline: auto; aspect-ratio: 1; }
+  .pagoda-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s var(--ease-out) .2s; }
+  .is-ready .pagoda-bg { opacity: 1; }
   .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transition: transform .9s var(--ease-out); }
-
-  .spin, .spin-rev { transform-box: view-box; transform-origin: 260px 260px; animation: spin 28s linear infinite; }
-  .spin-rev { animation-duration: 40s; animation-direction: reverse; }
-  .sweep { transform-box: view-box; transform-origin: 260px 260px; animation: spin 6s linear infinite; }
-  .core-mark { animation: core-mark 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-  @keyframes core-mark { 50% { opacity: .82; } }
-  .core { transform-box: fill-box; transform-origin: center; animation: core 4s ease-in-out infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes core { 50% { transform: scale(1.08); opacity: .75; } }
-
-  .link-line { stroke-dasharray: 6 10; opacity: 0; transition: opacity .8s calc(.9s + var(--i) * .2s); animation: dash 1.6s linear infinite; }
-  .is-ready .link-line { opacity: 1; }
-  @keyframes dash { to { stroke-dashoffset: -32; } }
-  .node-ping { transform-box: fill-box; transform-origin: center; animation: ping 2.6s cubic-bezier(0, 0, .2, 1) infinite; animation-delay: calc(var(--i) * .7s); }
-  @keyframes ping { from { transform: scale(1); opacity: .7; } to { transform: scale(2.2); opacity: 0; } }
 
   .tag {
     position: absolute; display: flex; align-items: center; gap: .65rem;
@@ -163,6 +122,12 @@ const headline = t.headline;
   .tag strong { display: block; font-size: .88rem; line-height: 1.25; }
   .tag small { display: block; font-size: .75rem; color: var(--ink-soft); }
 
+  /* Màn hình hẹp: kéo nhãn vào trong để không bị cắt mép */
+  @media (max-width: 979px) {
+    .tag:nth-child(1) { left: 0 !important; }
+    .tag:nth-child(2) { right: 0 !important; }
+    .tag:nth-child(3) { left: 2% !important; }
+  }
   @media (max-width: 520px) {
     .tag { padding: .35rem .6rem .35rem .35rem; gap: .45rem; }
     .tag-icon { width: 28px; height: 28px; }
@@ -170,7 +135,7 @@ const headline = t.headline;
     .tag small { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .line > span, .reveal-up, .visual, .tag { transform: none !important; translate: none !important; opacity: 1 !important; filter: none !important; }
-    .link-line { opacity: 1; }
+    .line > span, .reveal-up, .tag { transform: none !important; translate: none !important; opacity: 1 !important; filter: none !important; }
+    .pagoda-bg { opacity: 1; }
   }
 </style>

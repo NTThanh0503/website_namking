@@ -16,7 +16,7 @@ const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, se
       {lines.map((d, i) => <path d={d} style={`opacity:${0.18 + i * 0.05}`} />)}
     </svg>
   )}
-  {icon && <span class="art-icon"><Icon name={icon} size={30} /></span>}
+  {icon && <span class="art-icon"><Icon name={icon} size={22} /></span>}
 </div>
 <style>
   .art { --line: rgba(240, 236, 233, .12); position: relative; overflow: hidden; border-radius: var(--radius-m); background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--a) 38%, transparent), transparent 60%), var(--maroon-ink); box-shadow: inset 0 0 0 1px var(--line); }
@@ -25,7 +25,7 @@ const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, se
   .art svg path { fill: none; stroke-width: 1.2; }
   .art--lagoon { --a: #b8434d; } .art--jade { --a: #e0857a; } .art--lantern { --a: #c9a27e; }
   .art path { stroke: color-mix(in srgb, var(--a) 70%, white); }
-  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 2; width: 56px; height: 56px; border-radius: 16px; background: rgba(250, 247, 245, .92); backdrop-filter: blur(8px); color: var(--maroon); box-shadow: 0 10px 30px -10px rgba(44, 5, 9, .6); }
+  .art-icon { position: absolute; left: .8rem; bottom: .8rem; display: grid; place-items: center; z-index: 2; width: 44px; height: 44px; border-radius: 12px; background: rgba(250, 247, 245, .92); backdrop-filter: blur(8px); color: var(--maroon); box-shadow: 0 10px 30px -10px rgba(44, 5, 9, .6); }
 
   /* Ảnh thật: phủ lớp đỏ đô nhẹ để ảnh hòa vào tông thương hiệu, dưới đáy tối hơn cho biểu tượng nổi rõ */
   .art--photo img { filter: saturate(.9) contrast(1.05); }

@@ -1,0 +1,58 @@
+---
+// Hệ sinh thái năm nhóm sản phẩm của Nam Kinh Digital (dữ liệu: ecosystem trong src/data)
+import Icon from './Icon.astro';
+import { getLang, localizePath } from '../i18n';
+import { getData } from '../data';
+const lang = getLang(Astro.url);
+const { ecosystem } = getData(lang);
+const more = { vi: 'Tìm hiểu', en: 'Learn more' }[lang];
+---
+<ol class="eco">
+  {ecosystem.map((e, i) => (
+    <li class:list={['eco-item', { 'eco-item--feature': i === 3 }]} data-reveal style={`--d:${i * 80}ms`}>
+      <a href={localizePath(e.href, lang)}>
+        <span class="eco-top">
+          <span class="eco-icon"><Icon name={e.icon} size={24} /></span>
+          <span class="eco-num">{String(i + 1).padStart(2, '0')}</span>
+        </span>
+        <span class="eco-status">{e.status}</span>
+        <strong>{e.name}</strong>
+        <span class="eco-text">{e.text}</span>
+        <span class="eco-more">{more} <Icon name="arrow" size={16} /></span>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .eco { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .eco { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .eco { grid-template-columns: repeat(6, 1fr); } .eco-item { grid-column: span 2; } .eco-item:nth-child(n + 4) { grid-column: span 3; } }
+  .eco-item a {
+    position: relative; display: flex; flex-direction: column; gap: .4rem; height: 100%; padding: 1.15rem 1.25rem; overflow: hidden;
+    border-radius: var(--radius-m); background: var(--white); box-shadow: inset 0 0 0 1px var(--line); text-decoration: none;
+    transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+  }
+  /* Vệt quét sáng chạy qua thẻ khi rê chuột */
+  .eco-item a::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--accent) 10%, transparent) 50%, transparent 65%);
+    transform: translateX(-100%); transition: transform .9s var(--ease-out);
+  }
+  .eco-item a:hover { transform: translateY(-4px); box-shadow: var(--glow); }
+  .eco-item a:hover::before { transform: translateX(100%); }
+  .eco-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .3rem; }
+  .eco-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .eco-num { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); }
+  .eco-status { align-self: flex-start; padding: .15rem .6rem; border-radius: 999px; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .eco-item strong { font-family: var(--font-display); font-size: 1.08rem; line-height: 1.25; letter-spacing: -0.015em; }
+  .eco-text { color: var(--ink-soft); font-size: .92rem; }
+  .eco-more { display: inline-flex; align-items: center; gap: .35rem; margin-top: auto; padding-top: .3rem; font-weight: 600; font-size: .88rem; color: var(--accent); }
+  .eco-more :global(svg) { transition: transform .35s var(--ease-out); }
+  .eco-item a:hover .eco-more :global(svg) { transform: translateX(3px); }
+
+  /* Kể Miền Di Sản: thẻ nổi bật nền đỏ đô */
+  .eco-item--feature a { background: radial-gradient(30rem 16rem at 90% 0%, rgba(184, 67, 77, .5), transparent 70%), linear-gradient(160deg, var(--maroon), var(--maroon-deep)); box-shadow: none; }
+  .eco-item--feature a { --ink: #f6f1ee; --ink-soft: rgba(240, 236, 233, .76); --accent: var(--blush); --accent-soft: rgba(244, 194, 188, .12); --accent-line: rgba(244, 194, 188, .4); color: var(--ink); }
+  .eco-item--feature a:hover { box-shadow: 0 26px 50px -24px rgba(74, 7, 13, .8); }
+</style>

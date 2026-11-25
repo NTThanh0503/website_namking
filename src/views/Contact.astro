@@ -11,8 +11,8 @@ const { company } = getData(lang);
 const t = {
   vi: {
     title: 'Liên hệ',
-    desc: `Liên hệ ${company.name} để được tư vấn miễn phí về số hóa, lưu trú và du lịch.`,
-    hero: 'Kể cho chúng tôi về dự án của bạn',
+    desc: `Liên hệ ${company.brand} (${company.name}) để được tư vấn số hóa điểm đến và nền tảng kinh doanh du lịch.`,
+    hero: 'Kể cho chúng tôi về điểm đến của bạn',
     lead: 'Điền form bên dưới hoặc gọi trực tiếp. Chuyên viên sẽ liên hệ lại trong 24 giờ làm việc.',
     form: 'Gửi yêu cầu tư vấn',
     phone: 'Điện thoại', office: 'Văn phòng', hours: 'Giờ làm việc',
@@ -22,8 +22,8 @@ const t = {
   },
   en: {
     title: 'Contact',
-    desc: `Contact ${company.name} for a free consultation on digital transformation, hospitality and travel.`,
-    hero: 'Tell us about your project',
+    desc: `Contact ${company.brand} (${company.name}) for advice on destination digitization and travel business software.`,
+    hero: 'Tell us about your destination',
     lead: 'Fill in the form below or call us directly. A consultant will get back to you within 24 working hours.',
     form: 'Request a consultation',
     phone: 'Phone', office: 'Office', hours: 'Working hours',
@@ -92,9 +92,9 @@ const info = [
   </section>
 </BaseLayout>
 <style>
-  .contact { display: grid; gap: 3rem; align-items: start; }
-  @media (min-width: 980px) { .contact { grid-template-columns: 1.35fr .65fr; gap: 4rem; } }
-  .form-card { padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--radius-l); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), 0 40px 100px -50px rgba(74, 7, 13, .5); }
+  .contact { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 980px) { .contact { grid-template-columns: 1.35fr .65fr; gap: 3rem; } }
+  .form-card { padding: clamp(1.25rem, 3vw, 2.2rem); border-radius: var(--radius-l); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), 0 40px 100px -50px rgba(74, 7, 13, .5); }
   .form-card h2 { font-size: var(--fs-xl); margin-bottom: 1.8rem; }
   .info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.8rem; }
   .info li { display: flex; gap: 1rem; }
@@ -117,5 +117,5 @@ const info = [
     .map-btn { position: static; display: flex; width: 100%; border-radius: 0; min-height: 54px; }
   }
   .faq-wrap { max-width: 52rem; }
-  .faq-wrap h2 { margin-bottom: 2rem; }
+  .faq-wrap h2 { margin-bottom: 1.2rem; }
 </style>

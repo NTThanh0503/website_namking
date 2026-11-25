@@ -1,31 +1,31 @@
 ---
-title: 5 reasons small hotels should have a 360° virtual tour
-description: 360° tours are no longer a luxury reserved for big resorts. For homestays and small hotels, they are the cheapest way to earn guests' trust and bookings.
+title: 5 reasons every destination needs a 360° virtual tour
+description: For heritage sites, craft villages and homestays alike, a 360° tour is the fastest way for travellers to understand and trust a place before they set off.
 date: 2026-10-28
-category: so-hoa
-author: Tran Thi B
+category: diem-den-so
+author: Le Van C
 ---
 
-When choosing where to stay, travellers scroll through dozens of properties in a few minutes. What they see on screen decides whether they stay on your page.
+Before deciding where to go, travellers skim dozens of destinations in a few minutes. What they see on screen decides whether they stop to learn more.
 
-## 1. Guests see exactly what they will get
+## 1. Travellers see exactly what they will experience
 
-Beautiful photos sometimes make guests suspicious. A 360° tour lets them "walk" through the room, look out of the window and check the bathroom. That transparency builds trust.
+A 360° tour lets them "step" into a temple courtyard, a pottery workshop or a guest room, look around and feel the space. That authenticity builds trust.
 
-## 2. Fewer repeated questions
+## 2. Tell the story inside the space
 
-Does the room have a balcony? How big is the bed? Is the road easy to find? Most questions are answered right inside the tour.
+Each point in the tour can carry commentary, archive images, video and audio, in several languages. The destination’s story is told far better than by a single photo.
 
 ## 3. Stand out on Google Maps
 
-360° tours can be published on Google Maps, giving your property interactive imagery right in search results.
+A 360° tour can be published to Google Maps, giving the destination interactive imagery right in search results.
 
-## 4. Use it everywhere
+## 4. Digitize once, use everywhere
 
-Shoot once, then embed it on your website, send it via Zalo, post it on Facebook and share it with travel partners.
+Embed it on your website, share it on Zalo and Facebook, send it to travel partners, and connect it to a booking page so travellers can book right after viewing.
 
-## 5. Low cost, long life
+## 5. Serve visitors near and far
 
-Compared with monthly advertising spend, a 360° tour is a one-off investment that lasts for years, until you renovate.
+People who cannot come yet can visit remotely; people on site scan a QR code to hear commentary at each point.
 
-*Want to know the cost for your property? [Send us a request](/en/lien-he) and we will quote within 24 hours.*
+*Want to digitize your destination? [Request a consultation](/en/lien-he) and we will assess it and propose the right package.*
