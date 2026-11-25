@@ -14,7 +14,7 @@ import { contourPaths } from '../lib/contours';
 const lines = contourPaths({ width: 1400, height: 260, lines: 9, seed: 41, amplitude: 22 });
 const year = new Date().getFullYear();
 ---
-<footer class="footer">
+<footer class="footer on-dark">
   <svg class="footer-art" viewBox="0 0 1400 260" preserveAspectRatio="none" aria-hidden="true">
     {lines.map((d, i) => <path d={d} style={`opacity:${0.08 + i * 0.03}`} />)}
   </svg>
@@ -57,22 +57,22 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer { position: relative; background: #04060b; border-top: 1px solid var(--line); color: var(--ink-soft); padding-top: clamp(4rem, 8vw, 6rem); overflow: hidden; }
-  .footer-art { position: absolute; inset: 0 0 auto 0; width: 100%; height: 220px; fill: none; stroke: var(--electric); stroke-width: 1; pointer-events: none; opacity: .5; }
+  .footer { position: relative; background: radial-gradient(50rem 22rem at 90% 0%, rgba(184, 67, 77, .28), transparent 70%), var(--maroon-ink); border-top: 3px solid var(--maroon); color: var(--ink-soft); padding-top: clamp(4rem, 8vw, 6rem); overflow: hidden; }
+  .footer-art { position: absolute; inset: 0 0 auto 0; width: 100%; height: 220px; fill: none; stroke: var(--blush); stroke-width: 1; pointer-events: none; opacity: .35; }
   .grid { position: relative; display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
   @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .grid { grid-template-columns: 1.5fr 1.2fr .8fr 1.3fr; gap: 3rem; } }
   .brand p { margin-top: 1.2rem; max-width: 26rem; font-size: .97rem; }
   .socials { display: flex; gap: .6rem; list-style: none; padding: 0; margin: 1.5rem 0 0; }
-  .socials a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, color .25s, box-shadow .25s; }
-  .socials a:hover { background: rgba(92, 225, 255, .1); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .5), 0 0 20px -6px var(--cyan); }
+  .socials a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, color .25s, box-shadow .25s, transform .25s; }
+  .socials a:hover { background: var(--ivory); color: var(--maroon); box-shadow: inset 0 0 0 1px var(--ivory); transform: translateY(-2px); }
   .f-title { font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-bottom: 1.2rem; }
   .f-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .7rem; font-size: .96rem; }
   .f-list a { text-decoration: none; transition: color .2s; }
   .f-list a:hover { color: var(--ink); }
   .f-contact li { display: grid; grid-template-columns: 18px 1fr; gap: .7rem; align-items: start; }
-  .f-contact :global(svg) { margin-top: .2rem; color: var(--lantern); }
+  .f-contact :global(svg) { margin-top: .2rem; color: var(--accent); }
   .bottom { position: relative; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-top: 4rem; padding-block: 1.6rem; border-top: 1px solid var(--line); font-size: .88rem; }
   .to-top { display: inline-flex; align-items: center; gap: .4rem; background: none; border: 0; cursor: pointer; color: var(--ink); font-weight: 600; font-size: .9rem; min-height: 44px; }
-  .to-top:hover { color: var(--cyan); }
+  .to-top:hover { color: var(--accent); }
 </style>

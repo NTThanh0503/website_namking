@@ -8,12 +8,12 @@
 const mapQuery = '158 P. Chùa Láng, Láng, Hà Nội';
 
 export const company = {
-  name: 'NAM KING GROUP',
+  name: 'NAM KINH GROUP',
   // Tên pháp lý đầy đủ (hiện ở chân trang): sửa đúng theo giấy phép kinh doanh, vd: 'Công ty TNHH ...'
-  legalName: 'NAM KING GROUP',
+  legalName: 'NAM KINH GROUP',
   tagline: 'Số hóa điểm đến, nâng tầm trải nghiệm lưu trú và du lịch',
   description:
-    'NAM KING GROUP giúp khách sạn, homestay, khu du lịch và điểm đến chuyển đổi số: từ tham quan ảo 360°, hệ thống đặt phòng, đến thiết kế và vận hành tour trọn gói.',
+    'NAM KINH GROUP giúp khách sạn, homestay, khu du lịch và điểm đến chuyển đổi số: từ tham quan ảo 360°, hệ thống đặt phòng, đến thiết kế và vận hành tour trọn gói.',
   founded: 2018,
   phone: '0900 000 000',
   phoneHref: 'tel:+84900000000',

@@ -36,8 +36,8 @@ import ArtTile from './ArtTile.astro';
 </div>
 
 <style>
-  .tablist { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; padding: .5rem; border-radius: 22px; background: rgba(5, 7, 13, .6); box-shadow: inset 0 0 0 1px var(--line); }
-  .indicator { position: absolute; top: .5rem; bottom: .5rem; left: .5rem; width: calc((100% - 2rem) / 3); border-radius: 16px; background: linear-gradient(180deg, rgba(47, 124, 255, .18), rgba(47, 124, 255, .05)); box-shadow: inset 0 0 0 1px rgba(92, 160, 255, .5), 0 0 40px -12px var(--electric); transform: translateX(calc(var(--active) * (100% + .5rem))); transition: transform .6s var(--ease-out); }
+  .tablist { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; padding: .5rem; border-radius: 22px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+  .indicator { position: absolute; top: .5rem; bottom: .5rem; left: .5rem; width: calc((100% - 2rem) / 3); border-radius: 16px; background: var(--white); box-shadow: inset 0 0 0 1px var(--accent-line), 0 14px 30px -18px rgba(74, 7, 13, .55); transform: translateX(calc(var(--active) * (100% + .5rem))); transition: transform .6s var(--ease-out); }
   [role='tab'] { position: relative; z-index: 1; display: flex; align-items: center; gap: .9rem; text-align: left; padding: .9rem 1rem; border: 0; background: none; border-radius: 16px; cursor: pointer; color: var(--ink-soft); transition: color .3s; }
   [role='tab'][aria-selected='true'] { color: var(--ink); }
   .t-icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: var(--tone-soft); color: var(--tone); transition: transform .5s var(--ease-out); }
@@ -52,7 +52,7 @@ import ArtTile from './ArtTile.astro';
   .panel-copy > p { margin-top: 1rem; color: var(--ink-soft); max-width: 40rem; }
   .features { list-style: none; padding: 0; margin: 1.8rem 0 2rem; display: grid; gap: 1rem; }
   .features li { display: grid; grid-template-columns: 22px 1fr; gap: .6rem; }
-  .features :global(svg) { margin-top: .25rem; color: var(--tone); filter: drop-shadow(0 0 6px var(--tone)); }
+  .features :global(svg) { margin-top: .25rem; color: var(--tone); }
   .features li { color: var(--ink-soft); }
   .features strong { color: var(--ink); }
 

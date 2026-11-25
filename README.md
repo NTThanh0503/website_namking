@@ -1,4 +1,4 @@
-# Website giới thiệu công ty – NAM KING GROUP
+# Website giới thiệu công ty – NAM KINH GROUP
 
 Website tĩnh xây bằng **Astro 7**, không cần backend hay database.
 Lĩnh vực: số hóa, lưu trú, du lịch.

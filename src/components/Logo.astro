@@ -1,41 +1,35 @@
 ---
 import { getLang, localizePath } from '../i18n';
 import { getData } from '../data';
+import { NK_PATH, NK_VIEWBOX } from '../lib/brand';
 const lang = getLang(Astro.url);
 const { company } = getData(lang);
 const home = { vi: 'Trang chủ', en: 'Home' }[lang];
 interface Props { light?: boolean }
 const { light = false } = Astro.props;
-// "NAM KING GROUP" → dòng chính "NAM KING" (chữ chuyển sắc) + dòng phụ "GROUP" (chữ nhỏ giãn rộng)
-const words = company.name.split(' ');
-const sub = words.length > 1 ? words.pop() : '';
-const main = words.join(' ');
+// Biểu tượng "nk" tô một màu theo currentColor: nền sáng → đỏ đô, nền tối (light) → ngà
 ---
 <a href={localizePath('/', lang)} class:list={['logo', { 'logo--light': light }]} aria-label={`${company.name} – ${home}`}>
-  <svg viewBox="0 0 34 34" width="38" height="38" aria-hidden="true">
-    <rect x=".5" y=".5" width="33" height="33" rx="10" fill="#0a1230" stroke="#2f6bff" stroke-opacity=".6" />
-    <path class="logo-crown" d="M8 23 L9.5 12 L14 17 L17 9 L20 17 L24.5 12 L26 23 Z" fill="none" stroke="#5ce1ff" stroke-width="2" stroke-linejoin="round" />
-    <line class="logo-base" x1="9" y1="26.2" x2="25" y2="26.2" stroke="#5ce1ff" stroke-width="2" stroke-linecap="round" />
-    <circle cx="17" cy="9" r="2" fill="#bff3ff" class="logo-dot" />
+  <svg class="logo-mark" viewBox={NK_VIEWBOX} width="44" height="35" aria-hidden="true">
+    <path d={NK_PATH} fill="currentColor" fill-rule="evenodd" />
   </svg>
-  <span class="logo-text">
-    <span class="logo-main">{main}</span>
-    {sub && <span class="logo-sub">{sub}</span>}
-  </span>
+  <span class="logo-text">{company.name}</span>
 </a>
 
 <style>
-  .logo { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; font-family: var(--font-display); color: var(--ink); }
-  .logo svg { flex: none; transition: filter .4s; }
-  .logo:hover svg { filter: drop-shadow(0 0 10px rgba(92, 225, 255, .6)); }
-  .logo-text { display: flex; flex-direction: column; line-height: 1; }
-  .logo-main {
-    font-weight: 800; font-size: 1.22rem; letter-spacing: .02em; white-space: nowrap;
-    background: linear-gradient(90deg, #e8eeff 0%, #5ce1ff 60%, #2f7cff 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+  .logo { --logo: var(--maroon); display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--logo); }
+  .logo--light { --logo: var(--ivory); }
+  .logo-mark { flex: none; transition: transform .5s var(--ease-out); animation: logo-in .9s var(--ease-out) both; }
+  .logo:hover .logo-mark { transform: translateY(-2px) rotate(-3deg); }
+  /* Chữ logo: Montserrat đậm như logo gốc, vệt sáng lướt qua khi rê chuột */
+  .logo-text {
+    font-family: var(--font-brand); font-weight: 800; font-size: 1.02rem; letter-spacing: .01em; line-height: 1; white-space: nowrap;
+    background: linear-gradient(100deg, var(--logo) 40%, var(--logo-shine, #c9505b) 50%, var(--logo) 60%) 100% 0 / 300% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+    transition: background-position 1s var(--ease-out);
   }
-  .logo-sub { margin-top: .3rem; font-size: .66rem; font-weight: 600; letter-spacing: .48em; color: #7f93c9; }
-  .logo-crown { stroke-dasharray: 70; stroke-dashoffset: 70; animation: logo-draw 1.4s var(--ease-out) .2s forwards; }
-  .logo-dot { animation: blink 2.4s ease-in-out infinite; }
-  @keyframes logo-draw { to { stroke-dashoffset: 0; } }
+  .logo--light .logo-text { --logo-shine: #ffffff; }
+  .logo:hover .logo-text { background-position: 0 0; }
+  @keyframes logo-in { from { opacity: 0; transform: translateY(6px) scale(.92); } }
+  @media (max-width: 380px) { .logo-text { font-size: .9rem; } }
 </style>

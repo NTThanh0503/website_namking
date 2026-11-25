@@ -10,7 +10,7 @@ const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude
 ---
 <section class="page-hero" data-hero>
   <div class="grid-bg" aria-hidden="true"></div>
-  <div class="orb" style="width:520px;height:520px;top:-300px;right:-120px;opacity:.22" aria-hidden="true"></div>
+  <div class="orb" style="width:520px;height:520px;top:-300px;right:-120px;opacity:.16" aria-hidden="true"></div>
   <svg class="art" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     {lines.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
   </svg>
@@ -29,8 +29,8 @@ const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude
   </div>
 </section>
 <style>
-  .page-hero { position: relative; overflow: hidden; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line); }
-  .art { position: absolute; right: -5%; top: 0; width: min(70%, 900px); height: 100%; fill: none; stroke: var(--electric); stroke-width: 1.1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
+  .page-hero { position: relative; overflow: hidden; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--surface), var(--paper)); }
+  .art { position: absolute; right: -5%; top: 0; width: min(70%, 900px); height: 100%; fill: none; stroke: var(--maroon); stroke-width: 1.1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
   .art path { opacity: calc(.1 + var(--i) * .03); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2s var(--ease-out); transition-delay: calc(var(--i) * 50ms); }
   :global(.is-ready) .art path { stroke-dashoffset: 0; }
   .inner { position: relative; }
@@ -39,6 +39,7 @@ const lines = contourPaths({ width: 800, height: 360, lines: 12, seed, amplitude
   .crumbs ol { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 1.8rem; font-size: var(--fs-sm); color: var(--ink-soft); }
   .crumbs li + li::before { content: '/'; margin-right: .5rem; opacity: .5; }
   .crumbs a { text-decoration: none; }
-  .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+  .crumbs a:hover { color: var(--accent); text-decoration: underline; }
+  h1 { color: var(--maroon); }
   @media (prefers-reduced-motion: reduce) { .art path { stroke-dashoffset: 0; } }
 </style>

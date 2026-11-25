@@ -9,10 +9,10 @@ import type { Service, Project } from './site';
 
 export const company: typeof vi.company = {
   ...vi.company,
-  legalName: 'NAM KING GROUP',
+  legalName: 'NAM KINH GROUP',
   tagline: 'Digitizing destinations, elevating hospitality and travel experiences',
   description:
-    'NAM KING GROUP helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
+    'NAM KINH GROUP helps hotels, homestays, resorts and destinations go digital: from 360° virtual tours and booking systems to designing and running end-to-end tours.',
   address: '158 Chua Lang, Ba Dinh District, Hanoi, Vietnam',
   hours: 'Mon – Sat, 8:30 AM – 5:30 PM',
   mapEmbed: vi.company.mapEmbed.replaceAll('!1svi!2s', '!1sen!2s'), // bản đồ hiển thị tiếng Anh

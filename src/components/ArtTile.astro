@@ -1,5 +1,5 @@
 ---
-// Ô hình ảnh: nếu có ảnh thật (image) thì hiển thị ảnh kèm lớp phủ xanh tối cho hợp tông web,
+// Ô hình ảnh: nếu có ảnh thật (image) thì hiển thị ảnh kèm lớp phủ đỏ đô nhẹ cho hợp tông thương hiệu,
 // nếu chưa có thì vẽ hình minh họa đồng mức theo tông màu dịch vụ.
 // Thay ảnh: chép ảnh thật đè lên file cùng tên trong public/images/... (nên dùng .jpg ngang, rộng ~1200px)
 import Icon from './Icon.astro';
@@ -19,21 +19,21 @@ const lines = image ? [] : contourPaths({ width: 400, height: 300, lines: 11, se
   {icon && <span class="art-icon"><Icon name={icon} size={30} /></span>}
 </div>
 <style>
-  .art { position: relative; overflow: hidden; border-radius: var(--radius-m); background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--a) 38%, transparent), transparent 60%), #070b17; box-shadow: inset 0 0 0 1px var(--line); }
+  .art { --line: rgba(240, 236, 233, .12); position: relative; overflow: hidden; border-radius: var(--radius-m); background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--a) 38%, transparent), transparent 60%), var(--maroon-ink); box-shadow: inset 0 0 0 1px var(--line); }
   .art::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; opacity: .5; -webkit-mask-image: radial-gradient(circle at 70% 30%, #000, transparent 75%); mask-image: radial-gradient(circle at 70% 30%, #000, transparent 75%); }
   .art img, .art svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
   .art svg path { fill: none; stroke-width: 1.2; }
-  .art--lagoon { --a: #2f7cff; } .art--jade { --a: #19b8e6; } .art--lantern { --a: #7a63ff; }
+  .art--lagoon { --a: #b8434d; } .art--jade { --a: #e0857a; } .art--lantern { --a: #c9a27e; }
   .art path { stroke: color-mix(in srgb, var(--a) 70%, white); }
-  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 2; width: 56px; height: 56px; border-radius: 16px; background: rgba(5, 7, 13, .7); backdrop-filter: blur(8px); color: var(--cyan); box-shadow: inset 0 0 0 1px rgba(92, 225, 255, .35), 0 0 30px -8px var(--cyan); }
+  .art-icon { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; place-items: center; z-index: 2; width: 56px; height: 56px; border-radius: 16px; background: rgba(250, 247, 245, .92); backdrop-filter: blur(8px); color: var(--maroon); box-shadow: 0 10px 30px -10px rgba(44, 5, 9, .6); }
 
-  /* Ảnh thật: phủ lớp xanh tối để ảnh hòa vào nền web, dưới đáy tối hơn cho chữ/biểu tượng nổi rõ */
+  /* Ảnh thật: phủ lớp đỏ đô nhẹ để ảnh hòa vào tông thương hiệu, dưới đáy tối hơn cho biểu tượng nổi rõ */
   .art--photo img { filter: saturate(.9) contrast(1.05); }
   .art--photo::before {
     content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background:
-      linear-gradient(180deg, rgba(5, 7, 13, 0) 35%, rgba(5, 7, 13, .78) 100%),
-      linear-gradient(135deg, color-mix(in srgb, var(--a) 30%, transparent), rgba(8, 18, 54, .35));
+      linear-gradient(180deg, rgba(44, 5, 9, 0) 45%, rgba(44, 5, 9, .6) 100%),
+      linear-gradient(135deg, color-mix(in srgb, var(--a) 22%, transparent), rgba(104, 10, 18, .18));
   }
-  .art--photo::after { z-index: 1; opacity: .18; }
+  .art--photo::after { z-index: 1; opacity: .12; }
 </style>
