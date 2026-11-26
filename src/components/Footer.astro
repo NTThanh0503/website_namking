@@ -24,7 +24,7 @@ const year = new Date().getFullYear();
       <p>{company.description}</p>
       <ul class="socials">
         {company.socials.map((s) => (
-          <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} size={20} /></a></li>
+          <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} size={17} /></a></li>
         ))}
       </ul>
     </div>
@@ -43,10 +43,10 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="f-title">{t.contact}</h2>
       <ul class="f-list f-contact">
-        <li><a href={company.mapDirections} target="_blank" rel="noopener" aria-label={t.directions}><Icon name="pin" size={18} /></a> <a href={company.mapDirections} target="_blank" rel="noopener">{company.address}</a></li>
-        <li><Icon name="phone" size={18} /> <a href={company.phoneHref}>{company.phone}</a></li>
-        <li><Icon name="mail" size={18} /> <a href={`mailto:${company.email}`}>{company.email}</a></li>
-        <li><Icon name="clock" size={18} /> <span>{company.hours}</span></li>
+        <li><a href={company.mapDirections} target="_blank" rel="noopener" aria-label={t.directions}><Icon name="pin" size={16} /></a> <a href={company.mapDirections} target="_blank" rel="noopener">{company.address}</a></li>
+        <li><Icon name="phone" size={16} /> <a href={company.phoneHref}>{company.phone}</a></li>
+        <li><Icon name="mail" size={16} /> <a href={`mailto:${company.email}`}>{company.email}</a></li>
+        <li><Icon name="clock" size={16} /> <span>{company.hours}</span></li>
       </ul>
     </div>
   </div>
@@ -57,22 +57,22 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer { position: relative; background: radial-gradient(50rem 22rem at 90% 0%, rgba(184, 67, 77, .28), transparent 70%), var(--maroon-ink); border-top: 3px solid var(--maroon); color: var(--ink-soft); padding-top: clamp(2.5rem, 5vw, 3.75rem); overflow: hidden; }
+  .footer { position: relative; background: radial-gradient(50rem 22rem at 90% 0%, rgba(184, 67, 77, .28), transparent 70%), var(--maroon-ink); border-top: 3px solid var(--maroon); color: var(--ink-soft); padding-top: 40px; overflow: hidden; }
   .footer-art { position: absolute; inset: 0 0 auto 0; width: 100%; height: 220px; fill: none; stroke: var(--blush); stroke-width: 1; pointer-events: none; opacity: .35; }
-  .grid { position: relative; display: grid; gap: 1.8rem; grid-template-columns: 1fr; }
+  .grid { position: relative; display: grid; gap: 1.7rem; grid-template-columns: 1fr; }
   @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .grid { grid-template-columns: 1.5fr 1.2fr .8fr 1.3fr; gap: 3rem; } }
-  .brand p { margin-top: 1.2rem; max-width: 26rem; font-size: .97rem; }
-  .socials { display: flex; gap: .6rem; list-style: none; padding: 0; margin: 1.5rem 0 0; }
-  .socials a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, color .25s, box-shadow .25s, transform .25s; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: 1.5fr 1fr .8fr 1.4fr; gap: 2.75rem; } }
+  .brand p { margin-top: 1rem; max-width: 26rem; font-size: .9rem; line-height: 1.55; }
+  .socials { display: flex; gap: .5rem; list-style: none; padding: 0; margin: 1.25rem 0 0; }
+  .socials a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s, color .25s, box-shadow .25s, transform .25s; }
   .socials a:hover { background: var(--ivory); color: var(--maroon); box-shadow: inset 0 0 0 1px var(--ivory); transform: translateY(-2px); }
-  .f-title { font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-bottom: 1.2rem; }
-  .f-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .7rem; font-size: .96rem; }
+  .f-title { font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; }
+  .f-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; font-size: .9rem; line-height: 1.5; }
   .f-list a { text-decoration: none; transition: color .2s; }
   .f-list a:hover { color: var(--ink); }
-  .f-contact li { display: grid; grid-template-columns: 18px 1fr; gap: .7rem; align-items: start; }
+  .f-contact li { display: grid; grid-template-columns: 16px 1fr; gap: .6rem; align-items: start; }
   .f-contact :global(svg) { margin-top: .2rem; color: var(--accent); }
-  .bottom { position: relative; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-top: 2.4rem; padding-block: 1.1rem; border-top: 1px solid var(--line); font-size: .88rem; }
-  .to-top { display: inline-flex; align-items: center; gap: .4rem; background: none; border: 0; cursor: pointer; color: var(--ink); font-weight: 600; font-size: .9rem; min-height: 44px; }
+  .bottom { position: relative; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-top: 2rem; padding-block: .8rem; border-top: 1px solid var(--line); font-size: .82rem; }
+  .to-top { display: inline-flex; align-items: center; gap: .4rem; background: none; border: 0; cursor: pointer; color: var(--ink); font-weight: 600; font-size: .85rem; min-height: 40px; }
   .to-top:hover { color: var(--accent); }
 </style>
